@@ -15,5 +15,6 @@
         public DbSet<Location> Locations { get; init; }
         public DbSet<BuyCar> BuyCars { get; init; }
         public DbSet<RentCar> RentCars { get; init; }
+        public DbSet<CarUser> CarUsers { get; init; }
     }
 }

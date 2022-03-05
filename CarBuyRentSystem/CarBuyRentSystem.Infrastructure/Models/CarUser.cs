@@ -3,9 +3,9 @@
     using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
 
-    public class User : IdentityUser
+    public class CarUser : IdentityUser
     {
-        public string UserId { get; set; }
+        public string CarUsername { get; set; }
 
         public string Name { get; set; }
 
