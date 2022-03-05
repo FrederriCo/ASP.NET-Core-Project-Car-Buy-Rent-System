@@ -2,18 +2,29 @@
 {
     using CarBuyRentSystem.Infrastructure.Models.Enums;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using static Data.DataConstants.Car;
     public class Car
     {
-        public int Id { get; init; }
+       public int Id { get; init; }
 
+        [Required]
+        [MaxLength(BrandMaxLength)]
         public string Brand { get; set; }
 
+        [Required]
+        [MaxLength(ModelMaxLength)]
         public string Model { get; set; }
 
         public int Year { get; set; }
 
+        [Required]
+        [MaxLength(ImageUrlMaxLength)]
         public string ImageUrl { get; set; }
 
+        [Required]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
         public Category Category { get; set; }
