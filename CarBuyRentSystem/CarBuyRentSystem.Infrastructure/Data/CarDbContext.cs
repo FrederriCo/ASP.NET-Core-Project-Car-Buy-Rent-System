@@ -12,5 +12,7 @@
         {
         }
         public DbSet<Car> Cars { get; init; }
+        public DbSet<Location> Locations { get; init; }
+        public DbSet<BuyCar> BuyCars { get; set; }
     }
 }
