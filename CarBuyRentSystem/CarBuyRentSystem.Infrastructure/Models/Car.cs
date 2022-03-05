@@ -3,6 +3,7 @@
     using CarBuyRentSystem.Infrastructure.Models.Enums;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using static Data.DataConstants.Car;
     public class Car
@@ -40,8 +41,10 @@
 
         public int Passager { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal RentPricePerDay { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         public int LocatonId { get; set; }

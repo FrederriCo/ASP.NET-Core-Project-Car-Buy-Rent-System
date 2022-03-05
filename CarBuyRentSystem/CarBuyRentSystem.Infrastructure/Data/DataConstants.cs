@@ -23,5 +23,13 @@
         {
             public const int NameMaxLength = 30;
         }
+
+        public class CarUser
+        {
+            public const int NameMinLength = 5;
+            public const int NameMaxLength = 30;
+            public const int AddressMinLength = 3;
+            public const int AddressMaxLength = 30;
+        }
     }
 }
