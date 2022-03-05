@@ -18,5 +18,10 @@
             public const int ImageUrlMaxLength = 2083;
 
         }
+
+        public class Location
+        {
+            public const int NameMaxLength = 30;
+        }
     }
 }

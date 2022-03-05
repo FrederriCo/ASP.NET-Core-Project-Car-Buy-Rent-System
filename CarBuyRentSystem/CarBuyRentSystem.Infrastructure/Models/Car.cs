@@ -17,6 +17,7 @@
         [MaxLength(ModelMaxLength)]
         public string Model { get; set; }
 
+        [Range(YearMinValue, YearMaxValue)]
         public int Year { get; set; }
 
         [Required]
@@ -43,9 +44,12 @@
 
         public decimal Price { get; set; }
 
-        public ICollection<BuyCar> Owners { get; set; }
+        public int LocatonId { get; set; }
+        public Location Location { get; set; }
 
-        public ICollection<RentCar> Renters { get; set; }
+        public ICollection<BuyCar> Owners { get; set; } = new List<BuyCar>();
+
+        public ICollection<RentCar> Renters { get; set; } = new List<RentCar>();
 
     }
 }
