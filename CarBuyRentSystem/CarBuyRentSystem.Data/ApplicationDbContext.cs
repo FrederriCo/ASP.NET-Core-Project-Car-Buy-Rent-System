@@ -1,10 +1,7 @@
 ﻿namespace CarBuyRentSystem.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using Microsoft.EntityFrameworkCore;    
 
     public class ApplicationDbContext : IdentityDbContext
     {

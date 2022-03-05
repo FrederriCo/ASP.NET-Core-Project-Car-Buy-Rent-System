@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarBuyRentSystem", "CarBuyRentSystem\CarBuyRentSystem.csproj", "{03BE7694-12EF-48BC-B64E-CE328EC560D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarBuyRentSystem.Core", "CarBuyRentSystem.Models\CarBuyRentSystem.Core.csproj", "{AC4D83DD-D329-4E5A-AA26-F7462249D585}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarBuyRentSystem.Infrastructure", "CarBuyRentSystem.Infrastructure\CarBuyRentSystem.Infrastructure.csproj", "{81C69321-DCD3-4C7D-83F5-E0AFC4500A23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{03BE7694-12EF-48BC-B64E-CE328EC560D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03BE7694-12EF-48BC-B64E-CE328EC560D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03BE7694-12EF-48BC-B64E-CE328EC560D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC4D83DD-D329-4E5A-AA26-F7462249D585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4D83DD-D329-4E5A-AA26-F7462249D585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4D83DD-D329-4E5A-AA26-F7462249D585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4D83DD-D329-4E5A-AA26-F7462249D585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81C69321-DCD3-4C7D-83F5-E0AFC4500A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81C69321-DCD3-4C7D-83F5-E0AFC4500A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81C69321-DCD3-4C7D-83F5-E0AFC4500A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81C69321-DCD3-4C7D-83F5-E0AFC4500A23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

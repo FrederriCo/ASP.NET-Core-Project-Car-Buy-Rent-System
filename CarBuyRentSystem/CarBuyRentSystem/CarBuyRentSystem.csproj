@@ -15,4 +15,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarBuyRentSystem.Models\CarBuyRentSystem.Core.csproj" />
+  </ItemGroup>
+
 </Project>

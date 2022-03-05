@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarBuyRentSystem.Infrastructure\CarBuyRentSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
