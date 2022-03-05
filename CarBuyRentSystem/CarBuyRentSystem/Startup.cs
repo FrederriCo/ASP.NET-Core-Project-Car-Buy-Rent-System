@@ -19,7 +19,7 @@ namespace CarBuyRentSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(options =>
+                .AddDbContext<CarDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -32,7 +32,7 @@ namespace CarBuyRentSystem
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<CarDbContext>();
             services.AddControllersWithViews();
         }
 

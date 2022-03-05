@@ -24,4 +24,10 @@
     <ProjectReference Include="..\CarBuyRentSystem.Models\CarBuyRentSystem.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
