@@ -47,9 +47,9 @@
         public int LocatonId { get; set; }
         public Location Location { get; set; }
 
-        public ICollection<BuyCar> Owners { get; set; } = new List<BuyCar>();
+        public ICollection<BuyCar> Owners { get; init; } = new List<BuyCar>();
 
-        public ICollection<RentCar> Renters { get; set; } = new List<RentCar>();
+        public ICollection<RentCar> Renters { get; init; } = new List<RentCar>();
 
     }
 }

@@ -13,6 +13,7 @@
         }
         public DbSet<Car> Cars { get; init; }
         public DbSet<Location> Locations { get; init; }
-        public DbSet<BuyCar> BuyCars { get; set; }
+        public DbSet<BuyCar> BuyCars { get; init; }
+        public DbSet<RentCar> RentCars { get; init; }
     }
 }
