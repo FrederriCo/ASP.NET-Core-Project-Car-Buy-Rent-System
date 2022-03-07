@@ -41,10 +41,10 @@
 
         public int Passager { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = DecimalDefaultValue)]
         public decimal RentPricePerDay { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = DecimalDefaultValue)]
         public decimal Price { get; set; }
 
         public int LocatonId { get; set; }

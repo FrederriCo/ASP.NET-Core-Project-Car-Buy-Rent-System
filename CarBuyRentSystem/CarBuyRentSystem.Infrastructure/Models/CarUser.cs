@@ -6,20 +6,21 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using static Data.DataConstants.CarUser;
+   
 
     public class CarUser : IdentityUser
     {
         public string CarUsername { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
-        public string Name { get; set; }
+        [MaxLength(FullNameMaxLength)]
+        public string FullName { get; set; }
 
         [Required]
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
+               
+        [Column(TypeName = DecimalDefaultValue)]
         public decimal Balance { get; set; }       
 
         public ICollection<BuyCar> OwnedCars { get; init; } = new List<BuyCar>();

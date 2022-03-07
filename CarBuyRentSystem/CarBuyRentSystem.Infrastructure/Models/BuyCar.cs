@@ -3,6 +3,8 @@
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    using static Data.DataConstants.Car;
+
     public class BuyCar
     {
         public int BuyCarId { get; set; }
@@ -15,7 +17,7 @@
 
         public Car Car { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = DecimalDefaultValue)]
         public decimal Price { get; set; }
 
         public DateTime BoughtOn { get; set; }

@@ -2,6 +2,7 @@
 {
     public class DataConstants
     {
+        public const string DecimalDefaultValue = "decimal(18,2)";
         public class Car
         {
             public const int BrandMinLength = 2;
@@ -17,6 +18,8 @@
             public const int PassagerMaxValue = 10;
             public const int ImageUrlMaxLength = 2083;
 
+            public const string DecimalDefaultValue = "decimal(18,2)";
+
         }
 
         public class Location
@@ -26,10 +29,11 @@
 
         public class CarUser
         {
-            public const int NameMinLength = 5;
-            public const int NameMaxLength = 30;
+            public const int FullNameMinLength = 5;
+            public const int FullNameMaxLength = 30;
             public const int AddressMinLength = 3;
             public const int AddressMaxLength = 30;
+            public const string DecimalDefaultValue = "decimal(18,2)";
         }
     }
 }
