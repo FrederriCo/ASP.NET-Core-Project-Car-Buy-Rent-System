@@ -1,6 +1,7 @@
 namespace CarBuyRentSystem
 {
     using CarBuyRentSystem.Data;
+    using CarBuyRentSystem.Infrastructure.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -38,6 +39,8 @@ namespace CarBuyRentSystem
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,6 +67,8 @@ namespace CarBuyRentSystem
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            
         }
     }
 }
