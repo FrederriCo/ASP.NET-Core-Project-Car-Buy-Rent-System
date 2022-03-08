@@ -1,1 +1,96 @@
-﻿
+﻿@model AddCarFormModel
+@using CarBuyRentSystem.Infrastructure.Models.Enums
+@{ ViewData["Title"] = "Add Car"; }
+
+
+<h1 class="display-4 text-center"><i class="fas fa-plus" style="color: darkorange"></i>Add Car</h1>
+
+<form method="post" asp-action="Add" style="padding-top:30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                <div class="form-group">
+                    <label asp-for="Brand" class="control-label"></label>
+                    <input asp-for="Brand" class="form-control" placeholder="BMW, Merceds, etc..." />
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model" class="control-label">Model</label>
+                    <input asp-for="Model" class="form-control" />
+                    <span asp-validation-for="Model" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Year" class="control-label"></label>
+                    <input asp-for="Year" class="form-control" placeholder="@DateTime.UtcNow.Year" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+                <br />
+                <hr />
+                <br />
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <br />
+                <hr />
+                <br />
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label"></label>
+                    <select asp-for="Category" class="form-control dropdown-toggle col-lg-12" asp-items="Html.GetEnumSelectList<Category>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Fuel" class="control-label"></label>
+                    <select asp-for="Fuel" class="form-control dropdown-toggle col-lg-12" asp-items="Html.GetEnumSelectList<Fuel>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="Fuel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Transmission" class="control-label"></label>
+                    <select asp-for="Transmission" class="form-control dropdown-toggle col-lg-12" asp-items="Html.GetEnumSelectList<Transmission>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="Transmission" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lugage" class="control-label"></label>
+                    <input asp-for="Lugage" class="form-control" placeholder="from 1 to etc...." />
+                    <span asp-validation-for="Lugage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Passager" class="control-label">Passager</label>
+                    <input asp-for="Passager" class="form-control" placeholder="from 1 to etc...." />
+                    <span asp-validation-for="Passager" class="text-danger"></span>
+                </div>
+                <br />
+                <hr />
+                <br />
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="Pleas insert image URL..." />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <br />
+                <hr />
+                <br />
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RentPricePerDay" class="control-label"></label>
+                    <input asp-for="RentPricePerDay" class="form-control">
+                    <span asp-validation-for="RentPricePerDay" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" value="Add" class="btn btn-outline-warning text-light" style="background-color: darkorange" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

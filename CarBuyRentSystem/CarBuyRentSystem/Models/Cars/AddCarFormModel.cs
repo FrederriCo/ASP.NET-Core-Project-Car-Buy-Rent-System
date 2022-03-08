@@ -23,10 +23,11 @@
 
         [Required]
         [MaxLength(ImageUrlMaxLength)]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; init; }
 
         [Required]
-        [StringLength(DescriptionMinLength, MinimumLength = DescriptionMaxLength)]
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
         public string Description { get; init; }
 
         [Required]
@@ -49,10 +50,12 @@
 
         [Required]
         [Range(1, double.MaxValue)]
+        [Display(Name = "Total price car")]
         public decimal? Price { get; init; }
 
         [Required]
         [Range(1, double.MaxValue)]
+        [Display(Name = "Price per day rent a car")]
         public decimal? RentPricePerDay { get; init; }
 
         [Display(Name = "Location")]

@@ -1,4 +1,4 @@
-﻿namespace CarBuyRentSystem.Infrastructure.Models
+﻿namespace CarBuyRentSystem.Infrastructure.Models.Enums
 {
     public enum Fuel
     {
