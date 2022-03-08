@@ -46,8 +46,9 @@
 
         [Column(TypeName = DecimalDefaultValue)]
         public decimal Price { get; set; }
-
+        
         public int LocatonId { get; set; }
+
         public Location Location { get; set; }
 
         public ICollection<BuyCar> Owners { get; init; } = new List<BuyCar>();
