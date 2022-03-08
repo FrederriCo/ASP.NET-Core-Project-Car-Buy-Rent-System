@@ -15,6 +15,7 @@
             public const int YearMaxValue = 2030;
             public const int LugageMinValue = 1;
             public const int LugageMaxValue = 20;
+            public const int DoorsMinValue = 1;
             public const int DoorsMaxValue = 6;
             public const int PassagerMinValue = 1;
             public const int PassagerMaxValue = 10;

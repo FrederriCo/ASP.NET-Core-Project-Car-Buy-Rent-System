@@ -33,18 +33,21 @@
 
         [Required(ErrorMessage = "Select the category, please!")]
         [EnumDataType(typeof(Category))]
-        public Category? Category { get; init; }
+        public Category Category { get; init; }
 
         [Required(ErrorMessage = "Select the fuel type, please!")]
         [EnumDataType(typeof(Fuel))]
-        public Fuel? Fuel { get; init; }
+        public Fuel Fuel { get; init; }
 
         [Required(ErrorMessage = "Select the transmission, please!")]
         [EnumDataType(typeof(Transmission))]
-        public Transmission? Transmission { get; init; }
+        public Transmission Transmission { get; init; }
 
         [Range(LugageMinValue, LugageMaxValue, ErrorMessage =  "Invalid Lugage")]
         public int Lugage { get; init; }
+
+        [Range(DoorsMinValue, DoorsMaxValue, ErrorMessage = "Invalid doors")]
+        public int Doors { get; init; }
 
         [Range(PassagerMinValue, PassagerMaxValue, ErrorMessage = "Invalid Passager")]
         public int Passager { get; init; }
@@ -52,12 +55,12 @@
         [Required(ErrorMessage = "Enter price, please!")]
         [Range(1, double.MaxValue, ErrorMessage = "Cannot enter negative values!")]
         [Display(Name = "Total price car")]
-        public decimal? Price { get; init; }
+        public decimal Price { get; init; }
 
         [Required(ErrorMessage = "Enter rent price, please!")]
         [Range(1, double.MaxValue, ErrorMessage = "Cannot enter negative values!")]
         [Display(Name = "Price per day rent a car")]
-        public decimal? RentPricePerDay { get; init; }
+        public decimal RentPricePerDay { get; init; }
 
         [Display(Name = "Location")]
         public int LocationId { get; init; }
