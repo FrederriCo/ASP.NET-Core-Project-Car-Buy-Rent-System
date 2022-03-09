@@ -4,11 +4,20 @@
     using System.Collections.Generic;
     public class AllCarsViewModel
     {
+        public const int CarPerPage = 3;
+
         public string Brand { get; set; }
 
         public string Search { get; init; }
-        public IEnumerable<string> Brands { get; init; }
+
         public CarSorting Sorting { get; init; }
-        public IEnumerable<CarListingVIewModel> Cars { get; init; }
+
+        public int CurentPage { get; init; } = 1;
+
+        public int TotalCars { get; set; }
+
+        public IEnumerable<string> Brands { get; set; }
+
+        public IEnumerable<CarListingVIewModel> Cars { get; set; }
     }
 }

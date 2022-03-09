@@ -3,10 +3,11 @@
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
+    using CarBuyRentSystem.Models.Cars.Enums;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
-    using System.Linq;    
+    using System.Linq;
 
     public class CarsController : Controller
     {
@@ -62,27 +63,37 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All(string brand, string search)
+        public IActionResult All([FromQuery]AllCarsViewModel query)
         {
             var carsQuery = this.db.Cars.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(brand))
+            if (!string.IsNullOrWhiteSpace(query.Brand))
             {
-                carsQuery = carsQuery.Where(c => c.Brand == brand);
+                carsQuery = carsQuery.Where(c => c.Brand == query.Brand);
             }
 
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(query.Search))
             {
                 carsQuery = carsQuery.Where(c =>
-                        c.Brand.ToLower().Contains(search.ToLower())
-                        || c.Model.ToLower().Contains(search.ToLower())
-                        || (c.Model + c.Brand).ToLower().Contains(search.ToLower())                        
-                        || c.Description.ToLower().Contains(search.ToLower())
+                        c.Brand.ToLower().Contains(query.Search.ToLower())
+                        || c.Model.ToLower().Contains(query.Search.ToLower())
+                        || (c.Model + c.Brand).ToLower().Contains(query.Search.ToLower())
+                        || c.Description.ToLower().Contains(query.Search.ToLower())
                     );
-             }
+            }
 
-            var cars = carsQuery                
-                .OrderByDescending(c => c.Id)
+            carsQuery = query.Sorting switch
+            {
+                CarSorting.Price => carsQuery.OrderByDescending(x => x.RentPricePerDay),
+                CarSorting.BrandAnyModel => carsQuery.OrderBy(x => x.Brand).ThenBy(c => c.Model),
+                CarSorting.Year or _ => carsQuery.OrderByDescending(c => c.Year)
+            };
+
+            var totalCars = this.db.Cars.Count();
+
+            var cars = carsQuery
+                .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
+                .Take(AllCarsViewModel.CarPerPage)
                 .Select(c => new CarListingVIewModel
                 {
                     Id = c.Id,
@@ -106,16 +117,15 @@
                         .Cars
                         .Select(c => c.Brand)
                         .Distinct()
+                        .OrderBy(b => b)
                         .ToList();
 
-
-            return View(new AllCarsViewModel
-            {
-                Brands = carBrands,
-                Cars = cars,
-                Search = search
-                
-            });
+            query.Brands = carBrands;
+            query.Cars = cars;
+            query.TotalCars = totalCars;
+           
+            return View(query);
+            
         }
 
 
