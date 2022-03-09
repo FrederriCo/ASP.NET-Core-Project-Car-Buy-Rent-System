@@ -58,8 +58,43 @@
             db.Cars.Add(carAdd);
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
         }
+
+        public IActionResult All(string search)
+        {
+            var carsQuery = this.db.Cars.AsQueryable();
+
+            var cars = db
+                .Cars
+                .OrderByDescending(c => c.Id)
+                .Select(c => new CarListingVIewModel
+                {
+                    Id = c.Id,
+                    Brand = c.Brand,
+                    Model = c.Model,
+                    Year = c.Year,
+                    Category = c.Category,
+                    Fuel = c.Fuel,
+                    Transmission = c.Transmission,
+                    ImageUrl = c.ImageUrl,
+                    Lugage = c.Lugage,
+                    Doors = c.Doors,
+                    Passager = c.Passager,
+                    Locaton = c.Location.Name,
+                    Price = c.Price,
+                    RentPricePerDay = c.RentPricePerDay
+                })
+                .ToList();
+
+            return View(new AllCarsViewModel
+            {
+                Cars = cars,
+                Search = search
+                
+            });
+        }
+
 
         private IEnumerable<CarLocationViewModel> GetCarLocation()
          => this.db

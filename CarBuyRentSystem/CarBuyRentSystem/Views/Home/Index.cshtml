@@ -1,6 +1,24 @@
-﻿@{
+﻿@model List<CarListingVIewModel>
+@{
     ViewData["Title"] = "Rent and buy Car system ";
 }
+
+@{
+    var firstCar = Model.Any() ? Model[0] : null;
+    var secondCar = Model.Count > 1 ? Model[1] : null;
+    var thirdCar = Model.Count > 2 ? Model[2] : null;
+}
+
+@if (!Model.Any())
+{
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Rent and Buy Car Sysytem</h1>
+            <p class="lead">Search the best car rent and buy</p>
+        </div>
+    </div>
+}
+
 
 <div class="text-center">
     <div class="container">
@@ -19,11 +37,10 @@
 
                         <div class="mb-3 mb-md-0 col-md-3">
                             <select name="" id="" class="custom-select form-control">
-                                <option value="">Select Type</option>
-                                <option value="">Ferrari</option>
-                                <option value="">Toyota</option>
-                                <option value="">Ford</option>
-                                <option value="">Lamborghini</option>
+                                @foreach (var car in Model)
+                                {
+                                    <option value="@car.Brand">@car.Brand</option>
+                                }
                             </select>
                         </div>
                         <div class="mb-3 mb-md-0 col-md-3">
@@ -50,4 +67,6 @@
         </div>
     </div>
 </div>
+
+
 
