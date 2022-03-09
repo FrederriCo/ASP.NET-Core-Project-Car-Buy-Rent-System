@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     public class AllCarsViewModel
     {
+        public string Brand { get; set; }
+
         public string Search { get; init; }
         public IEnumerable<string> Brands { get; init; }
         public CarSorting Sorting { get; init; }

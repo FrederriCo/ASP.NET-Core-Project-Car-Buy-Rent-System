@@ -5,12 +5,23 @@
 
 <form method="get">
     <div class="row">
+
+        <div class="form-group">
+            <label asp-for="Brand"></label>
+            <select asp-for="Brand" class="form-control">
+                @foreach (var brand in Model.Brands)
+                {
+                    <option value="@brand">@brand</option>
+                }
+            </select>
+        </div>
+
         <div class="form-group col-md-3">
             <label asp-for="Search"></label>
             <input asp-for="Search" class="form-control" placeholder="Search Car etc..." />
         </div>
         <div class="form-group col-md-3">
-            <input type="submit" class="btn btn-primary d-none" value="Search"/>
+            <input type="submit" class="btn btn-primary d-none" value="Search" />
         </div>
     </div>
 </form>

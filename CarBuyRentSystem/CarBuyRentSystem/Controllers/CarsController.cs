@@ -4,6 +4,7 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Collections.Generic;
     using System.Linq;    
 
@@ -61,12 +62,26 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All(string search)
+        public IActionResult All(string brand, string search)
         {
             var carsQuery = this.db.Cars.AsQueryable();
 
-            var cars = db
-                .Cars
+            if (!string.IsNullOrWhiteSpace(brand))
+            {
+                carsQuery = carsQuery.Where(c => c.Brand == brand);
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                carsQuery = carsQuery.Where(c =>
+                        c.Brand.ToLower().Contains(search.ToLower())
+                        || c.Model.ToLower().Contains(search.ToLower())
+                        || (c.Model + c.Brand).ToLower().Contains(search.ToLower())                        
+                        || c.Description.ToLower().Contains(search.ToLower())
+                    );
+             }
+
+            var cars = carsQuery                
                 .OrderByDescending(c => c.Id)
                 .Select(c => new CarListingVIewModel
                 {
@@ -87,8 +102,16 @@
                 })
                 .ToList();
 
+            var carBrands = db
+                        .Cars
+                        .Select(c => c.Brand)
+                        .Distinct()
+                        .ToList();
+
+
             return View(new AllCarsViewModel
             {
+                Brands = carBrands,
                 Cars = cars,
                 Search = search
                 
