@@ -5,7 +5,6 @@
     using CarBuyRentSystem.Models.Cars;
     using CarBuyRentSystem.Models.Cars.Enums;
     using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -75,9 +74,7 @@
             if (!string.IsNullOrWhiteSpace(query.Search))
             {
                 carsQuery = carsQuery.Where(c =>
-                        c.Brand.ToLower().Contains(query.Search.ToLower())
-                        || c.Model.ToLower().Contains(query.Search.ToLower())
-                        || (c.Model + c.Brand).ToLower().Contains(query.Search.ToLower())
+                        (c.Model + c.Brand).ToLower().Contains(query.Search.ToLower())
                         || c.Description.ToLower().Contains(query.Search.ToLower())
                     );
             }
@@ -89,7 +86,7 @@
                 CarSorting.Year or _ => carsQuery.OrderByDescending(c => c.Year)
             };
 
-            var totalCars = this.db.Cars.Count();
+            var totalCars = carsQuery.Count();
 
             var cars = carsQuery
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
@@ -123,7 +120,7 @@
             query.Brands = carBrands;
             query.Cars = cars;
             query.TotalCars = totalCars;
-           
+
             return View(query);
             
         }

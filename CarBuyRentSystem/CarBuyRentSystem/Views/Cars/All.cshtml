@@ -5,7 +5,6 @@
 
 <form method="get">
     <div class="row">
-
         <div class="form-group">
             <label asp-for="Brand"></label>
             <select asp-for="Brand" class="form-control">
@@ -39,11 +38,22 @@
 
     </div>
 </form>
+<hr />
+@{
+    var previosPage = Model.CurentPage - 1;
+
+    if (previosPage < 1)
+    {
+        previosPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage);
+}
 
 <div class="row">
     @foreach (var car in Model.Cars)
     {
-        <div class="col-lg-4 mb-4" style="padding-top: 30px;">
+        <div class="col-lg-4 mb-3" style="padding-top: 30px;">
             <div class="card" style="width: 18rem">
                 <img class="card-img-top" src=@car.ImageUrl alt="@car.Brand @car.Model - @car.Year (@car.Category)">
                 <div class="card-body">
@@ -89,35 +99,30 @@
         </div>
     }
 </div>
-@{ 
-    var previosPage = Model.CurentPage - 1;
-
-    if (previosPage < 1)
-    {
-        previosPage = 1;
-    }
-
-    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage); 
-}
+<hr />
 
 <div class="row">
     <div class="col-md-6">
-        <a class="btn btn-primary @(Model.CurentPage == 1 ? "disabled" : string.Empty)" 
-           asp-controller="Cars" 
-           asp-action="All" 
-           asp-route-currentPage="@previosPage"
+        <a class="btn btn-primary
+           @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurrentPage="@previosPage"
            asp-route-brand="@Model.Brand"
            asp-route-serch="@Model.Search"
            asp-route-sorting="@((int)Model.Sorting)"><<</a>
+
     </div>
     <div class="col-md-6">
-        <a class="btn btn-primary float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
+        <a class="btn btn-primary
+        float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
            asp-controller="Cars"
            asp-action="All"
-           asp-route-currentPage="@(Model.CurentPage + 1)"
+           asp-route-CurrentPage="@(Model.CurentPage + 1)"
            asp-route-brand="@Model.Brand"
            asp-route-serch="@Model.Search"
            asp-route-sorting="@((int)Model.Sorting)">>></a>
     </div>
 </div>
+
 
