@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarBuyRentSystem.Data.Migrations
 {
-    public partial class CarUserCarBuyCarRentCarLocation : Migration
+    public partial class CarUserDealerRentBuy : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,6 +41,27 @@ namespace CarBuyRentSystem.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
+                name: "Dealers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dealers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Dealers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
@@ -72,18 +93,24 @@ namespace CarBuyRentSystem.Data.Migrations
                     Passager = table.Column<int>(type: "int", nullable: false),
                     RentPricePerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LocatonId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: true)
+                    DealerId = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Cars_Dealers_DealerId",
+                        column: x => x.DealerId,
+                        principalTable: "Dealers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Cars_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,9 +182,20 @@ namespace CarBuyRentSystem.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cars_DealerId",
+                table: "Cars",
+                column: "DealerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cars_LocationId",
                 table: "Cars",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dealers_UserId",
+                table: "Dealers",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RentCars_CarId",
@@ -180,6 +218,9 @@ namespace CarBuyRentSystem.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "Dealers");
 
             migrationBuilder.DropTable(
                 name: "Locations");

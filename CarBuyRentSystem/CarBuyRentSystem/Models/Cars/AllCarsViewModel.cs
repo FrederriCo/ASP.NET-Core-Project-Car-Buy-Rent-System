@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     public class AllCarsViewModel
     {
-        public const int CarPerPage = 3;
+        public const int CarPerPage = 9;
 
         public string Brand { get; set; }
 

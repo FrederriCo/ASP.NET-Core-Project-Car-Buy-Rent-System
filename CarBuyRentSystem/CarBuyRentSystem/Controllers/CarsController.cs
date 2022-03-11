@@ -1,9 +1,11 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
     using CarBuyRentSystem.Data;
+    using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
     using CarBuyRentSystem.Models.Cars.Enums;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,14 +18,36 @@
         {
             this.db = db;
         }
-        public IActionResult Add() => View(new AddCarFormModel
-        {
-            Locations = this.GetCarLocation()
-        });
 
+        [Authorize]
+        public IActionResult Add()
+        {
+            if (!UserIsDealer())
+            {           
+                return RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
+            return View(new AddCarFormModel
+            {
+                Locations = this.GetCarLocation()
+            });
+        }
+
+        [Authorize]
         [HttpPost]
         public IActionResult Add(AddCarFormModel car)
         {
+            var dealerId = this.db
+                            .Dealers
+                            .Where(x => x.UserId == this.User.GetId())
+                            .Select(x => x.Id)
+                            .FirstOrDefault();
+
+            if (dealerId == 0)
+            {              
+                return RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
             if (!db.Locations.Any(x => x.Id == car.LocationId))
             {
                 this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
@@ -52,7 +76,8 @@
                 Passager = car.Passager,
                 RentPricePerDay = car.RentPricePerDay,
                 Price = car.Price,
-                LocatonId = car.LocationId
+                LocationId = car.LocationId,
+                DealerId = dealerId
 
             };
 
@@ -62,7 +87,7 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All([FromQuery]AllCarsViewModel query)
+        public IActionResult All([FromQuery] AllCarsViewModel query)
         {
             var carsQuery = this.db.Cars.AsQueryable();
 
@@ -122,10 +147,14 @@
             query.TotalCars = totalCars;
 
             return View(query);
-            
+
         }
 
 
+        private bool UserIsDealer()
+            => this.db
+                .Dealers
+                .Any(d => d.UserId == this.User.GetId());
         private IEnumerable<CarLocationViewModel> GetCarLocation()
          => this.db
             .Locations

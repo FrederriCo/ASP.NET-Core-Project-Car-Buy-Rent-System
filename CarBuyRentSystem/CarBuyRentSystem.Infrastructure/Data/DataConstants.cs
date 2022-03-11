@@ -38,5 +38,15 @@
             public const int AddressMaxLength = 30;
             public const string DecimalDefaultValue = "decimal(18,2)";
         }
+
+        public class Dealer
+        {
+            public const int NameDealerMinLength = 2;
+            public const int NameDealerMaxLength = 20;
+            public const int PhoneNumberMinLength = 4;
+            public const int PhoneNumberMaxLength = 20;
+
+
+        }
     }
 }

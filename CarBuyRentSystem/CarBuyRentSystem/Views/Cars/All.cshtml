@@ -38,6 +38,11 @@
 
     </div>
 </form>
+
+@if (!Model.Cars.Any())
+	{
+		<h2 class="text-centar">No cars Found!</h2> 
+	}
 <hr />
 @{
     var previosPage = Model.CurentPage - 1;

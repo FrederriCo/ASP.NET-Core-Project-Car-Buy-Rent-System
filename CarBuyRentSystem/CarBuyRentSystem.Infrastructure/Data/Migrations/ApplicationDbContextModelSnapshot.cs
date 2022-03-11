@@ -62,6 +62,9 @@ namespace CarBuyRentSystem.Data.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
+                    b.Property<int>("DealerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -78,10 +81,7 @@ namespace CarBuyRentSystem.Data.Migrations
                         .HasMaxLength(2083)
                         .HasColumnType("nvarchar(2083)");
 
-                    b.Property<int?>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LocatonId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<int>("Lugage")
@@ -109,9 +109,40 @@ namespace CarBuyRentSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DealerId");
+
                     b.HasIndex("LocationId");
 
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.Dealer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Dealers");
                 });
 
             modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.Location", b =>
@@ -414,11 +445,30 @@ namespace CarBuyRentSystem.Data.Migrations
 
             modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.Car", b =>
                 {
+                    b.HasOne("CarBuyRentSystem.Infrastructure.Models.Dealer", "Dealer")
+                        .WithMany("Cars")
+                        .HasForeignKey("DealerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CarBuyRentSystem.Infrastructure.Models.Location", "Location")
                         .WithMany("Cars")
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dealer");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.Dealer", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("CarBuyRentSystem.Infrastructure.Models.Dealer", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.RentCar", b =>
@@ -494,6 +544,11 @@ namespace CarBuyRentSystem.Data.Migrations
                     b.Navigation("Owners");
 
                     b.Navigation("Renters");
+                });
+
+            modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.Dealer", b =>
+                {
+                    b.Navigation("Cars");
                 });
 
             modelBuilder.Entity("CarBuyRentSystem.Infrastructure.Models.Location", b =>
