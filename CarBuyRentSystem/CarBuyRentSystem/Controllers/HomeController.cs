@@ -15,8 +15,11 @@
         {
             this.db = db;
         }
+
+        
         public IActionResult Index()
         {
+            
             var cars = db
                .Cars
                .OrderByDescending(c => c.Id)

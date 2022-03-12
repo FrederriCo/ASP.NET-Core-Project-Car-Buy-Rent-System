@@ -1,11 +1,10 @@
 ﻿namespace CarBuyRentSystem.Models.Cars
 {
     using CarBuyRentSystem.Models.Cars.Enums;
-    using System;
     using System.Collections.Generic;
     public class AllCarsViewModel
     {
-        public const int CarPerPage = 9;
+        public const int CarPerPage = 3;
 
         public string Brand { get; set; }
 

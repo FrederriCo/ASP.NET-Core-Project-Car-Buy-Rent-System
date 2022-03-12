@@ -1,5 +1,6 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
+    using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
@@ -13,10 +14,12 @@
     public class CarsController : Controller
     {
         private readonly CarDbContext db;
+        private readonly ICarService cars;
 
-        public CarsController(CarDbContext db)
+        public CarsController(CarDbContext db, ICarService cars)
         {
             this.db = db;
+            this.cars = cars;
         }
 
         [Authorize]
@@ -135,12 +138,7 @@
                 })
                 .ToList();
 
-            var carBrands = db
-                        .Cars
-                        .Select(c => c.Brand)
-                        .Distinct()
-                        .OrderBy(b => b)
-                        .ToList();
+            var carBrands = this.cars.AllCarBrands();
 
             query.Brands = carBrands;
             query.Cars = cars;
