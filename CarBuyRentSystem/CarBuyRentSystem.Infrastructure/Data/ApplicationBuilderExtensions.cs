@@ -41,6 +41,7 @@
                 new Location { Name = "Stara Zagora" },
                 new Location { Name = "Pleven" },
                 new Location { Name = "Yambol" },
+                new Location { Name = "Laki" }
             });
 
             data.SaveChanges();

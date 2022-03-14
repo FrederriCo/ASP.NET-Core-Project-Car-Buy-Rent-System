@@ -1,12 +1,13 @@
 namespace CarBuyRentSystem
 {
-    using carbuyrentsystem.core.services.cars;
+    
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +38,10 @@ namespace CarBuyRentSystem
             })
                 .AddEntityFrameworkStores<CarDbContext>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(option =>
+            {
+                option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             services.AddTransient<ICarService, CarService>();
         }

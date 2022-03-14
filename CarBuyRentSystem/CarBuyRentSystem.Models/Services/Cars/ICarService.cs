@@ -4,7 +4,7 @@ namespace CarBuyRentSystem.Core.Services.Cars
 {
     public interface ICarService
     {
-        //AllCarsViewModel All();
+       // CarsViewModel All();
 
         IEnumerable<string> AllCarBrands();
     }

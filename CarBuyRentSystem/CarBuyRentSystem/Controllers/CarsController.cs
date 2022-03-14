@@ -38,6 +38,7 @@
 
         [Authorize]
         [HttpPost]
+            
         public IActionResult Add(AddCarFormModel car)
         {
             var dealerId = this.db
