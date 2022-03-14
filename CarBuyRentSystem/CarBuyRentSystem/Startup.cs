@@ -36,11 +36,12 @@ namespace CarBuyRentSystem
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<CarDbContext>();
 
             services.AddControllersWithViews(option =>
             {
-                option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                option.Filters.Add<ValidateAntiForgeryTokenAttribute>();
             });
 
             services.AddTransient<ICarService, CarService>();
