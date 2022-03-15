@@ -15,5 +15,7 @@
 
         IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery);
 
+        IEnumerable<CarLocationServiceModel> AllCarLocation();
+
     }
 }

@@ -35,7 +35,7 @@
 
             return View(new AddCarFormModel
             {
-                Locations = this.GetCarLocation()
+                Locations = this.cars.AllCarLocation()
             });
         }
 
@@ -63,7 +63,7 @@
             {
                 return View(new AddCarFormModel
                 {
-                    Locations = this.GetCarLocation()
+                    Locations = this.cars.AllCarLocation()
                 });
             }
 
@@ -126,7 +126,7 @@
 
             var totalCars = carsQuery.Count();
 
-            var cars = GetCars(carsQuery
+            var cars = this.cars.GetCars(carsQuery
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
                 .Take(AllCarsViewModel.CarPerPage));
 
@@ -141,42 +141,10 @@
 
         }
 
-        private IEnumerable<CarListingVIewModel> ByUser(string userId)
-            => this.GetCars(this.db
-                            .Cars
-                            .Where(c => c.Dealer.UserId == userId));
-
-
-        private IEnumerable<CarLocationViewModel> GetCarLocation()
-         => this.db
-            .Locations
-            .Select(l => new CarLocationViewModel
-            {
-                Id = l.Id,
-                Name = l.Name
-            })
-            .ToList();
-
-        private IEnumerable<CarListingVIewModel> GetCars(IQueryable<Car> carQuery)
-          => carQuery
-            .Select(c => new CarListingVIewModel
-            {
-                Id = c.Id,
-                Brand = c.Brand,
-                Model = c.Model,
-                Year = c.Year,
-                Category = c.Category,
-                Fuel = c.Fuel,
-                Transmission = c.Transmission,
-                ImageUrl = c.ImageUrl,
-                Lugage = c.Lugage,
-                Doors = c.Doors,
-                Passager = c.Passager,
-                Locaton = c.Location.Name,
-                Price = c.Price,
-                RentPricePerDay = c.RentPricePerDay
-            })
-            .ToList();
+        [Authorize]
+        public IActionResult Edit(int id)
+        { 
+        }
 
     }
 }

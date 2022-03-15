@@ -68,32 +68,21 @@
               .Distinct()
               .OrderBy(b => b)
               .ToList();
+
+        public IEnumerable<CarLocationServiceModel> AllCarLocation()
+            => this.db
+            .Locations
+            .Select(l => new CarLocationServiceModel
+            {
+                Id = l.Id,
+                Name = l.Name
+            })
+            .ToList();
+
         public IEnumerable<CarServiceListingViewModel> ByUser(string userId)
             => this.GetCars(this.db
                             .Cars
                             .Where(c => c.Dealer.UserId == userId));
-                            
-
-        //public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
-        // => carQuery
-        //   .Select(c => new CarServiceListingViewModel
-        //   {
-        //       Id = c.Id,
-        //       Brand = c.Brand,
-        //       Model = c.Model,
-        //       Year = c.Year,
-        //       Category = c.Category,
-        //       Fuel = c.Fuel,
-        //       Transmission = c.Transmission,
-        //       ImageUrl = c.ImageUrl,
-        //       Lugage = c.Lugage,
-        //       Doors = c.Doors,
-        //       Passager = c.Passager,
-        //       Locaton = c.Location.Name,
-        //       Price = c.Price,
-        //       RentPricePerDay = c.RentPricePerDay
-        //   })
-        //   .ToList();
 
         public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
          => carQuery

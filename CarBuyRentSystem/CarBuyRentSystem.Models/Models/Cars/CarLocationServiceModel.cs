@@ -1,6 +1,6 @@
-﻿namespace CarBuyRentSystem.Models.Cars
+﻿namespace CarBuyRentSystem.Core.Models.Cars
 {
-    public class CarLocationViewModel
+    public class CarLocationServiceModel
     {
         public int Id { get; init; }
         public string Name { get; init; }

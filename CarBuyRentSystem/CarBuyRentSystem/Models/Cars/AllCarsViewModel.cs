@@ -1,5 +1,6 @@
 ﻿namespace CarBuyRentSystem.Models.Cars
 {
+    using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Models.Cars.Enums;
     using System.Collections.Generic;
     
@@ -28,6 +29,6 @@
 
         public IEnumerable<string> Brands { get; set; }
 
-        public IEnumerable<CarListingVIewModel> Cars { get; set; }
+        public IEnumerable<CarServiceListingViewModel> Cars { get; set; }
     }
 }

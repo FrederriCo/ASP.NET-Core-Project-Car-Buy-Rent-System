@@ -1,5 +1,6 @@
 ﻿namespace CarBuyRentSystem.Models.Cars
-{   
+{
+    using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Infrastructure.Models.Enums;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -43,7 +44,7 @@
         [EnumDataType(typeof(Transmission))]
         public Transmission Transmission { get; init; }
 
-        [Range(LugageMinValue, LugageMaxValue, ErrorMessage =  "Invalid Lugage")]
+        [Range(LugageMinValue, LugageMaxValue, ErrorMessage = "Invalid Lugage")]
         public int Lugage { get; init; }
 
         [Range(DoorsMinValue, DoorsMaxValue, ErrorMessage = "Invalid doors")]
@@ -65,6 +66,6 @@
         [Display(Name = "Location")]
         public int LocationId { get; init; }
 
-        public IEnumerable<CarLocationViewModel> Locations { get; set; }
+        public IEnumerable<CarLocationServiceModel> Locations { get; set; }
     }
 }
