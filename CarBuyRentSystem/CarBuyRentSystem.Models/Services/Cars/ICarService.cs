@@ -11,7 +11,10 @@
 
         CarDetailsServiceModel Details(int id);
 
-        int Create(CarDetailsServiceModel car);
+        bool IsByDealer(int carId, int dealerId);
+        int Create(CreateCarServiceModel car);
+
+        void Edit(CreateCarServiceModel car);
 
         bool LocationExsts(int locationId);
 

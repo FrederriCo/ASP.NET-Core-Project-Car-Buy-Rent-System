@@ -84,7 +84,7 @@
                             .Cars
                             .Where(c => c.Dealer.UserId == userId));
 
-        public int Create(CarDetailsServiceModel car)
+        public int Create(CreateCarServiceModel car)
         {
             var carAdd = new Car
             {
@@ -101,8 +101,7 @@
                 Passager = car.Passager,
                 RentPricePerDay = car.RentPricePerDay,
                 Price = car.Price,
-                LocationId = car.LocationId,
-                DealerId = car.DealerId
+                LocationId = car.LocationId
 
             };
 
@@ -136,9 +135,32 @@
                         DealerId = c.DealerId,
                         DealerName = c.Dealer.Name,
                         UserId = c.Dealer.UserId
-                        
+
                     })
                     .FirstOrDefault();
+
+        public void Edit(CreateCarServiceModel car)
+        {
+            var carData = this.db.Cars.Find(car.Id);           
+
+            carData.Brand = car.Brand;
+            carData.Model = car.Model;
+            carData.Year = car.Year;
+            carData.ImageUrl = car.ImageUrl;
+            carData.Description = car.Description;
+            carData.Category = car.Category;
+            carData.Fuel = car.Fuel;
+            carData.Transmission = car.Transmission;
+            carData.Lugage = car.Lugage;
+            carData.Doors = car.Doors;
+            carData.Passager = car.Passager;
+            carData.RentPricePerDay = car.RentPricePerDay;
+            carData.Price = car.Price;
+            carData.LocationId = car.LocationId;              
+                       
+            db.SaveChanges();
+           
+        }
 
         public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
          => carQuery
@@ -160,6 +182,11 @@
                RentPricePerDay = c.RentPricePerDay
            })
            .ToList();
+
+        public bool IsByDealer(int carId, int dealerId)
+            => this.db
+                .Cars
+                .Any(x => x.Id == carId && x.DealerId == dealerId);
 
         public bool LocationExsts(int locationId)
          => db.Locations

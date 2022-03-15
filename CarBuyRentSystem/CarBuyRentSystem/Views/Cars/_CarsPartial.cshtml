@@ -40,14 +40,14 @@
                         </div>
                     </div>
                     <div class="card-body" style="padding-left: 50px;">
-                        <a asp-action="Buy" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
-                        <a asp-action="Rent" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
-                        <a asp-action="Details" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> More</a>
+                        <a asp-action="Buy" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
+                        <a asp-action="Rent" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
+                        <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> More</a>
                         @if (ViewBag.AllowCarEdit == true)
                         {
                             //car.UserId == User.GetId() -- drug nachin na Logvane
-                            <a asp-action="Edit" asp-controller="Car" asp-route-id="@car.Id" class="btn  btn-warning"> Edit</a>
-                            <a asp-action="Delete" asp-controller="Car" asp-route-id="@car.Id" class="btn  btn-danger"> Delete</a>
+                            <a asp-controller="Cars" asp-action="Edit"  asp-route-id="@car.Id" class="btn  btn-warning">Edit</a>
+                            <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn  btn-danger">Delete</a>
                         }
                     </div>
                 </div>

@@ -84,6 +84,9 @@
 
             db.Cars.Add(carAdd);
             db.SaveChanges();
+            // cars.Create(car);
+            // car.DealerId = dealerId;
+
 
             return RedirectToAction(nameof(All));
         }
@@ -138,8 +141,97 @@
 
         [Authorize]
         public IActionResult Edit(int id)
-        { 
+        {
+            var userId = this.User.GetId();
 
+            if (!this.dealers.IsDealer(userId))
+            {
+                return RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
+            var cars = this.cars.Details(id);
+
+            if (cars.UserId != userId)
+            {
+                return BadRequest();
+            }
+
+            return View(new AddCarFormModel
+            {
+                Brand = cars.Brand,
+                Category = cars.Category,
+                Description = cars.Description,
+                Doors = cars.Doors,
+                Fuel = cars.Fuel,
+                ImageUrl = cars.ImageUrl,
+                Lugage = cars.Lugage,
+                Model = cars.Model,
+                Passager = cars.Passager,
+                Price = cars.Price,
+                RentPricePerDay = cars.RentPricePerDay,
+                Transmission = cars.Transmission,
+                Year = cars.Year,
+                LocationId = cars.LocationId,
+                Locations = this.cars.AllCarLocation()
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(AddCarFormModel car)
+        {
+            var userId = this.User.GetId();
+
+            var dealerId = this.dealers.GetDealerId(userId);
+
+            if (dealerId == 0)
+            {
+                return RedirectToAction(nameof(DealersController.Create), "Dealers");
+            }
+
+            if (!this.cars.LocationExsts(car.LocationId))
+            {
+                this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(new AddCarFormModel
+                {
+                    Locations = this.cars.AllCarLocation()
+                });
+            }
+
+            var carData = this.db.Cars.Find(car.Id);
+
+            if (!this.cars.IsByDealer(car.Id, dealerId))
+            {
+                return BadRequest();
+            }
+
+            if (carData.DealerId != dealerId)
+            {
+                return Unauthorized();
+            }
+           
+            carData.Brand = car.Brand;
+            carData.Model = car.Model;
+            carData.Year = car.Year;
+            carData.ImageUrl = car.ImageUrl;
+            carData.Description = car.Description;
+            carData.Category = car.Category;
+            carData.Fuel = car.Fuel;
+            carData.Transmission = car.Transmission;
+            carData.Lugage = car.Lugage;
+            carData.Doors = car.Doors;
+            carData.Passager = car.Passager;
+            carData.RentPricePerDay = car.RentPricePerDay;
+            carData.Price = car.Price;
+            carData.LocationId = car.LocationId;
+
+            this.db.SaveChanges();
+
+            return RedirectToAction(nameof(DealerCar));
         }
 
     }
