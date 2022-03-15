@@ -1,9 +1,6 @@
 ﻿@model AddCarFormModel
 @using CarBuyRentSystem.Infrastructure.Models.Enums
-@{ 
-    ViewData["Title"] = "Add Car"; 
- }
-
+@{ ViewData["Title"] = "Add Car"; }
 
 <h1 class="display-4 text-center"><i class="fas fa-plus" style="color: darkorange"></i>Add Car</h1>
 
@@ -85,7 +82,8 @@
                         <select asp-for="LocationId" class="form-control">
                             @foreach (var location in Model.Locations)
                             {
-                <option value="@location.Id">@location.Name</option>}
+                              <option value="@location.Id">@location.Name</option>
+                            }
                         </select>
                     </div>
                 </div>

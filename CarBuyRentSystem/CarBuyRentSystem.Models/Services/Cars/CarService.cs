@@ -1,9 +1,10 @@
-﻿using CarBuyRentSystem.Data;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace CarBuyRentSystem.Core.Services.Cars
+﻿namespace CarBuyRentSystem.Core.Services.Cars
 {
+    using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Data;
+    using CarBuyRentSystem.Infrastructure.Models;
+    using System.Collections.Generic;
+    using System.Linq;
     public class CarService : ICarService
     {
         private readonly CarDbContext db;
@@ -67,5 +68,52 @@ namespace CarBuyRentSystem.Core.Services.Cars
               .Distinct()
               .OrderBy(b => b)
               .ToList();
+        public IEnumerable<CarServiceListingViewModel> ByUser(string userId)
+            => this.GetCars(this.db
+                            .Cars
+                            .Where(c => c.Dealer.UserId == userId));
+                            
+
+        //public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
+        // => carQuery
+        //   .Select(c => new CarServiceListingViewModel
+        //   {
+        //       Id = c.Id,
+        //       Brand = c.Brand,
+        //       Model = c.Model,
+        //       Year = c.Year,
+        //       Category = c.Category,
+        //       Fuel = c.Fuel,
+        //       Transmission = c.Transmission,
+        //       ImageUrl = c.ImageUrl,
+        //       Lugage = c.Lugage,
+        //       Doors = c.Doors,
+        //       Passager = c.Passager,
+        //       Locaton = c.Location.Name,
+        //       Price = c.Price,
+        //       RentPricePerDay = c.RentPricePerDay
+        //   })
+        //   .ToList();
+
+        public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
+         => carQuery
+           .Select(c => new CarServiceListingViewModel
+           {
+               Id = c.Id,
+               Brand = c.Brand,
+               Model = c.Model,
+               Year = c.Year,
+               Category = c.Category,
+               Fuel = c.Fuel,
+               Transmission = c.Transmission,
+               ImageUrl = c.ImageUrl,
+               Lugage = c.Lugage,
+               Doors = c.Doors,
+               Passager = c.Passager,
+               Locaton = c.Location.Name,
+               Price = c.Price,
+               RentPricePerDay = c.RentPricePerDay
+           })
+           .ToList();
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model AllCarsViewModel
+
 @{
     ViewData["Title"] = "All Car";
 }
@@ -45,7 +46,57 @@
 }
 <hr />
 
-<partial name="_CarsPartial" model="@Model.Cars" />
+@*<partial name="_CarsPartial" model="@Model.Cars" />*@
+
+<div class="row">
+    @foreach (var car in Model.Cars)
+    {
+        <div class="col-lg-4 mb-3" style="padding-top: 30px;">
+            <div class="card" style="width: 18rem">
+                <img class="card-img-top" src=@car.ImageUrl alt="@car.Brand @car.Model - @car.Year (@car.Category)">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model (@car.Year)</h5>
+                    <div class="rent-price">
+                        <strong>$@car.RentPricePerDay</strong><span class="mx-1">/</span>day
+                    </div>
+                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Luggage:</span>
+                            <span class="number">@car.Lugage</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Doors:</span>
+                            <span class="number">@car.Doors</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Passenger:</span>
+                            <span class="number">@car.Passager</span>
+                        </div>
+                    </div>
+                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Fuel:</span>
+                            <span class="number">@car.Fuel</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Transmission:</span>
+                            <span class="number">@car.Transmission</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Category:</span>
+                            <span class="number">@car.Category</span>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding-left: 50px;">
+                        <a asp-action="Buy" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
+                        <a asp-action="Rent" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
+                        <a asp-action="Details" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 <hr />
 @{

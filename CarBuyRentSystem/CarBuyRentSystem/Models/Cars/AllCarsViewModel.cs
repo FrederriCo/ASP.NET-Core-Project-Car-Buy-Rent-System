@@ -2,6 +2,7 @@
 {
     using CarBuyRentSystem.Models.Cars.Enums;
     using System.Collections.Generic;
+    
     public class AllCarsViewModel
     {
         public const int CarPerPage = 3;

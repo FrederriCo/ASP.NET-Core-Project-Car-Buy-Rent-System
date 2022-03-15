@@ -1,6 +1,7 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
     using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
@@ -15,18 +16,20 @@
     {
         private readonly CarDbContext db;
         private readonly ICarService cars;
+        private readonly IDealerService dealers;
 
-        public CarsController(CarDbContext db, ICarService cars)
+        public CarsController(CarDbContext db, ICarService cars, IDealerService dealers)
         {
             this.db = db;
             this.cars = cars;
+            this.dealers = dealers;
         }
 
         [Authorize]
         public IActionResult Add()
         {
-            if (!UserIsDealer())
-            {           
+            if (!this.dealers.IsDealer(this.User.GetId()))
+            {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
@@ -37,7 +40,7 @@
         }
 
         [Authorize]
-        [HttpPost]            
+        [HttpPost]
         public IActionResult Add(AddCarFormModel car)
         {
             var dealerId = this.db
@@ -47,7 +50,7 @@
                             .FirstOrDefault();
 
             if (dealerId == 0)
-            {              
+            {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
@@ -93,11 +96,7 @@
         [Authorize]
         public IActionResult DealerCar()
         {
-            var getUserId = User.GetId();
-
-            var delarCars = this.GetCars(this.db
-                            .Cars
-                            .Where(c => c.Dealer.UserId == getUserId));
+            var delarCars = this.cars.ByUser(this.User.GetId());
 
             return View(delarCars);
         }
@@ -129,9 +128,9 @@
 
             var cars = GetCars(carsQuery
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
-                .Take(AllCarsViewModel.CarPerPage));            
-                       
-          
+                .Take(AllCarsViewModel.CarPerPage));
+
+
             var carBrands = this.cars.AllCarBrands();
 
             query.Brands = carBrands;
@@ -146,11 +145,8 @@
             => this.GetCars(this.db
                             .Cars
                             .Where(c => c.Dealer.UserId == userId));
-                   
-        private bool UserIsDealer()
-            => this.db
-                .Dealers
-                .Any(d => d.UserId == this.User.GetId());
+
+
         private IEnumerable<CarLocationViewModel> GetCarLocation()
          => this.db
             .Locations
@@ -161,7 +157,7 @@
             })
             .ToList();
 
-        private  IEnumerable<CarListingVIewModel> GetCars(IQueryable<Car> carQuery)
+        private IEnumerable<CarListingVIewModel> GetCars(IQueryable<Car> carQuery)
           => carQuery
             .Select(c => new CarListingVIewModel
             {

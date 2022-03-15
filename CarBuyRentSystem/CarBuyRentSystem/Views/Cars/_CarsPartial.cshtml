@@ -1,8 +1,7 @@
-﻿@model AllCarsViewModel
-
+﻿@model IEnumerable<CarServiceListingViewModel>
 
 <div class="row">
-    @foreach (var car in Model.Cars)
+    @foreach (var car in Model)
     {
         <div class="col-lg-4 mb-3" style="padding-top: 30px;">
             <div class="card" style="width: 18rem">
@@ -44,6 +43,12 @@
                         <a asp-action="Buy" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
                         <a asp-action="Rent" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
                         <a asp-action="Details" asp-controller="Car" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> More</a>
+                        @if (ViewBag.AllowCarEdit == true)
+                        {
+                            //car.UserId == User.GetId() -- drug nachin na Logvane
+                            <a asp-action="Edit" asp-controller="Car" asp-route-id="@car.Id" class="btn  btn-warning"> Edit</a>
+                            <a asp-action="Delete" asp-controller="Car" asp-route-id="@car.Id" class="btn  btn-danger"> Delete</a>
+                        }
                     </div>
                 </div>
             </div>
