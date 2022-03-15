@@ -9,6 +9,14 @@
 
         public DealerService(CarDbContext db)
             => this.db = db;
+
+        public int GetDealerId(string userId)
+            => this.db
+                   .Dealers
+                   .Where(x => x.UserId == userId)
+                   .Select(x => x.Id)
+                   .FirstOrDefault();
+
         public bool IsDealer(string userId)
          => this.db
                 .Dealers

@@ -7,7 +7,13 @@
 
     public interface ICarService
     {
-       // CarsViewModel All();
+        // CarsViewModel All();
+
+        CarDetailsServiceModel Details(int id);
+
+        int Create(CarDetailsServiceModel car);
+
+        bool LocationExsts(int locationId);
 
         IEnumerable<string> AllCarBrands();
 

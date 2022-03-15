@@ -9,7 +9,6 @@
     using CarBuyRentSystem.Models.Cars.Enums;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
     using System.Linq;
 
     public class CarsController : Controller
@@ -43,18 +42,14 @@
         [HttpPost]
         public IActionResult Add(AddCarFormModel car)
         {
-            var dealerId = this.db
-                            .Dealers
-                            .Where(x => x.UserId == this.User.GetId())
-                            .Select(x => x.Id)
-                            .FirstOrDefault();
+            var dealerId = this.dealers.GetDealerId(this.User.GetId());
 
             if (dealerId == 0)
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            if (!db.Locations.Any(x => x.Id == car.LocationId))
+            if (!this.cars.LocationExsts(car.LocationId))
             {
                 this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
             }
@@ -144,6 +139,7 @@
         [Authorize]
         public IActionResult Edit(int id)
         { 
+
         }
 
     }
