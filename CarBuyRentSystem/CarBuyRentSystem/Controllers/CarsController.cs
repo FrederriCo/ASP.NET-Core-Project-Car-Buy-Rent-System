@@ -37,8 +37,7 @@
         }
 
         [Authorize]
-        [HttpPost]
-            
+        [HttpPost]            
         public IActionResult Add(AddCarFormModel car)
         {
             var dealerId = this.db
@@ -91,6 +90,17 @@
             return RedirectToAction(nameof(All));
         }
 
+        [Authorize]
+        public IActionResult DealerCar()
+        {
+            var getUserId = User.GetId();
+
+            var delarCars = this.GetCars(this.db
+                            .Cars
+                            .Where(c => c.Dealer.UserId == getUserId));
+
+            return View(delarCars);
+        }
         public IActionResult All([FromQuery] AllCarsViewModel query)
         {
             var carsQuery = this.db.Cars.AsQueryable();
@@ -117,28 +127,11 @@
 
             var totalCars = carsQuery.Count();
 
-            var cars = carsQuery
+            var cars = GetCars(carsQuery
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
-                .Take(AllCarsViewModel.CarPerPage)
-                .Select(c => new CarListingVIewModel
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    Model = c.Model,
-                    Year = c.Year,
-                    Category = c.Category,
-                    Fuel = c.Fuel,
-                    Transmission = c.Transmission,
-                    ImageUrl = c.ImageUrl,
-                    Lugage = c.Lugage,
-                    Doors = c.Doors,
-                    Passager = c.Passager,
-                    Locaton = c.Location.Name,
-                    Price = c.Price,
-                    RentPricePerDay = c.RentPricePerDay
-                })
-                .ToList();
-
+                .Take(AllCarsViewModel.CarPerPage));            
+                       
+          
             var carBrands = this.cars.AllCarBrands();
 
             query.Brands = carBrands;
@@ -149,7 +142,11 @@
 
         }
 
-
+        private IEnumerable<CarListingVIewModel> ByUser(string userId)
+            => this.GetCars(this.db
+                            .Cars
+                            .Where(c => c.Dealer.UserId == userId));
+                   
         private bool UserIsDealer()
             => this.db
                 .Dealers
@@ -163,5 +160,27 @@
                 Name = l.Name
             })
             .ToList();
+
+        private  IEnumerable<CarListingVIewModel> GetCars(IQueryable<Car> carQuery)
+          => carQuery
+            .Select(c => new CarListingVIewModel
+            {
+                Id = c.Id,
+                Brand = c.Brand,
+                Model = c.Model,
+                Year = c.Year,
+                Category = c.Category,
+                Fuel = c.Fuel,
+                Transmission = c.Transmission,
+                ImageUrl = c.ImageUrl,
+                Lugage = c.Lugage,
+                Doors = c.Doors,
+                Passager = c.Passager,
+                Locaton = c.Location.Name,
+                Price = c.Price,
+                RentPricePerDay = c.RentPricePerDay
+            })
+            .ToList();
+
     }
 }

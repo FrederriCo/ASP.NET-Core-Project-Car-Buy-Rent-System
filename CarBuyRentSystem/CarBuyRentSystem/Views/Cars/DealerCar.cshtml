@@ -1,0 +1,11 @@
+﻿@model IEnumerable<CarListingVIewModel>
+@{
+    ViewData["Title"] = "Dealer Car";
+}
+
+@if (!Model.Any())
+{
+    <h2 class="text-centar">No do not any cars yet!</h2>
+}
+
+<partial name="_CarsPartial" model="@Model" />

@@ -1,13 +1,30 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using CarBuyRentSystem.Core.Services.Dealrs
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IDealerService Dealers
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Create">Dealer Entry</a>
-        </li>
+        var userId = User.GetId();
+
+        var userIsDealer = Dealers.IsDealer(userId);
+
+        if (userIsDealer)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="DealerCar">Dealer cars</a>
+            </li>
+        }
+        else
+        {
+
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Create">Dealer Entry</a>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
         </li>
