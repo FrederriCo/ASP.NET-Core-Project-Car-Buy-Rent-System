@@ -43,7 +43,7 @@
                         <a asp-action="Buy" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
                         <a asp-action="Rent" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
                         <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> More</a>
-                        @if (ViewBag.AllowCarEdit == true)
+                        @if (ViewBag.AllowCarEdit == true || User.IsAdmin())
                         {
                             //car.UserId == User.GetId() -- drug nachin na Logvane
                             <a asp-controller="Cars" asp-action="Edit"  asp-route-id="@car.Id" class="btn  btn-warning">Edit</a>

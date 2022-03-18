@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+
 @using CarBuyRentSystem.Core.Services.Dealrs
 
 @inject SignInManager<IdentityUser> SignInManager
@@ -12,13 +13,15 @@
 
         var userIsDealer = Dealers.IsDealer(userId);
 
-        if (userIsDealer)
+        var userIsAdmin = User.IsAdmin();
+
+        if (userIsDealer && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="DealerCar">Dealer cars</a>
             </li>
         }
-        else
+        else if (!userIsAdmin)
         {
 
             <li class="nav-item">

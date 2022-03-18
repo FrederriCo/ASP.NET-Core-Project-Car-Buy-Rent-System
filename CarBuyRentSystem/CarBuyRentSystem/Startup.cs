@@ -1,6 +1,6 @@
 namespace CarBuyRentSystem
 {
-    
+
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Data;
@@ -8,7 +8,6 @@ namespace CarBuyRentSystem
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -74,6 +73,10 @@ namespace CarBuyRentSystem
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
