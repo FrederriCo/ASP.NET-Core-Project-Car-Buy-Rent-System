@@ -1,5 +1,7 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Cars
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Models;
@@ -8,9 +10,13 @@
     public class CarService : ICarService
     {
         private readonly CarDbContext db;
+        private readonly IConfigurationProvider mapper;
 
-        public CarService(CarDbContext db)
-           => this.db = db;
+        public CarService(CarDbContext db, IMapper mapper)
+        {
+            this.db = db;
+            this.mapper = mapper.ConfigurationProvider;
+        }
 
         //public AllCarsViewModel All()
         //{
@@ -115,33 +121,35 @@
         public CarDetailsServiceModel Details(int id)
             => this.db.Cars
                     .Where(c => c.Id == id)
-                    .Select(c => new CarDetailsServiceModel
-                    {
-                        Id = c.Id,
-                        Brand = c.Brand,
-                        Model = c.Model,
-                        Year = c.Year,
-                        Category = c.Category,
-                        Fuel = c.Fuel,
-                        Transmission = c.Transmission,
-                        ImageUrl = c.ImageUrl,
-                        Lugage = c.Lugage,
-                        Doors = c.Doors,
-                        Passager = c.Passager,
-                        Locaton = c.Location.Name,
-                        Price = c.Price,
-                        RentPricePerDay = c.RentPricePerDay,
-                        Description = c.Description,
-                        DealerId = c.DealerId,
-                        DealerName = c.Dealer.Name,
-                        UserId = c.Dealer.UserId
+                    .ProjectTo<CarDetailsServiceModel>(this.mapper) //--With AutoMapper
+                    //.Select(c => new CarDetailsServiceModel
+                    //{
+                    //    Id = c.Id,
+                    //    Brand = c.Brand,
+                    //    Model = c.Model,
+                    //    Year = c.Year,
+                    //    Category = c.Category,
+                    //    Fuel = c.Fuel,
+                    //    Transmission = c.Transmission,
+                    //    ImageUrl = c.ImageUrl,
+                    //    Lugage = c.Lugage,
+                    //    Doors = c.Doors,
+                    //    Passager = c.Passager,
+                    //    LocationId = c.LocationId,
+                    //    Locaton = c.Location.Name,
+                    //    Price = c.Price,
+                    //    RentPricePerDay = c.RentPricePerDay,
+                    //    Description = c.Description,
+                    //    DealerId = c.DealerId,
+                    //    DealerName = c.Dealer.Name,
+                    //    UserId = c.Dealer.UserId
 
-                    })
+                    //}) -- Without AutoMapper
                     .FirstOrDefault();
 
         public void Edit(CreateCarServiceModel car)
         {
-            var carData = this.db.Cars.Find(car.Id);           
+            var carData = this.db.Cars.Find(car.Id);
 
             carData.Brand = car.Brand;
             carData.Model = car.Model;
@@ -156,10 +164,10 @@
             carData.Passager = car.Passager;
             carData.RentPricePerDay = car.RentPricePerDay;
             carData.Price = car.Price;
-            carData.LocationId = car.LocationId;              
-                       
+            carData.LocationId = car.LocationId;
+
             db.SaveChanges();
-           
+
         }
 
         public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
