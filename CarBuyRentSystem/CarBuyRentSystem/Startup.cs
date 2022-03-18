@@ -8,6 +8,7 @@ namespace CarBuyRentSystem
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,7 @@ namespace CarBuyRentSystem
 
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
-               // options.SignIn.RequireConfirmedAccount = true;
+                // options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -39,10 +40,12 @@ namespace CarBuyRentSystem
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<CarDbContext>();
 
-            services.AddControllersWithViews();//(option =>
-            //{
-            //    option.Filters.Add<ValidateAntiForgeryTokenAttribute>();
-            //});
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddControllersWithViews(option =>
+            {
+                option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             services.AddTransient<IDealerService, DealerService>();
             services.AddTransient<ICarService, CarService>();
@@ -76,14 +79,14 @@ namespace CarBuyRentSystem
                 endpoints.MapControllerRoute(
                     name: "Areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
+                // endpoints.MapDefaultAreaRoute(); - route extensions
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 
-            
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
+    using AutoMapper;
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Data;
@@ -16,12 +17,17 @@
         private readonly CarDbContext db;
         private readonly ICarService cars;
         private readonly IDealerService dealers;
+        private readonly IMapper mapper;
 
-        public CarsController(CarDbContext db, ICarService cars, IDealerService dealers)
+        public CarsController(CarDbContext db,
+            ICarService cars,
+            IDealerService dealers,
+            IMapper mapper)
         {
             this.db = db;
             this.cars = cars;
             this.dealers = dealers;
+            this.mapper = mapper;
         }
 
         [Authorize]
@@ -156,24 +162,31 @@
                 return BadRequest();
             }
 
-            return View(new AddCarFormModel
-            {
-                Brand = cars.Brand,
-                Category = cars.Category,
-                Description = cars.Description,
-                Doors = cars.Doors,
-                Fuel = cars.Fuel,
-                ImageUrl = cars.ImageUrl,
-                Lugage = cars.Lugage,
-                Model = cars.Model,
-                Passager = cars.Passager,
-                Price = cars.Price,
-                RentPricePerDay = cars.RentPricePerDay,
-                Transmission = cars.Transmission,
-                Year = cars.Year,
-                LocationId = cars.LocationId,
-                Locations = this.cars.AllCarLocation()
-            });
+            //Add Auto Mapper
+
+            var carForm = this.mapper.Map<AddCarFormModel>(cars);
+            carForm.Locations = this.cars.AllCarLocation(); // For Collection Atuo Mapper
+
+            return View(carForm);
+
+            //return View(new AddCarFormModel
+            //{
+            //    Brand = cars.Brand,
+            //    Category = cars.Category,
+            //    Description = cars.Description,
+            //    Doors = cars.Doors,
+            //    Fuel = cars.Fuel,
+            //    ImageUrl = cars.ImageUrl,
+            //    Lugage = cars.Lugage,
+            //    Model = cars.Model,
+            //    Passager = cars.Passager,
+            //    Price = cars.Price,
+            //    RentPricePerDay = cars.RentPricePerDay,
+            //    Transmission = cars.Transmission,
+            //    Year = cars.Year,
+            //    LocationId = cars.LocationId,
+            //    Locations = this.cars.AllCarLocation()
+            //}); --- without AUTO MAPPER
         }
 
         [HttpPost]
