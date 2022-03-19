@@ -11,6 +11,7 @@
 
         CarDetailsServiceModel Details(int id);
 
+        void ChangeVisability(int carId);
         IEnumerable<CarServiceListingViewModel> AdminGetAllCar();
         bool IsByDealer(int carId, int dealerId);
         int Create(CreateCarServiceModel car);

@@ -97,6 +97,15 @@
                             .Cars
                             .Where(c => c.Dealer.UserId == userId));
 
+        public void ChangeVisability(int carId)
+        {
+            var car = db.Cars.Find(carId);
+
+            car.IsPublic = !car.IsPublic;
+
+            db.SaveChanges();
+        }
+
         public int Create(CreateCarServiceModel car)
         {
             var carAdd = new Car

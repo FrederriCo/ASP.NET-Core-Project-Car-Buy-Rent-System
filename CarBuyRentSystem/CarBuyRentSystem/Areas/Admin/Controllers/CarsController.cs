@@ -15,7 +15,9 @@
 
         public IActionResult ChangeVisability(int id)
         {
-            
+            cars.ChangeVisability(id);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }
