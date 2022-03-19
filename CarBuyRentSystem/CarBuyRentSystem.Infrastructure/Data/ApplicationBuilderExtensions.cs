@@ -18,20 +18,25 @@
         public static IApplicationBuilder PrepareDatabase(this IApplicationBuilder app)
         {
             using var scopedServices = app.ApplicationServices.CreateScope();
-            var serviceProvider = scopedServices.ServiceProvider;
 
-            var data = serviceProvider.GetRequiredService<CarDbContext>();
+            var services = scopedServices.ServiceProvider;         
 
-            data.Database.Migrate();
-
-            SeedLocation(data);
-            SeedAdministrator(data, serviceProvider);
+            MigrateDatabase(services);
+            SeedLocation(services);
+            SeedAdministrator(services);
 
             return app;
         }
 
-        private static void SeedLocation(CarDbContext data)
+        private static void MigrateDatabase(IServiceProvider services)
         {
+            var data = services.GetRequiredService<CarDbContext>();
+
+            data.Database.Migrate();
+        }
+        private static void SeedLocation(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<CarDbContext>();
 
             if (data.Locations.Any())
             {
@@ -53,9 +58,9 @@
             data.SaveChanges();
         }
 
-        private static void SeedAdministrator(CarDbContext db, IServiceProvider services)
+        private static void SeedAdministrator(IServiceProvider services)
         {
-            var userManeger = services.GetRequiredService<UserManager<IdentityUser>>();
+            var userManeger = services.GetRequiredService<UserManager<CarUser>>();
             var roleManeger = services.GetRequiredService<RoleManager<IdentityRole>>();
 
             Task.Run(async () =>
@@ -70,13 +75,20 @@
                 await roleManeger.CreateAsync(role);
 
                 const string adminEmil = "admin@admin.com";
-                const string adminUser = "admin";
-                const string adminPassword = "admin123";
+                const string adminUser = "admin@admin.com";
+                const string adminName = "admin@admin.com";
+                const string adminPassword = "bg123456";
+                const string adminAddress = "Sofia";
+                
 
                 var user = new CarUser
                 {
                     UserName = adminUser,
-                    Email = adminEmil
+                    Name = adminName,
+                    Email = adminEmil,
+                    Address = adminAddress,
+                    Balance = 9999999m
+                    
                 };
 
                 await userManeger.CreateAsync(user, adminPassword);

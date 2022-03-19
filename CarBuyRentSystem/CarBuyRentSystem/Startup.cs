@@ -5,6 +5,7 @@ namespace CarBuyRentSystem
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Infrastructure.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -29,7 +30,7 @@ namespace CarBuyRentSystem
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<CarUser>(options =>
             {
                 // options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireDigit = false;

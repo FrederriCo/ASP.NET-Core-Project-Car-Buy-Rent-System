@@ -1,0 +1,36 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewBag.Title = "Administration Area";
+}
+<h1>All Cars</h1>
+
+<table class="table" >
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Brand</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="col">@item</td>
+                <td scope="col">First</td>
+                <td scope="col">Last</td>
+                <td scope="col">Handle</td>
+                <td scope="col">
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="" class="btn btn-danger float-right ml-3">More</a>
+                    <a asp-controller="Cars" asp-action="Edit" asp-route-id="" class="btn  btn-warning float-right ml-3">Edit</a>
+                    <a asp-controller="Car" asp-action="Delete" asp-route-id="" class="btn  btn-danger float-right ml-3">Delete</a>
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+
+</table>

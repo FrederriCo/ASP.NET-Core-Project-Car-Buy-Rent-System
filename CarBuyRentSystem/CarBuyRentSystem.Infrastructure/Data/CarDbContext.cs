@@ -1,12 +1,11 @@
 ﻿namespace CarBuyRentSystem.Data
 {
     using CarBuyRentSystem.Infrastructure.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
 
-    public class CarDbContext : IdentityDbContext
+    public class CarDbContext : IdentityDbContext<CarUser>
     {
         public CarDbContext(DbContextOptions<CarDbContext> options)
             : base(options)
@@ -19,7 +18,7 @@
             base.OnModelCreating(builder);          
            
             builder.Entity<Dealer>()
-                    .HasOne<IdentityUser>()
+                    .HasOne<CarUser>()
                     .WithOne()
                     .HasForeignKey<Dealer>(x => x.UserId)
                     .OnDelete(DeleteBehavior.Restrict);

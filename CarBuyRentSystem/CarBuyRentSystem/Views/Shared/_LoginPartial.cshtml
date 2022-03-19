@@ -1,9 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using CarBuyRentSystem.Infrastructure.Models
 
-@using CarBuyRentSystem.Core.Services.Dealrs
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<CarUser> SignInManager
+@inject UserManager<CarUser> UserManager
 @inject IDealerService Dealers
 
 <ul class="navbar-nav">
@@ -26,6 +25,12 @@
 
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Create">Dealer Entry</a>
+            </li>
+        }
+        else if (userIsAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Cars" asp-action="All">Administrator</a>
             </li>
         }
         <li class="nav-item">
