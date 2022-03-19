@@ -18,6 +18,13 @@
             this.mapper = mapper.ConfigurationProvider;
         }
 
+        public IEnumerable<CarServiceListingViewModel> AdminGetAllCar()
+         => db.Cars.ProjectTo<CarServiceListingViewModel>(this.mapper).ToList();
+                //.Select(x => new CarDetailsServiceModel
+                //{
+                //    Brand = x.Brand
+                //}).ToList();
+
         //public AllCarsViewModel All()
         //{
         //    var carsQuery = this.db.Cars.AsQueryable();

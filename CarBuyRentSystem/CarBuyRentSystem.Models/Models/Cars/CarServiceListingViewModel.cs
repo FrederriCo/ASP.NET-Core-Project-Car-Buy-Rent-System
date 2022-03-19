@@ -32,5 +32,7 @@
 
         public decimal RentPricePerDay { get; set; }
 
+        public bool IsPublic { get; init; }
+
     }
 }

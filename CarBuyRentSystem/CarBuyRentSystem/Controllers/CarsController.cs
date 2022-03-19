@@ -104,10 +104,15 @@
 
             return View(delarCars);
         }
+
         public IActionResult All([FromQuery] AllCarsViewModel query)
         {
-            var carsQuery = this.db.Cars.AsQueryable();
+           var carsQuery = this.db.Cars.Where(c => c.IsPublic).AsQueryable();
 
+            if (User.IsAdmin())
+            {
+                carsQuery = this.db.Cars.AsQueryable();
+            }
             if (!string.IsNullOrWhiteSpace(query.Brand))
             {
                 carsQuery = carsQuery.Where(c => c.Brand == query.Brand);
@@ -134,13 +139,13 @@
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
                 .Take(AllCarsViewModel.CarPerPage));
 
-
+                
             var carBrands = this.cars.AllCarBrands();
 
             query.Brands = carBrands;
             query.Cars = cars;
             query.TotalCars = totalCars;
-
+            
             return View(query);
 
         }
@@ -150,14 +155,14 @@
         {
             var userId = this.User.GetId();
 
-            if (!this.dealers.IsDealer(userId))
+            if (!this.dealers.IsDealer(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
             var cars = this.cars.Details(id);
 
-            if (cars.UserId != userId)
+            if (cars.UserId != userId && !User.IsAdmin())
             {
                 return BadRequest();
             }
@@ -197,7 +202,7 @@
 
             var dealerId = this.dealers.GetDealerId(userId);
 
-            if (dealerId == 0)
+            if (dealerId == 0 && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
@@ -217,12 +222,12 @@
 
             var carData = this.db.Cars.Find(car.Id);
 
-            if (!this.cars.IsByDealer(car.Id, dealerId))
+            if (!this.cars.IsByDealer(car.Id, dealerId) && !User.IsAdmin())
             {
                 return BadRequest();
             }
 
-            if (carData.DealerId != dealerId)
+            if (carData.DealerId != dealerId && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -241,6 +246,7 @@
             carData.RentPricePerDay = car.RentPricePerDay;
             carData.Price = car.Price;
             carData.LocationId = car.LocationId;
+            carData.IsPublic = this.User.IsAdmin();
 
             this.db.SaveChanges();
 

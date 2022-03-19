@@ -12,6 +12,8 @@
         {
             CreateMap<CarDetailsServiceModel, AddCarFormModel>();
             CreateMap<Car, CarListingVIewModel>();
+            CreateMap<Car, CarServiceListingViewModel>();
+
 
             CreateMap<Car, CarDetailsServiceModel>()
                 .ForMember(c => c.UserId, cfg => cfg.MapFrom(c => c.Dealer.UserId));

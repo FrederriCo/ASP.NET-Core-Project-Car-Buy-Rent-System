@@ -55,6 +55,8 @@
 
         public Location Location { get; init; }
 
+        public bool IsPublic { get; set; }
+
         public ICollection<BuyCar> Owners { get; init; } = new List<BuyCar>();
 
         public ICollection<RentCar> Renters { get; init; } = new List<RentCar>();
