@@ -134,6 +134,19 @@
 
         }
 
+        public void Delete(int id)
+        {
+            var car = db.Cars.FirstOrDefault(c => c.Id == id);
+
+            if (car == null)
+            {
+                return;
+            }
+
+            db.Cars.Remove(car);
+            db.SaveChanges();
+        }
+
         public CarDetailsServiceModel Details(int id)
             => this.db.Cars
                     .Where(c => c.Id == id)
@@ -184,6 +197,13 @@
 
             db.SaveChanges();
 
+        }
+
+        public Car GetCarId(int id)
+        {
+            var car = db.Cars.FirstOrDefault(x => x.Id == id);
+
+            return car;
         }
 
         public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)

@@ -105,6 +105,23 @@
             return View(delarCars);
         }
 
+        
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var car = cars.GetCarId(id);
+           
+
+            if (car == false)
+            {
+                return RedirectToAction("ApplicationError", "Home");
+            }
+
+            cars.Delete(id);
+
+            return this.View(car);
+        }
+
         public IActionResult All([FromQuery] AllCarsViewModel query)
         {
            var carsQuery = this.db.Cars.Where(c => c.IsPublic).AsQueryable();
