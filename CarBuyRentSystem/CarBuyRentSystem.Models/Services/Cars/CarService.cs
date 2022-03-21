@@ -235,5 +235,21 @@
         public bool LocationExsts(int locationId)
          => db.Locations
             .Any(x => x.Id == locationId);
+
+        public TotalUserCar Total()
+        {
+            var cars = db.Cars.Count();
+            var dealer = db.Dealers.Count();
+            var users = db.Users.Count();
+
+            var carsUser = new TotalUserCar
+            {
+                TotalCar = cars,
+                TotalUser = users,
+                TotalDealer = dealer
+            };
+
+            return carsUser;
+        }
     }
 }

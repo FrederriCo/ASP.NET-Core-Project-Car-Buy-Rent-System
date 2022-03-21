@@ -21,6 +21,8 @@
          => this.db
                 .Dealers
                 .Any(d => d.UserId == userId);
-                
+
+        public void TotalUser()
+            => db.Users.Count();
     }
 }

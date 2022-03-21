@@ -75,17 +75,25 @@ body {
 
 .my-stile {
     color:red;
-    padding-right: 5px;
+    padding-right: 8px;
     
 }
 
+.my-add {
+    padding-right: 20px;
+}
+
 .my-button {
-    margin-left: 30px;    
+    margin-left: 12px;
     font-size: 20px;
-    
 }
 
 .list-group-item {
     font-size: 1em;    
+}
+
+.card-all {
+    width: 285px;
+    height: 160px;
 }
 

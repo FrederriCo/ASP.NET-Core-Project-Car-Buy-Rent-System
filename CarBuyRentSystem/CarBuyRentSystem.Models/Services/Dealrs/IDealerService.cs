@@ -2,8 +2,10 @@
 {
     public interface IDealerService
     {
-        public bool IsDealer(string userId);
+         bool IsDealer(string userId);
 
-        public int GetDealerId(string userId);
+         int GetDealerId(string userId);
+
+        void TotalUser();
     }
 }

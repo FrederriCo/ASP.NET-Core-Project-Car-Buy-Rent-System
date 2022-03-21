@@ -24,6 +24,7 @@
 
         void Delete(int id);
 
+         TotalUserCar Total();
         IEnumerable<string> AllCarBrands();
 
         IEnumerable<CarServiceListingViewModel> ByUser(string userId);

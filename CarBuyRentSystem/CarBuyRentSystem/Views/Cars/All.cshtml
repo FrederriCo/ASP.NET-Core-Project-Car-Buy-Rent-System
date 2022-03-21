@@ -44,7 +44,7 @@
 {
     <h2 class="text-centar">No cars Found!</h2>
 }
-<hr />
+
 
 @*<partial name="_CarsPartial" model="@Model.Cars" />*@
 
@@ -53,7 +53,7 @@
     {
         <div class="col-lg-4 mb-3" style="padding-top: 30px;">
             <div class="card" style="width: 18rem">
-                <img class="card-img-top" src=@car.ImageUrl alt="@car.Brand @car.Model - @car.Year (@car.Category)">
+                <img class="card-img-top card-all" src=@car.ImageUrl alt="@car.Brand @car.Model - @car.Year (@car.Category)">
                 <div class="card-body">
                     <h5 class="card-title">@car.Brand @car.Model (@car.Year)</h5>
                     <div class="rent-price">
@@ -98,7 +98,7 @@
     }
 </div>
 
-<hr />
+
 @{
     var previosPage = Model.CurentPage - 1;
 
