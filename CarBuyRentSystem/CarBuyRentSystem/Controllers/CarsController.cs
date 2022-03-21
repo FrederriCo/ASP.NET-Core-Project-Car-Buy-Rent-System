@@ -1,6 +1,7 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
     using AutoMapper;
+    using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Data;
@@ -106,21 +107,21 @@
         }
 
         
-        [Authorize]
-        public IActionResult Delete(int id)
-        {
-            var car = cars.GetCarId(id);
+        //[Authorize]
+        //public IActionResult Delete(int id)
+        //{
+        //    var car = cars.GetCarId(id);
            
 
-            if (car == false)
-            {
-                return RedirectToAction("ApplicationError", "Home");
-            }
+        //    if (car == false)
+        //    {
+        //        return RedirectToAction("ApplicationError", "Home");
+        //    }
 
-            cars.Delete(id);
+        //    cars.Delete(id);
 
-            return this.View(car);
-        }
+        //    return this.View(car);
+        //}
 
         public IActionResult All([FromQuery] AllCarsViewModel query)
         {
@@ -268,6 +269,45 @@
             this.db.SaveChanges();
 
             return RedirectToAction(nameof(DealerCar));
+        }
+
+        [Authorize]
+        
+        public IActionResult Delete(int id)
+        {
+            var getCar = cars.GetCarId(id);
+
+            // var car = mapper.Map<CreateCarServiceModel>(getCar);
+
+            if (getCar == null)
+            {
+                return RedirectToAction("ApplicationError", "Home");
+            }
+
+            cars.Delete(id);
+
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("All", "Cars", new { area = "Admin" });
+            }            
+
+            return RedirectToAction(nameof(DealerCar));
+            
+        }
+
+        public IActionResult Details(int id)
+        {
+            var getCar = cars.GetCarId(id);
+
+            var car = mapper.Map<CarServiceListingViewModel>(getCar);
+
+            if (car == null)
+            {
+                return BadRequest();
+            }
+
+
+            return View(car);
         }
 
     }

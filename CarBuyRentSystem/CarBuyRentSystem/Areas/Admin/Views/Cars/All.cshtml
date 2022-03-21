@@ -31,10 +31,10 @@
                     <td scope="col">@car.RentPricePerDay</td>
                     <td scope="col">@(car.IsPublic ? "Yes" : "No")</td>
                     <td scope="col">                    
-                        <a asp-area="" asp-controller="Cars" asp-action="Details" asp-route-id="" class="btn btn-danger float-right ml-3">More</a>
+                        <a asp-area="" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-danger float-right ml-3">More</a>
                         <a asp-area="Admin" asp-controller="Cars" asp-action="ChangeVisability" asp-route-id="@car.Id" class="@(car.IsPublic ? "btn btn-info" : "btn btn-success") float-right ml-3">@(car.IsPublic ? "Hide" : "Show")</a>
                         <a asp-area="" asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn  btn-warning float-right ml-3">Edit</a>
-                        <a asp-area="" asp-controller="Car" asp-action="Delete" asp-route-id="" class="btn  btn-danger float-right ml-3">Delete</a>
+                        <a asp-area="" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn  btn-danger float-right ml-3">Delete</a>
                     </td>
                 </tr>
             }

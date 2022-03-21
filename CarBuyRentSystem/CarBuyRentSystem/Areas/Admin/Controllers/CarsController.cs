@@ -22,20 +22,7 @@
 
             return RedirectToAction(nameof(All));
         }
-        public IActionResult Delete(int id)
-        {
-            var Getcar = cars.GetCarId(id);
-
-            var car = mapper.Map<EditCarViewModel>(getCar);
-
-            if (car == false)
-            {
-                return RedirectToAction("ApplicationError", "Home");
-            }
-
-            cars.Delete(id);
-
-            return this.View(RedirectToAction(nameof(All));
-        }
+        
+       
     }
 }

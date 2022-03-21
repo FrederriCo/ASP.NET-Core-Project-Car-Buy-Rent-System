@@ -10,6 +10,8 @@
 
         public string Model { get; set; }
 
+        public string Description { get; set; }
+
         public int Year { get; set; }
 
         public Category Category { get; set; }
