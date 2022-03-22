@@ -192,6 +192,7 @@
             var carForm = this.mapper.Map<AddCarFormModel>(cars);
             carForm.Locations = this.cars.AllCarLocation(); // For Collection Atuo Mapper
 
+            
             return View(carForm);
 
             //return View(new AddCarFormModel
@@ -270,6 +271,8 @@
 
             this.db.SaveChanges();
 
+            TempData[GlobalMessageKey] = "Your Car success ediet";
+
             return RedirectToAction(nameof(DealerCar));
         }
 
@@ -291,7 +294,9 @@
             if (User.IsAdmin())
             {
                 return RedirectToAction("All", "Cars", new { area = "Admin" });
-            }            
+            }
+
+            TempData[GlobalMessageKey] = "Your Car success delited";
 
             return RedirectToAction(nameof(DealerCar));
             
