@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
+    using static WebConstants;
     public class CarsController : Controller
     {
         private readonly CarDbContext db;
@@ -94,6 +95,7 @@
             // cars.Create(car);
             // car.DealerId = dealerId;
 
+            TempData[GlobalMessageKey] = "Your Car was saved Success";
 
             return RedirectToAction(nameof(All));
         }

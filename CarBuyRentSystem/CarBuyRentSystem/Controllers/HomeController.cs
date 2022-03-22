@@ -20,7 +20,6 @@
             this.mapper = mapper;
         }
 
-
         public IActionResult Index()
         {
             

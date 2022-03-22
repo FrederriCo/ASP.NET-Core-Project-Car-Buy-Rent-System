@@ -8,6 +8,8 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
+    using static WebConstants;
+
     public class DealersController : Controller
     {
         private readonly CarDbContext db;
@@ -48,6 +50,8 @@
 
             db.Dealers.Add(dealerAdd);
             db.SaveChanges();
+
+            TempData[GlobalMessageKey] = "Thank you becomming a dealer!";
 
             return RedirectToAction("All", "Cars");
         }
