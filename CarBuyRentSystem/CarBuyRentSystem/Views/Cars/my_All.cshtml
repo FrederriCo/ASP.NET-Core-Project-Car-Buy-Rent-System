@@ -1,0 +1,136 @@
+﻿@model AllCarsViewModel
+
+@{
+    ViewData["Title"] = "All Car";
+}
+
+<form method="get">
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="Brand"></label>
+            <select asp-for="Brand" class="form-control">
+                <option value="">All</option>
+                @foreach (var brand in Model.Brands)
+                {
+                    <option value="@brand">@brand</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label asp-for="Search"></label>
+            <input asp-for="Search" class="form-control" placeholder="Search Car etc..." />
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0" selected>Year</option>
+                    <option value="1">Price</option>
+                    <option value="2">Brand And Model</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <input type="submit" class="btn btn-primary d-none" value="Search" />
+        </div>
+
+    </div>
+</form>
+
+@if (!Model.Cars.Any())
+{
+    <h2 class="text-centar">No cars Found!</h2>
+}
+
+
+@*<partial name="_CarsPartial" model="@Model.Cars" />*@
+
+<div class="row">
+    @foreach (var car in Model.Cars)
+    {
+        <div class="col-lg-4 mb-3" style="padding-top: 30px;">
+            <div class="card" style="width: 18rem">
+                <img class="card-img-top card-all" src=@car.ImageUrl alt="@car.Brand @car.Model - @car.Year (@car.Category)">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model (@car.Year)</h5>
+                    <div class="rent-price">
+                        <strong>$@car.RentPricePerDay</strong><span class="mx-1">/</span>day
+                    </div>
+                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Luggage:</span>
+                            <span class="number">@car.Lugage</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Doors:</span>
+                            <span class="number">@car.Doors</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Passenger:</span>
+                            <span class="number">@car.Passager</span>
+                        </div>
+                    </div>
+                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Fuel:</span>
+                            <span class="number">@car.Fuel</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Transmission:</span>
+                            <span class="number">@car.Transmission</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Category:</span>
+                            <span class="number">@car.Category</span>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding-left: 50px;">
+                        <a asp-action="Buy" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
+                        <a asp-action="Rent" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
+                        <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@{
+    var previosPage = Model.CurentPage - 1;
+
+    if (previosPage < 1)
+    {
+        previosPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage);
+}
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary
+           @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurentPage="@previosPage"
+           asp-route-brand="@Model.Brand"
+           asp-route-serch="@Model.Search"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary
+        float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurentPage="@(Model.CurentPage + 1)"
+           asp-route-brand="@Model.Brand"
+           asp-route-serch="@Model.Search"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>
+
+

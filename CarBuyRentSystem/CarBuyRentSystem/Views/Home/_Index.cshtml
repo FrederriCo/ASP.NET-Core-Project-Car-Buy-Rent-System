@@ -1,0 +1,72 @@
+﻿@model List<CarListingVIewModel>
+@{
+    ViewData["Title"] = "Rent and buy Car system ";
+}
+
+@{
+    var firstCar = Model.Any() ? Model[0] : null;
+    var secondCar = Model.Count > 1 ? Model[1] : null;
+    var thirdCar = Model.Count > 2 ? Model[2] : null;
+}
+
+@if (!Model.Any())
+{
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Rent and Buy Car Sysytem</h1>
+            <p class="lead">Search the best car rent and buy</p>
+        </div>
+    </div>
+}
+
+
+<div class="text-center">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="row mb-5">
+                    <div class="col-lg-7 intro">
+                        <h1><strong>Rent and Buy car</strong> is within your finger tips.</h1>
+                    </div>
+                </div>
+                <p>
+                <form class="trip-form">
+
+                    <div class="row align-items-center">
+
+                        <div class="mb-3 mb-md-0 col-md-3">
+                            <select name="" id="" class="custom-select form-control">
+                                @foreach (var car in Model)
+                                {
+                                    <option value="@car.Brand">@car.Brand</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3 mb-md-0 col-md-3">
+                            <div class="form-control-wrap">
+                                <input type="text" id="cf-3" placeholder="Pick up" class="form-control datepicker px-3">
+                                <span class="icon icon-date_range"></span>
+
+                            </div>
+                        </div>
+                        <div class="mb-3 mb-md-0 col-md-3">
+                            <div class="form-control-wrap">
+                                <input type="text" id="cf-4" placeholder="Drop off" class="form-control datepicker px-3">
+                                <span class="icon icon-date_range"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 mb-md-0 col-md-3">
+                            <input type="submit" value="Search Now" class="btn btn-primary btn-block py-3">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
