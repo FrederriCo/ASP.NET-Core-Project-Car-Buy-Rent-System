@@ -2,15 +2,17 @@
 {
     using CarBuyRentSystem.Infrastructure.Models;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IUserService
     {
-       IEnumerable<RentCar> GetAllRentedCars();
+       Task<IEnumerable<RentCar>> GetAllRentedCars();
 
-       IEnumerable<BuyCar> GetAllSoldCars();
+       Task<IEnumerable<BuyCar>> GetAllSoldCars();
 
-       IEnumerable<BuyCar> GetAllBoughtCarsByUser(string username);
+       Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username);
 
-       IEnumerable<RentCar> GetAllRentedCarsByUser(string username);
+       Task<IEnumerable<RentCar>> GetAllRentedCarsByUser(string username);
 
     }
 }

@@ -1,11 +1,12 @@
 ﻿namespace CarBuyRentSystem.Core.Services.UserService
 {
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Collections.Generic;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using Microsoft.EntityFrameworkCore;
-    using System.Linq;
 
     public class UserService : DataService, IUserService
     {
@@ -15,35 +16,35 @@
 
         }
        
-        public IEnumerable<BuyCar> GetAllBoughtCarsByUser(string username)
+        public async Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username)
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<BuyCar> GetAllSoldCars()
+        public async Task<IEnumerable<BuyCar>> GetAllSoldCars()
         {
-            var soldCars = db
+            var soldCars = await db
                     .BuyCars
                     .Include(c => c.Car)
                     .Include(u => u.User)
-                    .ToList();
+                    .ToListAsync();
 
             return soldCars;
                         
         }
 
-        public IEnumerable<RentCar> GetAllRentedCars()
+        public async Task<IEnumerable<RentCar>> GetAllRentedCars()
         {
-            var rentedCars = db
+            var rentedCars =await  db
                     .RentCars
                     .Include(c => c.Car)
                     .Include(u => u.CarUser)
-                    .ToList();
+                    .ToListAsync();
 
             return rentedCars;
         }
 
-        public IEnumerable<RentCar> GetAllRentedCarsByUser(string username)
+        public async Task<IEnumerable<RentCar>> GetAllRentedCarsByUser(string username)
         {
             throw new System.NotImplementedException();
         }
