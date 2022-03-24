@@ -3,6 +3,7 @@ namespace CarBuyRentSystem
 
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
+    using CarBuyRentSystem.Core.Services.UserService;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
@@ -50,6 +51,7 @@ namespace CarBuyRentSystem
 
             services.AddTransient<IDealerService, DealerService>();
             services.AddTransient<ICarService, CarService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

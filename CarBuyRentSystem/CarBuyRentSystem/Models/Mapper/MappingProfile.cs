@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.Users;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
     
@@ -13,6 +14,7 @@
             CreateMap<CarDetailsServiceModel, AddCarFormModel>();
             CreateMap<Car, CarListingVIewModel>();
             CreateMap<Car, CarServiceListingViewModel>();
+            CreateMap<RentCar, RentedCarViewModel>();
 
 
             CreateMap<Car, CarDetailsServiceModel>()
