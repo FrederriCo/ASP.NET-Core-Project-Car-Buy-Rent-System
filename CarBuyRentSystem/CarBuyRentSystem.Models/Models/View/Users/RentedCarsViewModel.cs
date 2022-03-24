@@ -2,7 +2,7 @@
 {
     using System;
     using CarBuyRentSystem.Infrastructure.Models;
-    public class RentedCarViewModel
+    public class RentedCarsViewModel
     {
         public string UserId { get; set; }
 

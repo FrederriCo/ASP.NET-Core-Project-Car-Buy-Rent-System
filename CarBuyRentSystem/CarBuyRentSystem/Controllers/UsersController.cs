@@ -1,11 +1,15 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
-    using AutoMapper;
-    using CarBuyRentSystem.Core.Models.Users;
-    using CarBuyRentSystem.Core.Services.UserService;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+
+    using CarBuyRentSystem.Core.Models.Users;
+    using CarBuyRentSystem.Core.Models.View.Users;
+    using CarBuyRentSystem.Core.Services.UserService;
+   
 
     public class UsersController : Controller
     {
@@ -18,13 +22,32 @@
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> UserRents()
+        [Authorize]
+        public async Task<IActionResult> RentCars()
         {
             var userRentCars = (await this.userService.GetAllRentedCarsByUser(this.User.Identity.Name))
-                                .Select(mapper.Map<RentedCarViewModel>);
+                                .Select(mapper.Map<RentedCarsViewModel>);
 
 
             return View(userRentCars);
+        }
+
+        [Authorize]        
+        public async Task<IActionResult> BuyCars()
+        {
+            var boughtCarsByUser = (await this.userService.GetAllBoughtCarsByUser(this.User.Identity.Name))
+                .Select(mapper.Map<SoldCarsViewModel>);
+
+            return this.View(boughtCarsByUser);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RentedAllCars()
+        {
+            var rentedCars = (await this.userService.GetAllRentedCars())
+                .Select(mapper.Map<RentedCarsViewModel>);
+
+            return this.View(rentedCars);
         }
     }
 }

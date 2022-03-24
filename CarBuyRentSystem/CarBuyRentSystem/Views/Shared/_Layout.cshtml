@@ -37,8 +37,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="All">All Cars</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UserRents">My Rent</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Rents" asp-action="RentCars">My Rent</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="BuyCars">My Cars</a>
+                        </li>
+                        @if (User.IsAdmin())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="SoldCars">Sold Cars</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="SoldCars">Rent Cars</a>
+                            </li>
+                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

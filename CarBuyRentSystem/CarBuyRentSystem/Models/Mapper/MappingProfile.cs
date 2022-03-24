@@ -14,7 +14,7 @@
             CreateMap<CarDetailsServiceModel, AddCarFormModel>();
             CreateMap<Car, CarListingVIewModel>();
             CreateMap<Car, CarServiceListingViewModel>();
-            CreateMap<RentCar, RentedCarViewModel>();
+            CreateMap<RentCar, RentedCarsViewModel>();
 
 
             CreateMap<Car, CarDetailsServiceModel>()
