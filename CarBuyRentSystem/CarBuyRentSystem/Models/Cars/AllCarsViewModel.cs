@@ -6,7 +6,7 @@
     
     public class AllCarsViewModel
     {
-        public const int CarPerPage = 3;
+        public const int CarPerPage = 6;
 
         public string Brand { get; set; }
 

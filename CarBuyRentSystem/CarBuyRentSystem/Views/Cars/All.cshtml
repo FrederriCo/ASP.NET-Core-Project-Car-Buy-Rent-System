@@ -4,41 +4,53 @@
     ViewData["Title"] = "All Car";
 }
 
-@foreach (var cars in Model.Cars)
-{
-    <div class="row">
-        <div class="col-md-6 col-lg-4 mb-4">
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="col-lg-7">
+            <h2 class="section-heading"><strong>Car Listings</strong></h2>
+            <p class="mb-5">Choose the car you want to own or rent.</p>
+        </div>
+        <div class="row">
+            @foreach (var cars in Model.Cars)
+            {
 
-            <div class="listing d-block  align-items-stretch">
-                <div class="listing-img h-100 mr-4">
-                    <img src="@cars.ImageUrl" alt="Image" class="img-fluid">
-                </div>
-                <div class="listing-contents h-100">
-                    <h3>@cars.Brand @cars.Model</h3>
-                    <div class="rent-price">
-                        <strong>$@cars.RentPricePerDay</strong><span class="mx-1">/</span>day
-                    </div>
-                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
-                        <div class="listing-feature pr-4">
-                            <span class="caption">Luggage:</span>
-                            <span class="number">@cars.Lugage</span>
+                <div class="col-md-6 col-lg-4 mb-4">
+
+                    <div class="listing d-block  align-items-stretch">
+                        <div class="listing-img h-100 mr-4">
+                            <img src="@cars.ImageUrl" class="img-fluid" alt="Image">
                         </div>
-                        <div class="listing-feature pr-4">
-                            <span class="caption">Doors:</span>
-                            <span class="number">@cars.Doors</span>
+                        <div class="listing-contents h-100">
+                            <h3>@cars.Brand @cars.Model</h3>
+                            <div class="rent-price">
+                                <strong>$@cars.RentPricePerDay</strong><span class="mx-1">/</span>day
+                            </div>
+                            <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                                <div class="listing-feature pr-4">
+                                    <span class="caption">Luggage:</span>
+                                    <span class="number">@cars.Lugage</span>
+                                </div>
+                                <div class="listing-feature pr-4">
+                                    <span class="caption">Doors:</span>
+                                    <span class="number">@cars.Doors</span>
+                                </div>
+                                <div class="listing-feature pr-4">
+                                    <span class="caption">Passenger:</span>
+                                    <span class="number">@cars.Passager</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos eos at eum, voluptatem quibusdam.</p>
+                                <p class="d-inline"><a asp-action="Rent" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Rent Now</a></p>
+                                <p class="d-inline"><a asp-action="Rent" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Buy Now</a></p>
+                                <p class="d-inline"><a asp-action="Details" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Details</a></p>
+                            </div>
                         </div>
-                        <div class="listing-feature pr-4">
-                            <span class="caption">Passenger:</span>
-                            <span class="number">@cars.Passager</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos eos at eum, voluptatem quibusdam.</p>
-                        <p><a href="#" class="btn btn-primary btn-sm">Rent Now</a></p>
+
                     </div>
                 </div>
 
-            </div>
+            }
         </div>
     </div>
-}
+</div>
