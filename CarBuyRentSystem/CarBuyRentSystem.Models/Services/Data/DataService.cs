@@ -1,5 +1,6 @@
-﻿namespace CarBuyRentSystem.Core.Services.DataService
+﻿namespace CarBuyRentSystem.Core.Services.Data
 {
+
     using CarBuyRentSystem.Data;
     public class DataService
     {
