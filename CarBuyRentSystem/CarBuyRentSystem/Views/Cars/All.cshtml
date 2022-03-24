@@ -4,12 +4,55 @@
     ViewData["Title"] = "All Car";
 }
 
+<form method="get">
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="Brand"></label>
+            <select asp-for="Brand" class="form-control">
+                <option value="">All</option>
+                @foreach (var brand in Model.Brands)
+                {
+                    <option value="@brand">@brand</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label asp-for="Search"></label>
+            <input asp-for="Search" class="form-control" placeholder="Search Car etc..." />
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0" selected>Year</option>
+                    <option value="1">Price</option>
+                    <option value="2">Brand And Model</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <input type="submit" class="btn btn-primary d-none" value="Search" />
+        </div>
+
+    </div>
+</form>
+
+@if (!Model.Cars.Any())
+{
+    <h2 class="text-centar">No cars Found!</h2>
+}
+
 <div class="site-section bg-light">
     <div class="container">
         <div class="col-lg-7">
             <h2 class="section-heading"><strong>Car Listings</strong></h2>
             <p class="mb-5">Choose the car you want to own or rent.</p>
         </div>
+
+
         <div class="row">
             @foreach (var cars in Model.Cars)
             {
@@ -18,7 +61,7 @@
 
                     <div class="listing d-block  align-items-stretch">
                         <div class="listing-img h-100 mr-4">
-                            <img src="@cars.ImageUrl" class="img-fluid" alt="Image">
+                            <img src="@cars.ImageUrl" class="img-fluid  " alt="Image">
                         </div>
                         <div class="listing-contents h-100">
                             <h3>@cars.Brand @cars.Model</h3>
@@ -40,7 +83,7 @@
                                 </div>
                             </div>
                             <div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos eos at eum, voluptatem quibusdam.</p>
+                                <p>@cars.Description</p>
                                 <p class="d-inline"><a asp-action="Rent" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Rent Now</a></p>
                                 <p class="d-inline"><a asp-action="Rent" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Buy Now</a></p>
                                 <p class="d-inline"><a asp-action="Details" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Details</a></p>
