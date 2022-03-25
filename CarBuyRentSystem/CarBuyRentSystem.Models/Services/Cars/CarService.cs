@@ -3,8 +3,10 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Models.Cars;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -254,6 +256,18 @@
                RentPricePerDay = c.RentPricePerDay
            })
            .ToList();
+
+        public async Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar()
+        {
+            var cars = await db
+              .Cars
+              .OrderByDescending(c => c.Id)
+              .ProjectTo<CarListingVIewModel>(this.mapper)
+              .Take(3)
+              .ToListAsync();
+
+            return cars;
+        }
 
         public bool IsByDealer(int carId, int dealerId)
             => this.db

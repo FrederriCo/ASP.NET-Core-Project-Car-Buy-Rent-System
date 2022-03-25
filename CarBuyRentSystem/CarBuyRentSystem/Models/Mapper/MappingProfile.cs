@@ -14,14 +14,14 @@
         public MappingProfile()
         {
             CreateMap<CarDetailsServiceModel, AddCarFormModel>();
-            CreateMap<Car, CarListingVIewModel>();
-            CreateMap<Car, CarServiceListingViewModel>();
+            CreateMap<Car, Car>();
+            CreateMap<Infrastructure.Models.Car, CarServiceListingViewModel>();
             CreateMap<RentCar, RentedCarsViewModel>();
             CreateMap<BuyCar, BuyCarBindingModel>().ReverseMap();
             CreateMap<BuyCar, SoldCarsViewModel>();
             CreateMap<RentCarBindingModel, RentCar > ();
-           
-            CreateMap<Car, CarDetailsServiceModel>()
+
+            CreateMap<Infrastructure.Models.Car, CarDetailsServiceModel>()
                 .ForMember(c => c.UserId, cfg => cfg.MapFrom(c => c.Dealer.UserId));
         }
     }

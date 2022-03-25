@@ -1,7 +1,6 @@
-﻿using CarBuyRentSystem.Infrastructure.Models.Enums;
-
-namespace CarBuyRentSystem.Models.Cars
+﻿namespace CarBuyRentSystem.Core.Models.View.Cars
 {
+    using CarBuyRentSystem.Infrastructure.Models.Enums;
     public class CarListingVIewModel
     {
         public int Id { get; set; }

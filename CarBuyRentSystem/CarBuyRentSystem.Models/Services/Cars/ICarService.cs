@@ -1,7 +1,8 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Cars
 {
     using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Infrastructure.Models;    
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,6 +16,8 @@
         Task<bool> Rent(RentCar rentCar, string username);
 
         CarDetailsServiceModel Details(int id);
+
+        Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar();
 
         void ChangeVisability(int carId);
 

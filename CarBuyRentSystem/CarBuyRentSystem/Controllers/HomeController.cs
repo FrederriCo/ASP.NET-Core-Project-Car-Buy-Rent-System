@@ -1,55 +1,27 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using CarBuyRentSystem.Data;
-    using CarBuyRentSystem.Models;
-    using CarBuyRentSystem.Models.Cars;
-    using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+    using CarBuyRentSystem.Models;
+
+    using CarBuyRentSystem.Core.Services.Cars;
 
     public class HomeController : Controller
     {
-        private readonly CarDbContext db;
-        private IMapper mapper;
+        private readonly ICarService carService;        
 
-        public HomeController(CarDbContext db, IMapper mapper)
+        public HomeController(ICarService carService)
         {
-            this.db = db;
-            this.mapper = mapper;
+           this.carService = carService;
         }
 
         public IActionResult Index()
         {
-            
-            var cars = db
-               .Cars
-               .OrderByDescending(c => c.Id)
-               .ProjectTo<CarListingVIewModel>(this.mapper.ConfigurationProvider) // Add AutoMapper
-               //.Select(c => new CarListingVIewModel
-               //{
-               //    Id = c.Id,
-               //    Brand = c.Brand,
-               //    Model = c.Model,
-               //    Year = c.Year,
-               //    Category = c.Category,
-               //    Fuel = c.Fuel,
-               //    Transmission = c.Transmission,
-               //    ImageUrl = c.ImageUrl,
-               //    Lugage = c.Lugage,
-               //    Doors = c.Doors,
-               //    Passager = c.Passager,
-               //    Locaton = c.Location.Name,
-               //    Price = c.Price,
-               //    RentPricePerDay = c.RentPricePerDay
-               //}) -- WithOut AutoMapper
-               .Take(3)
-               .ToList();
+            var cars = carService.GetLastThreeCar();
 
             return View(cars);
-
         }
+
         public IActionResult ApplicationError()
         {
             return View();
