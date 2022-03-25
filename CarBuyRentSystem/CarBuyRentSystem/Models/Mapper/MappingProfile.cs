@@ -3,13 +3,11 @@
     using AutoMapper;
 
     using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Core.Models.Users;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
-    using CarBuyRentSystem.Core.Models.View.Users;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
-    
+
 
     public class MappingProfile : Profile
     {

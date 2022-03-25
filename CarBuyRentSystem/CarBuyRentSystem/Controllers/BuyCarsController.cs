@@ -1,20 +1,19 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
-    using System.Linq;
     using AutoMapper;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-
-    using CarBuyRentSystem.Core.Models.View.Users;
-    using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
-    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Core.Models.View.RentCars;
+    using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Core.Services.UserService;
     using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Infrastructure.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    using static WebConstants;   
+    using static WebConstants;
 
     public class BuyCarsController : Controller
     {
@@ -59,7 +58,7 @@
                 return RedirectToAction("ApplicationError", "Home");
             }
             
-            return RedirectToAction("BuyCars", "MyBuyCars");
+            return RedirectToAction("MyBuyCars", "BuyCars");
         }
 
 

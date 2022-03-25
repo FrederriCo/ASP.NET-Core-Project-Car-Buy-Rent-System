@@ -3,10 +3,11 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Infrastructure.Models;
-    using Microsoft.EntityFrameworkCore;
 
     public class UserService : DataService, IUserService
     {
@@ -15,8 +16,7 @@
         {
 
         }
-       
-       public async Task<IEnumerable<BuyCar>> GetAllSoldCars()
+        public async Task<IEnumerable<BuyCar>> GetAllSoldCars()
         {
             var soldCars = await this.db
                     .BuyCars
@@ -25,9 +25,8 @@
                     .ToListAsync();
 
             return soldCars;
-                        
-        }
 
+        }
         public async Task<IEnumerable<RentCar>> GetAllRentedCars()
         {
             var rentedCars = await this.db
@@ -38,9 +37,8 @@
 
             return rentedCars;
         }
-
         public async Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username)
-        {            
+        {
             var allBoughtCars = await this.db
                     .BuyCars
                     .Include(c => c.Car)
@@ -60,6 +58,5 @@
             return allRentetCars;
         }
 
-       
     }
 }

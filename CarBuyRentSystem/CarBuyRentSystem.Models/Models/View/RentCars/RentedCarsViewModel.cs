@@ -1,6 +1,7 @@
-﻿namespace CarBuyRentSystem.Core.Models.Users
+﻿namespace CarBuyRentSystem.Core.Models.View.RentCars
 {
     using System;
+
     using CarBuyRentSystem.Infrastructure.Models;
     public class RentedCarsViewModel
     {

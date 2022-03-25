@@ -1,8 +1,9 @@
 ﻿namespace CarBuyRentSystem.Core.Services.UserService
 {
-    using CarBuyRentSystem.Infrastructure.Models;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
+
+    using CarBuyRentSystem.Infrastructure.Models;
 
     public interface IUserService
     {

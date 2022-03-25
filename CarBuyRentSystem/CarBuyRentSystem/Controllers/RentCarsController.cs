@@ -2,19 +2,18 @@
 {
     using AutoMapper;
     using System.Linq;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
-    using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Core.Models.View.RentCars;
-    using CarBuyRentSystem.Infrastructure.Models;
-    using CarBuyRentSystem.Infrastructure.Data;
-    using CarBuyRentSystem.Core.Services.Cars;
-    using CarBuyRentSystem.Core.Models.Users;
     using CarBuyRentSystem.Core.Models.Cars;
-
-    using static WebConstants;
+    using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Core.Models.View.RentCars;
+    using CarBuyRentSystem.Core.Services.UserService;
+    
+    
 
     public class RentCarsController : Controller
     {
@@ -73,17 +72,7 @@
             }
            
             return RedirectToAction("MyRentCars", "RentCars");
-        }
-
-        [Authorize]
-        [Authorize(Roles = AdministratorRoleName)]
-        public async Task<IActionResult> RentedAllCars()
-        {
-            var rentedCars = (await this.userService.GetAllRentedCars())
-                .Select(mapper.Map<RentedCarsViewModel>);
-
-            return this.View(rentedCars);
-        }
+        }        
 
     }
 }
