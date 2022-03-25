@@ -7,8 +7,7 @@
     public class RentCar
     {
         public int RentCarId { get; set; }
-
-        [Required]
+     
         public string UserId { get; set; }
 
         public CarUser CarUser { get; set; }

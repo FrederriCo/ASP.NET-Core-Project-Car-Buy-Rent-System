@@ -40,11 +40,11 @@
         }
 
         public async Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username)
-        {
+        {            
             var allBoughtCars = await this.db
                     .BuyCars
                     .Include(c => c.Car)
-                    .Where(u => u.User.Name == username)
+                    .Where(u => u.User.Id == username)
                     .ToListAsync();
 
             return allBoughtCars;
@@ -54,7 +54,7 @@
             var allRentetCars = await this.db
                     .RentCars
                     .Include(c => c.Car)
-                    .Where(u => u.CarUser.Name == username)
+                    .Where(u => u.CarUser.Id == username)
                     .ToListAsync();
 
             return allRentetCars;

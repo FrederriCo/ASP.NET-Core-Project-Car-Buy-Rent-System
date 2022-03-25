@@ -1,8 +1,12 @@
 ﻿namespace CarBuyRentSystem.Core.Mapper
 {
     using AutoMapper;
+
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.Users;
+    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.RentCars;
+    using CarBuyRentSystem.Core.Models.View.Users;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
     
@@ -15,8 +19,10 @@
             CreateMap<Car, CarListingVIewModel>();
             CreateMap<Car, CarServiceListingViewModel>();
             CreateMap<RentCar, RentedCarsViewModel>();
-
-
+            CreateMap<BuyCar, BuyCarBindingModel>().ReverseMap();
+            CreateMap<BuyCar, SoldCarsViewModel>();
+            CreateMap<RentCarBindingModel, RentCar > ();
+           
             CreateMap<Car, CarDetailsServiceModel>()
                 .ForMember(c => c.UserId, cfg => cfg.MapFrom(c => c.Dealer.UserId));
         }

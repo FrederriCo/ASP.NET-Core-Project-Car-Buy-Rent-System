@@ -4,10 +4,15 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public interface ICarService
     {
         // CarsViewModel All();
+
+        Task<bool> Buy(BuyCar buyCar, string username);
+
+        Task<bool> Rent(RentCar rentCar, string username);
 
         CarDetailsServiceModel Details(int id);
 

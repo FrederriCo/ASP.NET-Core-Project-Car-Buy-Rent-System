@@ -5,8 +5,12 @@
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Models;
+    using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
+
     public class CarService : ICarService
     {
         private readonly CarDbContext db;
@@ -91,6 +95,30 @@
                 Name = l.Name
             })
             .ToList();
+
+        public async Task<bool> Buy(BuyCar buyCar, string username)
+        {
+            var user = await this.db.Users.SingleOrDefaultAsync(u => u.UserName == username);
+
+            var car = await this.db.Cars.SingleOrDefaultAsync(c => c.Id == buyCar.CarId);
+
+            if (user == null || car == null /*|| user.Balance < car.Price*/ )
+            {
+                return false;
+            }
+
+            buyCar.User = user;
+            buyCar.BoughtOn = DateTime.Now;
+            buyCar.Price = car.Price;
+
+            //user.Balance -= car.Price;
+
+            this.db.BuyCars.Add(buyCar);
+
+            await this.db.SaveChangesAsync();
+
+            return true;
+        }
 
         public IEnumerable<CarServiceListingViewModel> ByUser(string userId)
             => this.GetCars(this.db
@@ -236,6 +264,38 @@
          => db.Locations
             .Any(x => x.Id == locationId);
 
+        public async Task<bool> Rent(RentCar rentCar, string username)
+        {
+            var user = await this.db.Users.SingleOrDefaultAsync(u => u.UserName == username);
+
+            var car = await this.db.Cars.SingleOrDefaultAsync(c => c.Id == rentCar.CarId);
+
+            if (user == null || car == null)
+            {
+                return false;
+            }
+
+            rentCar.StartDate = DateTime.Now;
+            rentCar.CarUser  = user;
+
+            var totalDays = (rentCar.EndDate - rentCar.StartDate).Days + 1;
+
+            rentCar.TotalPrice = totalDays * car.RentPricePerDay;
+
+            //user.Balance -= rentCar.TotalPrice;
+
+            //if (user.Balance < rentCar.TotalPrice)
+            //{
+            //    return false;
+            //}
+
+            this.db.RentCars.Add(rentCar);
+
+            await this.db.SaveChangesAsync();
+
+            return true;
+        }
+
         public TotalUserCar Total()
         {
             var cars = db.Cars.Count();
@@ -251,5 +311,7 @@
 
             return carsUser;
         }
+
+       
     }
 }

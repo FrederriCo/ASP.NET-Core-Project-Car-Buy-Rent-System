@@ -29,6 +29,7 @@
         public int Passager { get; set; }
 
         public int LocationId { get; set; }
+
         public string Locaton { get; set; }
 
         public decimal Price { get; set; }
