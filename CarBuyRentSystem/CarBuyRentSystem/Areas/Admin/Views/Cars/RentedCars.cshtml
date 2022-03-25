@@ -9,31 +9,33 @@
 <h5 class="text-center" style="padding-top:50px;"><i class="fas fa-car" style="color:darkorange;"></i> @Model.Count() rented</h5>
 <br />
 
-<table class="table table-borderless">
-    <thead>
-        <tr>
-            <th>User</th>
-            <th>Car</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var car in Model)
-        {
-            totalIncome += car.TotalPrice;
+<div style="background-color:white">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Car</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                totalIncome += car.TotalPrice;
 
-<tr>
-    <td>@car.CarUser</td>
-    <td>@car.Car.Brand @car.Car.Model</td>
-    <td>@car.StartDate.Date.ToShortDateString()</td>
-    <td>@car.EndDate.Date.ToShortDateString()</td>
-    <td>@car.TotalPrice</td>
-</tr>
-}
+                  <tr>
+                     <td scope="col">@car.CarUser</td>
+                     <td scope="col">@car.Car.Brand @car.Car.Model</td>
+                     <td scope="col">@car.StartDate.Date.ToShortDateString()</td>
+                     <td scope="col">@car.EndDate.Date.ToShortDateString()</td>
+                     <td scope="col">@car.TotalPrice</td>
+                   </tr>
+              }
 
-    </tbody>
-</table>
-<h5 class="text-center"><i class="fas fa-money-bill-alt" style="color:darkorange;"></i> @totalIncome$ earned</h5>
-<hr class="w-50" />
+        </tbody>
+    </table>
+    <h5 class="text-center"><i class="fas fa-money-bill-alt" style="color:darkorange;"></i> @totalIncome$ earned</h5>
+    <hr class="w-50" />
+</div>

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,36 +22,31 @@
     <link rel="stylesheet" href="~/css/siteAdmin.css" />
 </head>
 <body>
-
     <nav class="navbar-primary">
         <ul class="navbar-primary-menu">
             <li>
                 <a href="\" class="brand-link">
-                    <img src="~/img/AdminLTELogo.png" alt="AdminLTE Logo" width="25" height="25" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="~/images/AdminLogo.png" alt="Admin Logo" width="25" height="25" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">Administration</span>
                 </a>
             </li>
             <li>
-                <a asp-action="Index" asp-controller="Home" title="Home"><i class="fas fa-home"></i><span class="nav-label">Home</span></a>
-                <a asp-area="Admin" asp-action="All" asp-controller="Cars"><i class="fas fa-edit"></i><span class="nav-label">All Cars</span></a>
-                <a asp-action="All" asp-controller="Car"><i class="fas fa-edit"></i><span class="nav-label">Edit</span></a>
-                <a asp-action="All" asp-controller="Car"><i class="fas fa-trash"></i><span class="nav-label">Delete</span></a>
+                <a asp-area="Admin" asp-action="Index" asp-controller="Cars"><i class="fas fa-home"></i><span class="nav-label">Home</span></a>
+                <a asp-area="Admin" asp-action="All" asp-controller="Cars"><i class="fas fa-car-alt"></i><span class="nav-label">All Cars</span></a>
+                <a asp-area="Admin" asp-action="Edit" asp-controller="Cars"><i class="fas fa-edit"></i><span class="nav-label">Edit</span></a>
+                <a asp-area="Admin" asp-action="Delete" asp-controller="Cars"><i class="fas fa-trash"></i><span class="nav-label">Delete</span></a>
                 <a asp-area="Admin" asp-action="SoldCars" asp-controller="Cars"><i class="fas fa-chart-line"></i><span class="nav-label">Sold Cars</span></a>
                 <a asp-area="Admin" asp-action="RentedCars" asp-controller="Cars"><i class="fas fa-hand-holding-usd"></i><span class="nav-label">Rented Cars</span></a>
-                <a asp-action="All" asp-controller="Car"><i class="fas fa-shopping-cart"></i><span class="nav-label">Buy</span></a>
-                <a asp-action="All" asp-controller="Car"><i class="fas fa-money-check-alt"></i><span class="nav-label">Rent</span></a>
+                <a asp-action="All" asp-controller="Cars"><i class="fas fa-shopping-cart"></i><span class="nav-label">Buy</span></a>
+                <a asp-action="All" asp-controller="Cars"><i class="fas fa-money-check-alt"></i><span class="nav-label">Rent</span></a>
             <li>
                 <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <a href="#" onclick="document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt"></i><span class="nav-label">Logout</span></a>
                 </form>
-            </li>
-            @*<partial name="_LoginPartialAdmin" />*@
-            </li>
+            </li>           
         </ul>
-
     </nav>
-    <div class="main-content">
-        @*<partial name="_CookieConsentPartial" />*@
+    <div class="main-content">      
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

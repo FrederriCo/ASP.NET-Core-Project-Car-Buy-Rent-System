@@ -7,14 +7,13 @@
 
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Core.Models.View.RentCars;
-   
+    using CarBuyRentSystem.Core.Models.View.RentCars;   
 
     public class CarsController : AdminController
     {
         private readonly ICarService cars;
         private readonly IUserService userService;
-        private readonly IMapper mapper;        
+        private readonly IMapper mapper;      
 
         public CarsController(ICarService cars
                               ,IUserService userService
@@ -33,6 +32,10 @@
         }
 
         public IActionResult All() => View(this.cars.AdminGetAllCar());
+
+        public IActionResult Edit() => View(this.cars.AdminGetAllCar());
+
+        public IActionResult Delete() => View(this.cars.AdminGetAllCar());
 
         public IActionResult ChangeVisability(int id)
         {
@@ -56,7 +59,6 @@
 
             return this.View(soldCars);
         }
-
 
     }
 }
