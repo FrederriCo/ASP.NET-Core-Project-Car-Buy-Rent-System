@@ -7,7 +7,7 @@
     {
         public string UserId { get; set; }
 
-        public string User { get; set; }
+        public string CarUser { get; set; }
 
         public int CarId { get; set; }
 

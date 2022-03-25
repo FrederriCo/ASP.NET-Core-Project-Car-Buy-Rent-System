@@ -44,12 +44,15 @@
                         </li>
                         @if (User.IsAdmin())
                         {
-                    <li class="nav-item">
-                                                                          
-                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Cars" asp-action="SoldCars">Sold Cars</a>
-                    </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Cars" asp-action="SoldCars">Sold Cars</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Cars" asp-action="RentedCars">Rented Cars</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Cars" asp-action="All">All</a>
                             </li>
                         }
 

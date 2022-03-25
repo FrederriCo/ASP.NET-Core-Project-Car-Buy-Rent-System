@@ -1,0 +1,32 @@
+@using Microsoft.AspNetCore.Identity
+
+
+@inject SignInManager<CarBuyRentSystem.Infrastructure.Models.CarUser> SignInManager
+@inject UserManager<CarBuyRentSystem.Infrastructure.Models.CarUser> UserManager
+@inject IDealerService Dealers
+
+<ul class="navbar-primary-menu">
+
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-user"></i><span class="nav-label">Profile</span></a>
+    </li>
+    <li>
+        <a asp-action="AddFunds" asp-controller="User"><i class="fas fa-credit-card"></i><span class="nav-label">Add Funds</span></a>
+    </li>
+    <li>
+        <a asp-action="MyCars" asp-controller="User"><i class="fas fa-car"></i><span class="nav-label">My Cars</span></a>
+        <a asp-action="MyRents" asp-controller="User"><i class="fas fa-paper-plane"></i><span class="nav-label">My Rents</span></a>
+    </li>
+    <li>
+        <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <a href="#" onclick="document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt"></i><span class="nav-label">Logout</span></a>
+        </form>
+    </li>
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-user-plus"></i><span class="nav-label">Register</span></a>
+    </li>
+    <li>
+        <a asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-sign-in-alt"></i><span class="nav-label">Login</span></a>
+    </li>
+    }
+</ul>
