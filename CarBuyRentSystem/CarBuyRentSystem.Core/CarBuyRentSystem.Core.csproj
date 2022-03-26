@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Constants\" />
-    <Folder Include="Models\Service\Users\" />
+    <Folder Include="Models\View\Users\" />
   </ItemGroup>
 
   <ItemGroup>

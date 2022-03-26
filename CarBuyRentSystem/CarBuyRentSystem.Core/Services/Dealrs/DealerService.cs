@@ -18,11 +18,11 @@
                    .FirstOrDefault();
 
         public bool IsDealer(string userId)
-         => this.db
+            => this.db
                 .Dealers
                 .Any(d => d.UserId == userId);
 
         public void TotalUser()
-            => db.Users.Count();
+           => db.Users.Count();
     }
 }

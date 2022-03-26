@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CarBuyRentSystem.Core.Services.Cars
+﻿namespace CarBuyRentSystem.Core.Services.Cars
 {
     //public class CarsViewModel
     //{

@@ -1,15 +1,12 @@
-﻿using CarBuyRentSystem.Infrastructure.Data;
-
-namespace CarBuyRentSystem.Core.Models.View.RentCars
+﻿namespace CarBuyRentSystem.Core.Models.View.RentCars
 {
     using System;
 
     using CarBuyRentSystem.Infrastructure.Models;
-    using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations;    
     
 
-    using static WebConstants;
+    using static Infrastructure.Data.WebConstants;
 
     public class RentCarBindingModel
     {

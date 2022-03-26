@@ -1,0 +1,41 @@
+﻿@model IEnumerable<UserServiceViewListingModel>
+@{
+    ViewBag.Title = "Administration Area";
+}
+
+<h1 class="display-4 text-center"><i class="fas fa-users" style="color: darkorange"></i> All Users</h1>
+
+<h5 class="text-center" style="padding-top:50px;"><i class="fas fa-users" style="color:darkorange;"></i> @Model.Count() users</h5>
+<br />
+
+<div style="background-color:white">
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Adress</th>
+                <th scope="col">Balance</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td scope="col">@car.UserName</td>
+                    <td scope="col">@car.Email</td>
+                    <td scope="col">@car.Address</td>
+                    <td scope="col">@car.Balance</td>
+                    <td scope="col">
+                        <div class="btn-group" role="group" aria-label="All">
+                            <a asp-area="" asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn  btn-warning">Edit</a>
+                            <a asp-area="" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn  btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+    </table>
+</div>

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CarServiceListingViewModel>
+
+@{
+    ViewData["Title"] = "All Car";
+}
+  
+
+@if (!Model.Any())
+{
+    <h2 class="text-centar">No cars Found!</h2>
+}
+
+
+
+<div class="row">
+    @foreach (var car in Model)
+    {
+        <div class="col-lg-4 mb-3" style="padding-top: 30px;">
+            <div class="card" style="width: 18rem">
+                <img class="card-img-top card-all" src=@car.ImageUrl alt="@car.Brand @car.Model - @car.Year (@car.Category)">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model (@car.Year)</h5>
+                    <div class="rent-price">
+                        <strong>$@car.RentPricePerDay</strong><span class="mx-1">/</span>day
+                    </div>
+                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Luggage:</span>
+                            <span class="number">@car.Lugage</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Doors:</span>
+                            <span class="number">@car.Doors</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Passenger:</span>
+                            <span class="number">@car.Passager</span>
+                        </div>
+                    </div>
+                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Fuel:</span>
+                            <span class="number">@car.Fuel</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Transmission:</span>
+                            <span class="number">@car.Transmission</span>
+                        </div>
+                        <div class="listing-feature pr-4">
+                            <span class="caption">Category:</span>
+                            <span class="number">@car.Category</span>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding-left: 15px;">
+                        <a asp-action="Buy" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Buy</a>
+                        <a asp-action="Rent" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-primary btn-sm"> Rent</a>
+                        <a asp-area="" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger btn-sm"> Delete</a>
+                        <a asp-action="EditCar" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-warning btn-sm"> Edit</a>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@*@{
+    var previosPage = Model.CurentPage - 1;
+
+    if (previosPage < 1)
+    {
+        previosPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage);
+}
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary
+           @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurentPage="@previosPage"
+           asp-route-brand="@Model.Brand"
+           asp-route-serch="@Model.Search"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary
+        float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurentPage="@(Model.CurentPage + 1)"
+           asp-route-brand="@Model.Brand"
+           asp-route-serch="@Model.Search"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>*@
+
+

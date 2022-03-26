@@ -5,10 +5,11 @@
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
 
-    
+
     using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Core.Models.Cars;
 
     public class UserService : DataService, IUserService
     {
@@ -59,5 +60,21 @@
             return allRentetCars;
         }
 
+        public async Task<IEnumerable<UserServiceViewListingModel>> GetAllUser()
+            => await db.CarUsers
+            .Select(x => new UserServiceViewListingModel
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                Email = x.Email,
+                Address = x.Address,
+                Balance = x.Balance
+            })
+            .ToListAsync();
+
+        public Task<IEnumerable<Dealer>> GetAllDealer()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

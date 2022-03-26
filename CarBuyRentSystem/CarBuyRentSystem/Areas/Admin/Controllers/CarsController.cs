@@ -35,7 +35,11 @@
 
         public IActionResult Edit() => View(this.cars.AdminGetAllCar());
 
+        public IActionResult EditCar() => View(this.cars.AdminGetAllCar());
+
         public IActionResult Delete() => View(this.cars.AdminGetAllCar());
+
+        public IActionResult AllCars() => View(this.cars.AdminGetAllCar());       
 
         public IActionResult ChangeVisability(int id)
         {

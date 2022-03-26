@@ -3,6 +3,7 @@
     using System;
 
     using CarBuyRentSystem.Infrastructure.Models;
+
     public class RentedCarsViewModel
     {
         public string UserId { get; set; }

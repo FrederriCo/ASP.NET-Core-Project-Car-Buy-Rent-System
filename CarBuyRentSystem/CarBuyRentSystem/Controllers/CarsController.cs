@@ -2,12 +2,13 @@
 {
     using AutoMapper;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
-    using CarBuyRentSystem.Models.Cars.Enums;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;

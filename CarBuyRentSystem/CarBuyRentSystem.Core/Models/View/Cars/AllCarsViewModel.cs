@@ -1,7 +1,7 @@
-﻿namespace CarBuyRentSystem.Models.Cars
+﻿namespace CarBuyRentSystem.Core.Models.View.Cars
 {
     using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Models.Cars.Enums;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
     using System.Collections.Generic;
     
     public class AllCarsViewModel

@@ -1,4 +1,4 @@
-﻿namespace CarBuyRentSystem.Models.Cars.Enums
+﻿namespace CarBuyRentSystem.Core.Models.View.Cars.Enums
 {
     public enum CarSorting
     {
