@@ -5,9 +5,10 @@
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
 
-    using CarBuyRentSystem.Data;
+    
     using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Infrastructure.Data;
 
     public class UserService : DataService, IUserService
     {

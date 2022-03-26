@@ -5,7 +5,7 @@
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Services.Data;
-    using CarBuyRentSystem.Data;
+    using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using Microsoft.EntityFrameworkCore;
     using System;
@@ -21,7 +21,7 @@
             : base(db)
         {
             
-            this.mapper = mapper.ConfigurationProvider;
+            this.mapper = mapper;
         }
 
         public IEnumerable<CarServiceListingViewModel> AdminGetAllCar()

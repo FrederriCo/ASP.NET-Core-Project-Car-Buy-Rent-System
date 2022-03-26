@@ -13,7 +13,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using static WebConstants;
+    using static Infrastructure.Data.WebConstants;
 
     public class BuyCarsController : Controller
     {

@@ -1,7 +1,7 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Dealrs
 {
     using System.Linq;
-    using CarBuyRentSystem.Data;
+    using CarBuyRentSystem.Infrastructure.Data;
 
     public class DealerService : IDealerService
     {

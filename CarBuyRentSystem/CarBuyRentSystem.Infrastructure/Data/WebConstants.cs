@@ -1,4 +1,4 @@
-﻿namespace CarBuyRentSystem
+﻿namespace CarBuyRentSystem.Infrastructure.Data
 {
     public class WebConstants
     {

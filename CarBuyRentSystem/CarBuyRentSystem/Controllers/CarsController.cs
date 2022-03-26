@@ -4,7 +4,6 @@
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
-    using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Models.Cars;
@@ -12,8 +11,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
-
-    using static WebConstants;
+                
+    using static Infrastructure.Data.WebConstants;
     public class CarsController : Controller
     {
         private readonly CarDbContext db;

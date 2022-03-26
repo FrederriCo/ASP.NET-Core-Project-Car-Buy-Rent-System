@@ -3,13 +3,12 @@
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-
-    using CarBuyRentSystem.Data;
+   
     using CarBuyRentSystem.Models.Dealers;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
 
-    using static WebConstants;
+    using static Infrastructure.Data.WebConstants;
 
     public class DealersController : Controller
     {

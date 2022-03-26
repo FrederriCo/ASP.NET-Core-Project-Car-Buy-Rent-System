@@ -1,5 +1,6 @@
 ﻿namespace CarBuyRentSystem.Areas.Admin.Controllers
 {
+    using CarBuyRentSystem.Infrastructure.Data;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

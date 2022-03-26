@@ -20,11 +20,10 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Index\" />
-    <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarBuyRentSystem.Models\CarBuyRentSystem.Core.csproj" />
+    <ProjectReference Include="..\CarBuyRentSystem.Core\CarBuyRentSystem.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

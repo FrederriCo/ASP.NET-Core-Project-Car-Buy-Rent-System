@@ -1,8 +1,9 @@
 ﻿namespace CarBuyRentSystem.Infrastructure.Models
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
+    using static Data.DataConstants;
 
     public class RentCar
     {
@@ -20,7 +21,7 @@
 
         public DateTime EndDate { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = DecimalDefaultValue)]
         public decimal TotalPrice { get; set; }
     }
 }

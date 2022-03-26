@@ -1,4 +1,4 @@
-﻿namespace CarBuyRentSystem.Data
+﻿namespace CarBuyRentSystem.Infrastructure.Data
 {
     using CarBuyRentSystem.Infrastructure.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

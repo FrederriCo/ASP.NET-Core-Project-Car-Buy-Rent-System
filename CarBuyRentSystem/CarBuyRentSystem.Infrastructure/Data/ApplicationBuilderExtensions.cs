@@ -1,16 +1,15 @@
 ﻿namespace CarBuyRentSystem.Infrastructure.Data
 {
+    using CarBuyRentSystem.Infrastructure.Models;
     using Microsoft.AspNetCore.Builder;
-    using CarBuyRentSystem.Data;
-    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using System;
     using System.Linq;
-    using CarBuyRentSystem.Infrastructure.Models;
-    using Microsoft.AspNetCore.Identity;
+    using System.Threading.Tasks;
 
     using static WebConstants;
-    using System.Threading.Tasks;
 
     public static class ApplicationBuilderExtensions
     {

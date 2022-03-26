@@ -1,9 +1,13 @@
-﻿namespace CarBuyRentSystem.Core.Models.View.RentCars
+﻿using CarBuyRentSystem.Infrastructure.Data;
+
+namespace CarBuyRentSystem.Core.Models.View.RentCars
 {
     using System;
 
     using CarBuyRentSystem.Infrastructure.Models;
     using System.ComponentModel.DataAnnotations;
+
+    
 
     using static WebConstants;
 

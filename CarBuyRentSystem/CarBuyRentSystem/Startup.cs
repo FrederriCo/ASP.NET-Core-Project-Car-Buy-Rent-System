@@ -4,7 +4,6 @@ namespace CarBuyRentSystem
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using Microsoft.AspNetCore.Builder;
