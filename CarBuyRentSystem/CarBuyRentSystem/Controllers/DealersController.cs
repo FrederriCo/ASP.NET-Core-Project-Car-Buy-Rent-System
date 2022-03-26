@@ -1,12 +1,13 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
     using CarBuyRentSystem.Data;
+    using CarBuyRentSystem.Models.Dealers;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
-    using CarBuyRentSystem.Models.Dealers;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     using static WebConstants;
 

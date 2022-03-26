@@ -1,8 +1,9 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
     using System.Diagnostics;
-    using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
     using CarBuyRentSystem.Models;
+    using Microsoft.AspNetCore.Mvc;
 
     using CarBuyRentSystem.Core.Services.Cars;
 
@@ -15,9 +16,9 @@
            this.carService = carService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var cars = carService.GetLastThreeCar();
+            var cars = await carService.GetLastThreeCar();
 
             return View(cars);
         }
@@ -27,9 +28,9 @@
             return View();
         }
 
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-       
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });       
         
     }
 }

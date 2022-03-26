@@ -4,23 +4,23 @@
     using AutoMapper.QueryableExtensions;
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Data;
     using CarBuyRentSystem.Infrastructure.Models;
-    using CarBuyRentSystem.Models.Cars;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class CarService : ICarService
-    {
-        private readonly CarDbContext db;
+    public class CarService : DataService, ICarService
+    {       
         private readonly IConfigurationProvider mapper;
 
-        public CarService(CarDbContext db, IMapper mapper)
+        public CarService(CarDbContext db, IConfigurationProvider mapper)
+            : base(db)
         {
-            this.db = db;
+            
             this.mapper = mapper.ConfigurationProvider;
         }
 
