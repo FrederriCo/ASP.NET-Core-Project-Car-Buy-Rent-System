@@ -14,15 +14,17 @@
 
         var userIsAdmin = User.IsAdmin();
 
-        if (userIsDealer && !userIsAdmin)
+        if (userIsDealer)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="DealerCar">Dealer cars</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Add">Add Car</a>
+            </li>
         }
         else if (!userIsAdmin)
         {
-
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Dealers" asp-action="Create">Dealer Entry</a>
             </li>

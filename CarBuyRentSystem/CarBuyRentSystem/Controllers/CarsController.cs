@@ -1,20 +1,22 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
     using AutoMapper;
-    using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Core.Models.View.Cars;
-    using CarBuyRentSystem.Core.Services.Cars;
-    using CarBuyRentSystem.Core.Services.Dealrs;
-    using CarBuyRentSystem.Infrastructure.Data;
-    using CarBuyRentSystem.Infrastructure.Models;
-    using CarBuyRentSystem.Models.Cars;
-    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using CarBuyRentSystem.Models.Cars;
+    using Microsoft.AspNetCore.Authorization;
+
+    using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Core.Services.Dealrs;
+    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
+    
                 
     using static Infrastructure.Data.WebConstants;
-    using System.Threading.Tasks;
 
     public class CarsController : Controller
     {
@@ -36,8 +38,7 @@
 
         [Authorize]
         public IActionResult Add()
-        {           
-
+        {        
             if (!this.dealers.IsDealer(this.User.GetId()))
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
