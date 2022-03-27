@@ -7,5 +7,7 @@
         public const string GlobalMessageKey = "GlobalMessage";
 
         public const string DataFormatStringDefault = "{0:dd/MM/yyyy}";
+
+        public const string WelcomeMessageDealer = "Welcome to Car Portal Buy And Rent dear Dealers!";
     }
 }

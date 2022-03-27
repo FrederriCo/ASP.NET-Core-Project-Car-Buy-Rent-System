@@ -23,10 +23,7 @@
             return View(cars);
         }
 
-        public IActionResult ApplicationError()
-        {
-            return View();
-        }
+        public IActionResult ApplicationError() => View();       
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,57 +1,44 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
-   
-    using CarBuyRentSystem.Models.Dealers;
+    using CarBuyRentSystem.Core.Models;
+    using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Infrastructure.Data;
-    using CarBuyRentSystem.Infrastructure.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     using static Infrastructure.Data.WebConstants;
 
     public class DealersController : Controller
     {
-        private readonly CarDbContext db;
+        private readonly IDealerService dealers;
 
-        public DealersController(CarDbContext db)
-        {
-            this.db = db;
-        }
+        public DealersController(IDealerService dealers)
+              => this.dealers = dealers;
+        
         [Authorize]
         public IActionResult Create() => View();
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(DealerFormModel dealer)
+        public IActionResult Create(DealerFormServiceModel dealer)
         {
             var userId = this.User.GetId();
-
-            var userIdAlreadyDealer = this.db
-                                      .Dealers
-                                      .Any(x => x.UserId == userId);
-
-            if (userIdAlreadyDealer)
-            {
-                return BadRequest();
-            }
 
             if (!ModelState.IsValid)
             {
                 return View(dealer);
             }
 
-            var dealerAdd = new Dealer
+            var userIdAlreadyDealer = dealers.Create(dealer, userId);
+
+            if (!userIdAlreadyDealer)
             {
-                Name = dealer.Name,
-                PhoneNumber = dealer.PhoneNumber,
-                UserId = userId
-            };
+                RedirectToAction("ApplicationError", "Home");
+            }
 
-            db.Dealers.Add(dealerAdd);
-            db.SaveChanges();
+            
 
-            TempData[GlobalMessageKey] = "Thank you becomming a dealer!";
+            TempData[GlobalMessageKey] = WelcomeMessageDealer;
 
             return RedirectToAction("All", "Cars");
         }

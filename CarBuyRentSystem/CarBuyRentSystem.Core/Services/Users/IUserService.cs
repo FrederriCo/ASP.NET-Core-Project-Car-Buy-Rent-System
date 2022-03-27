@@ -23,6 +23,5 @@
         Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username);
 
         Task<IEnumerable<RentCar>> GetAllRentedCarsByUser(string username);
-
     }
 }

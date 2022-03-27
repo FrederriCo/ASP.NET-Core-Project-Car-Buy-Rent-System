@@ -1,12 +1,15 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Dealrs
 {
+    using CarBuyRentSystem.Core.Models;
     using System.Threading.Tasks;
     public interface IDealerService
     {
-        Task<bool> IsDealer(string userId);
+        bool Create(DealerFormServiceModel dealer, string userId);
 
-        Task<int> GetDealerId(string userId);
+        bool IsDealer(string userId);
 
-        Task<int> TotalUser();
+        int GetDealerId(string userId);
+
+        void TotalUser();
     }
 }

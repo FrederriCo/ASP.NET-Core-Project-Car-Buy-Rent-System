@@ -1,25 +1,24 @@
 namespace CarBuyRentSystem
-{
-
-    using CarBuyRentSystem.Core.Services.Cars;
-    using CarBuyRentSystem.Core.Services.Dealrs;
-    using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Infrastructure.Data;
-    using CarBuyRentSystem.Infrastructure.Models;
+{    
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
+
+    using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Core.Services.Dealrs;
+    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Core.Services.UserService;
 
     public class Startup
     {
         public Startup(IConfiguration configuration)
             => Configuration = configuration;
-
 
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)

@@ -14,6 +14,8 @@
     using System.Linq;
                 
     using static Infrastructure.Data.WebConstants;
+    using System.Threading.Tasks;
+
     public class CarsController : Controller
     {
         private readonly CarDbContext db;
@@ -34,7 +36,8 @@
 
         [Authorize]
         public IActionResult Add()
-        {
+        {           
+
             if (!this.dealers.IsDealer(this.User.GetId()))
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");

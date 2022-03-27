@@ -12,8 +12,6 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.RentCars;
     using CarBuyRentSystem.Core.Services.UserService;
-    
-    
 
     public class RentCarsController : Controller
     {
@@ -21,18 +19,17 @@
         private readonly IMapper mapper;
         private readonly ICarService carService;
 
-        public RentCarsController(IUserService userService 
-                                 ,IMapper mapper
-                                 ,ICarService carService)
+        public RentCarsController(IUserService userService
+                                 , IMapper mapper
+                                 , ICarService carService)
         {
             this.userService = userService;
             this.mapper = mapper;
             this.carService = carService;
-           
         }
 
         [Authorize]
-        public  IActionResult Rent(int id)
+        public IActionResult Rent(int id)
         {
             var getCar = this.carService.Details(id);
 
@@ -49,14 +46,15 @@
         [Authorize]
         public async Task<IActionResult> MyRentCars()
         {
-            var userRentCars = (await this.userService.GetAllRentedCarsByUser(this.User.GetId()))
-                                .Select(mapper.Map<RentedCarsViewModel>);
+            var userRentCars = (await this.userService
+                            .GetAllRentedCarsByUser(this.User.GetId()))
+                            .Select(mapper.Map<RentedCarsViewModel>);
 
             return View(userRentCars);
         }
 
         [Authorize]
-        [HttpPost]                            
+        [HttpPost]
         public async Task<IActionResult> Rent(RentCarBindingModel model)
         {
             var userId = this.User.GetId();
@@ -64,15 +62,15 @@
 
             var rentCar = mapper.Map<RentCar>(model);
 
-            var result = await this.carService.Rent(rentCar, this.User.Identity.Name);
+            var result = await this.carService
+                        .Rent(rentCar, this.User.Identity.Name);
 
             if (!result)
             {
                 return RedirectToAction("ApplicationError", "Home");
             }
-           
-            return RedirectToAction("MyRentCars", "RentCars");
-        }        
 
+            return RedirectToAction("MyRentCars", "RentCars");
+        }
     }
 }

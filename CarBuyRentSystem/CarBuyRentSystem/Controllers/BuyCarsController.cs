@@ -1,19 +1,18 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
     using AutoMapper;
-    using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Core.Models.View.Cars;
-    using CarBuyRentSystem.Core.Models.View.RentCars;
-    using CarBuyRentSystem.Core.Services.Cars;
-    using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Infrastructure.Data;
-    using CarBuyRentSystem.Infrastructure.Models;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
-    using static Infrastructure.Data.WebConstants;
+    using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Services.UserService;
+    using CarBuyRentSystem.Core.Models.View.RentCars; 
 
     public class BuyCarsController : Controller
     {
@@ -51,7 +50,8 @@
         {
             var buyCar = mapper.Map<BuyCar>(model);
 
-            var result = await this.carService.Buy(buyCar, this.User.Identity.Name);
+            var result = await this.carService
+                        .Buy(buyCar, this.User.Identity.Name);
 
             if (!result)
             {
@@ -67,19 +67,11 @@
         {
             var userId = this.User.GetId();
           //  var userName = this.User.Identity.Name();
-            var boughtCarsByUser = (await this.userService.GetAllBoughtCarsByUser(userId))
-                .Select(mapper.Map<SoldCarsViewModel>);
+            var boughtCarsByUser = (await this.userService
+                        .GetAllBoughtCarsByUser(userId))
+                        .Select(mapper.Map<SoldCarsViewModel>);
 
             return this.View(boughtCarsByUser);
-        }
-
-        [Authorize(Roles = AdministratorRoleName)]
-        public async Task<IActionResult> SoldCars()
-        {
-            var soldCars = (await this.userService.GetAllSoldCars())
-                .Select(mapper.Map<SoldCarsViewModel>);
-
-            return this.View(soldCars);
-        }
+        }        
     }
 }

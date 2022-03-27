@@ -7,6 +7,7 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
+    using CarBuyRentSystem.Core.Models;
 
     public class MappingProfile : Profile
     {
@@ -19,7 +20,9 @@
             CreateMap<RentCar, RentedCarsViewModel>();
             CreateMap<BuyCar, BuyCarBindingModel>().ReverseMap();
             CreateMap<BuyCar, SoldCarsViewModel>();
-            CreateMap<RentCarBindingModel, RentCar > ();
+            CreateMap<RentCarBindingModel, RentCar>();
+            CreateMap<DealerFormServiceModel, Dealer>();
+           
 
             CreateMap<Car, CarDetailsServiceModel>()
                 .ForMember(c => c.UserId, cfg => cfg.MapFrom(c => c.Dealer.UserId));

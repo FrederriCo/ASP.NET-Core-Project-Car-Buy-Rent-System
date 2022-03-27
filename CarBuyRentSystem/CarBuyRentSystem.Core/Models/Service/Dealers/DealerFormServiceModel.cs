@@ -1,9 +1,9 @@
-﻿namespace CarBuyRentSystem.Models.Dealers
+﻿namespace CarBuyRentSystem.Core.Models
 {
     using System.ComponentModel.DataAnnotations; 
 
     using static CarBuyRentSystem.Infrastructure.Data.DataConstants.Dealer;
-    public class DealerFormModel
+    public class DealerFormServiceModel
     {
         [Required]
         [StringLength(NameDealerMaxLength, MinimumLength = NameDealerMinLength)]
@@ -12,6 +12,6 @@
         [Required]
         [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }       
     }
 }
