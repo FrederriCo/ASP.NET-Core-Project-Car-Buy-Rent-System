@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CarBuyRentSystem.Infrastructure.Migrations
+﻿namespace CarBuyRentSystem.Infrastructure.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class CarDeleteBehaviorCascade : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

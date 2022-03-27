@@ -1,19 +1,19 @@
 ﻿namespace CarBuyRentSystem.Infrastructure.Data
 {
-    using CarBuyRentSystem.Infrastructure.Models;
+    using System;
+    using System.Linq;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Linq;
     using System.Threading.Tasks;
+
+    using CarBuyRentSystem.Infrastructure.Models;
 
     using static WebConstants;
 
     public static class ApplicationBuilderExtensions
     {
-
         public static IApplicationBuilder PrepareDatabase(this IApplicationBuilder app)
         {
             using var scopedServices = app.ApplicationServices.CreateScope();

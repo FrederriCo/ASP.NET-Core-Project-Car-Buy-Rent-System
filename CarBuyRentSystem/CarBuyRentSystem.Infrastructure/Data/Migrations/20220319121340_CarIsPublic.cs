@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CarBuyRentSystem.Data.Migrations
+﻿namespace CarBuyRentSystem.Infrastructure.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class CarIsPublic : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

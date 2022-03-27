@@ -3,16 +3,16 @@
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static Data.DataConstants;
+    using static Data.DataConstants.Car;
 
     public class RentCar
     {
         public int RentCarId { get; set; }
-     
+
         public string UserId { get; set; }
 
         public CarUser CarUser { get; set; }
-        
+
         public int CarId { get; set; }
 
         public Car Car { get; set; }

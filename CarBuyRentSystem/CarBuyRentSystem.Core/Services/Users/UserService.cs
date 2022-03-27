@@ -5,11 +5,9 @@
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
 
-
     using CarBuyRentSystem.Core.Services.Data;
-    using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Infrastructure.Data;
-    using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.Service.Users;
 
     public class UserService : DataService, IUserService
@@ -17,8 +15,8 @@
         public UserService(CarDbContext db)
             : base(db)
         {
-
         }
+
         public async Task<IEnumerable<BuyCar>> GetAllSoldCars()
         {
             var soldCars = await this.db
@@ -28,8 +26,8 @@
                     .ToListAsync();
 
             return soldCars;
-
         }
+
         public async Task<IEnumerable<RentCar>> GetAllRentedCars()
         {
             var rentedCars = await this.db
@@ -40,6 +38,7 @@
 
             return rentedCars;
         }
+
         public async Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username)
         {
             var allBoughtCars = await this.db
@@ -50,6 +49,7 @@
 
             return allBoughtCars;
         }
+
         public async Task<IEnumerable<RentCar>> GetAllRentedCarsByUser(string username)
         {
             var allRentetCars = await this.db
@@ -86,7 +86,7 @@
                 .ToListAsync();
 
         public async Task<bool> DeleteUser(string id)
-        {                     
+        {
             var dealer = await db.Dealers
                         .FirstOrDefaultAsync(c => c.UserId == id);
 
@@ -99,22 +99,21 @@
             }
 
             db.CarUsers.Remove(user);
-
             db.SaveChanges();
 
             return true;
         }
 
         public async Task<bool> DeleteDealrs(int dealerId)
-        {            
+        {
             var dealer = await db.Dealers
-                .FirstOrDefaultAsync(c => c.Id == dealerId);            
+                .FirstOrDefaultAsync(c => c.Id == dealerId);
 
             if (dealer == null)
             {
                 return false;
-            }                    
-            
+            }
+
             db.Dealers.Remove(dealer);
             db.SaveChanges();
 

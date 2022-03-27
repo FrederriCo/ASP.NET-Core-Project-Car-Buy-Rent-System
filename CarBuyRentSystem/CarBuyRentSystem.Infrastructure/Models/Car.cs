@@ -1,9 +1,10 @@
 ﻿namespace CarBuyRentSystem.Infrastructure.Models
 {
-    using CarBuyRentSystem.Infrastructure.Models.Enums;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
+    using CarBuyRentSystem.Infrastructure.Models.Enums;
 
     using static Data.DataConstants.Car;
     public class Car

@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static Data.DataConstants;
+    using static Data.DataConstants.Car;
 
     public class BuyCar
     {

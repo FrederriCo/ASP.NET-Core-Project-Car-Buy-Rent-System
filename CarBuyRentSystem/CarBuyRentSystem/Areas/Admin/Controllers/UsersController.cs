@@ -18,23 +18,20 @@ namespace CarBuyRentSystem.Areas.Admin.Controllers
         public async Task<IActionResult> AllDealers() => View(await this.userService.GetAllDealer());
 
         public async Task<IActionResult> DeleteUser(string id)
-        {            
-           var userDelete = await userService.DeleteUser(id);
+        {
+            var userDelete = await userService.DeleteUser(id);
 
             if (userDelete)
             {
-
-                 return RedirectToAction("ApplicationError");
-
+                return RedirectToAction("ApplicationError");
             }
 
-               return RedirectToAction("AllUsers", "Users");
+            return RedirectToAction("AllUsers", "Users");
         }
 
         public async Task<IActionResult> DeleteDealer(int id)
-        {           
-            
-           var dealerDelete =  await userService.DeleteDealrs(id);
+        {
+            var dealerDelete = await userService.DeleteDealrs(id);
 
             if (!dealerDelete)
             {

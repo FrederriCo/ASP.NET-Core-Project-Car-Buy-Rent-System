@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CarBuyRentSystem.Data.Migrations
+﻿namespace CarBuyRentSystem.Infrastructure.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class CarUserDealerRentBuy : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

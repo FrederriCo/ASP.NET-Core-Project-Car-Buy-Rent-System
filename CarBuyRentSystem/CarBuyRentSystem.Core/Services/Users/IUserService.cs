@@ -3,7 +3,6 @@
     using System.Threading.Tasks;
     using System.Collections.Generic;
 
-    using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.Service.Users;
 

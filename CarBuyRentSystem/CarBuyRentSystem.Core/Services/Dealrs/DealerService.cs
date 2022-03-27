@@ -1,28 +1,32 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Dealrs
 {
     using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+
+    using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Infrastructure.Data;
 
-    public class DealerService : IDealerService
+    public class DealerService : DataService, IDealerService
     {
-        private readonly CarDbContext db;
+        public DealerService(CarDbContext db) 
+            : base(db)
+        {
+        }
 
-        public DealerService(CarDbContext db)
-            => this.db = db;
-
-        public int GetDealerId(string userId)
-           => this.db
+        public async Task<int> GetDealerId(string userId)
+           => await this.db
                    .Dealers
                    .Where(x => x.UserId == userId)
                    .Select(x => x.Id)
-                   .FirstOrDefault();
+                   .FirstOrDefaultAsync();
 
-        public bool IsDealer(string userId)
-            => this.db
+        public async Task<bool> IsDealer(string userId)
+            => await this.db
                 .Dealers
-                .Any(d => d.UserId == userId);
+                .AnyAsync(d => d.UserId == userId);
 
-        public void TotalUser()
-           => db.Users.Count();
+        public async Task TotalUser()
+           => await this.db.Users.CountAsync();
     }
 }
