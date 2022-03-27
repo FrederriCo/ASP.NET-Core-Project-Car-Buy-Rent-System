@@ -21,20 +21,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var car in Model)
-            {
+            @foreach (var user in Model)
+            {               
                 <tr>
-                    <td scope="col">@car.UserName</td>
-                    <td scope="col">@car.Email</td>
-                    <td scope="col">@car.Address</td>
-                    <td scope="col">@car.Balance</td>
+                    <td scope="col">@user.UserName</td>
+                    <td scope="col">@user.Email</td>
+                    <td scope="col">@user.Address</td>
+                    <td scope="col">@user.Balance</td>
                     <td scope="col">
-                        <div class="btn-group" role="group" aria-label="All">
-                            <a asp-area="" asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn  btn-warning">Edit</a>
-                            <a asp-area="" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn  btn-danger">Delete</a>
+                        <div class="btn-group" role="group" aria-label="All">                            
+                            <a asp-area="Admin" asp-controller="Users" asp-action="DeleteUser" asp-route-id="@user.Id" class="btn  btn-danger">Delete</a>
                         </div>
                     </td>
                 </tr>
+                
             }
 
     </table>

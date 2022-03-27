@@ -11,7 +11,7 @@
             => this.db = db;
 
         public int GetDealerId(string userId)
-            => this.db
+           => this.db
                    .Dealers
                    .Where(x => x.UserId == userId)
                    .Select(x => x.Id)

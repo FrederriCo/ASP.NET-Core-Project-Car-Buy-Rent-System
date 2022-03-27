@@ -11,4 +11,5 @@
     public abstract class AdminController : Controller
     {
     }
+    
 }

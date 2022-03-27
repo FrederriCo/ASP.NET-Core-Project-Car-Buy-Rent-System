@@ -4,14 +4,16 @@ using CarBuyRentSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CarBuyRentSystem.Infrastructure.Data.Migrations
+namespace CarBuyRentSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220327143418_DealerDeleteBehaviorCascade")]
+    partial class DealerDeleteBehaviorCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -435,7 +437,7 @@ namespace CarBuyRentSystem.Infrastructure.Data.Migrations
                     b.HasOne("CarBuyRentSystem.Infrastructure.Models.Dealer", "Dealer")
                         .WithMany("Cars")
                         .HasForeignKey("DealerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CarBuyRentSystem.Infrastructure.Models.Location", "Location")

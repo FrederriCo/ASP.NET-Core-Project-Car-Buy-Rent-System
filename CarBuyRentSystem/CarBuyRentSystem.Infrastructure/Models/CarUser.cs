@@ -12,11 +12,11 @@
     {
         public string CarUsername { get; set; }
 
-        [Required]
+        
         [MaxLength(FullNameMaxLength)]
         public string Name { get; set; }
 
-        [Required]
+        
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
                

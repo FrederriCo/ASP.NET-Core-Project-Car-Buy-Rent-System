@@ -1,4 +1,4 @@
-﻿namespace CarBuyRentSystem.Core.Models.Cars
+﻿namespace CarBuyRentSystem.Core.Models.Service.Users
 {
     public class UserServiceViewListingModel
     {

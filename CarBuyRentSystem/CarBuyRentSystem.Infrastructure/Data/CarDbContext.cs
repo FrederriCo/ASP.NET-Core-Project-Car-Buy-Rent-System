@@ -21,13 +21,14 @@
                     .HasOne<CarUser>()
                     .WithOne()
                     .HasForeignKey<Dealer>(x => x.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Car>()
                     .HasOne(c => c.Dealer)
                     .WithMany(d => d.Cars)
                     .HasForeignKey(c => c.DealerId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
+
         }
 
 

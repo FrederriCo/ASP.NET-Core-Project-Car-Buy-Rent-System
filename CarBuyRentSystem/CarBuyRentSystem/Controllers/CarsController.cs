@@ -271,7 +271,7 @@
 
             this.db.SaveChanges();
 
-            TempData[GlobalMessageKey] = "Your Car success ediet";
+            TempData[GlobalMessageKey] = "Your Car success edited";
 
             return RedirectToAction(nameof(DealerCar));
         }

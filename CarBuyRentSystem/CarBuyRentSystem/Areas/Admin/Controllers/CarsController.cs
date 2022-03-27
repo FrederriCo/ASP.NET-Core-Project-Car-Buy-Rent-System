@@ -33,9 +33,7 @@
 
         public IActionResult All() => View(this.cars.AdminGetAllCar());
 
-        public IActionResult Edit() => View(this.cars.AdminGetAllCar());
-
-        public IActionResult EditCar() => View(this.cars.AdminGetAllCar());
+        public IActionResult Edit() => View(this.cars.AdminGetAllCar());       
 
         public IActionResult Delete() => View(this.cars.AdminGetAllCar());
 

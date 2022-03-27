@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DealerServiceViewListingModel>
+@{
+    ViewBag.Title = "Administration Area";
+}
+
+<h1 class="display-4 text-center"><i class="fas fa-users" style="color: darkorange"></i> All Users</h1>
+
+<h5 class="text-center" style="padding-top:50px;"><i class="fas fa-users" style="color:darkorange;"></i> @Model.Count() users</h5>
+<br />
+
+<div style="background-color:white">
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Total Car</th>                
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td scope="col">@user.Name</td>
+                    <td scope="col">@user.Phone</td>
+                    <td scope="col">@user.CarCount</td>                    
+                    <td scope="col">
+                        <div class="btn-group" role="group" aria-label="All">
+                            
+                            <a asp-area="Admin" asp-controller="Users" asp-action="DeleteDealer" asp-route-id="@user.Id" class="btn  btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+    </table>
+</div>

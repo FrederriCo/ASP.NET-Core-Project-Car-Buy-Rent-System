@@ -10,6 +10,7 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.Service.Users;
 
     public class UserService : DataService, IUserService
     {
@@ -62,19 +63,62 @@
 
         public async Task<IEnumerable<UserServiceViewListingModel>> GetAllUser()
             => await db.CarUsers
-            .Select(x => new UserServiceViewListingModel
-            {
-                Id = x.Id,
-                UserName = x.UserName,
-                Email = x.Email,
-                Address = x.Address,
-                Balance = x.Balance
-            })
-            .ToListAsync();
+                 .Select(x => new UserServiceViewListingModel
+                 {
+                     Id = x.Id,
+                     UserName = x.UserName,
+                     Email = x.Email,
+                     Address = x.Address,
+                     Balance = x.Balance
+                 })
+                 .ToListAsync();
 
-        public Task<IEnumerable<Dealer>> GetAllDealer()
-        {
-            throw new System.NotImplementedException();
+        public async Task<IEnumerable<DealerServiceViewListingModel>> GetAllDealer()
+             => await db.Dealers
+                .Select(x => new DealerServiceViewListingModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Phone = x.PhoneNumber,
+                    CarCount = x.Cars.Count()
+
+                })
+                .ToListAsync();
+
+        public async Task<bool> DeleteUser(string id)
+        {                     
+            var dealer = await db.Dealers
+                        .FirstOrDefaultAsync(c => c.UserId == id);
+
+            var user = await db.CarUsers
+                        .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (dealer != null)
+            {
+                return false;
+            }
+
+            db.CarUsers.Remove(user);
+
+            db.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteDealrs(int dealerId)
+        {            
+            var dealer = await db.Dealers
+                .FirstOrDefaultAsync(c => c.Id == dealerId);            
+
+            if (dealer == null)
+            {
+                return false;
+            }                    
+            
+            db.Dealers.Remove(dealer);
+            db.SaveChanges();
+
+            return true;
         }
     }
 }
