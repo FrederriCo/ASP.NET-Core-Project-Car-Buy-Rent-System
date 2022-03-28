@@ -1,10 +1,12 @@
 ﻿namespace CarBuyRentSystem.Controllers
 {
-    using CarBuyRentSystem.Core.Models;
-    using CarBuyRentSystem.Core.Services.Dealrs;
-    using CarBuyRentSystem.Infrastructure.Data;
-    using Microsoft.AspNetCore.Authorization;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    using CarBuyRentSystem.Core.Models;
+    using CarBuyRentSystem.Infrastructure.Data;
+    using CarBuyRentSystem.Core.Services.Dealrs;
 
     using static Infrastructure.Data.WebConstants;
 
@@ -20,7 +22,7 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(DealerFormServiceModel dealer)
+        public async Task<IActionResult> Create(DealerFormServiceModel dealer)
         {
             var userId = this.User.GetId();
 
@@ -29,7 +31,7 @@
                 return View(dealer);
             }
 
-            var userIdAlreadyDealer = dealers.Create(dealer, userId);
+            var userIdAlreadyDealer = await dealers.Create(dealer, userId);
 
             if (!userIdAlreadyDealer)
             {

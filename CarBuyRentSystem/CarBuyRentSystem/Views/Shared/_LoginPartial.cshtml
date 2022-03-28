@@ -10,7 +10,7 @@
     {
         var userId = User.GetId();
 
-        var userIsDealer = Dealers.IsDealer(userId);
+        var userIsDealer = await Dealers.IsDealer(userId);
 
         var userIsAdmin = User.IsAdmin();
 

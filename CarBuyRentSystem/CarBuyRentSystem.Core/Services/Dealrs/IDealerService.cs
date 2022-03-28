@@ -4,12 +4,12 @@
     using System.Threading.Tasks;
     public interface IDealerService
     {
-        bool Create(DealerFormServiceModel dealer, string userId);
+        Task<bool> Create(DealerFormServiceModel dealer, string userId);
 
-        bool IsDealer(string userId);
+        Task<bool> IsDealer(string userId);
 
-        int GetDealerId(string userId);
+        Task<int> GetDealerId(string userId);
 
-        void TotalUser();
+        Task TotalUser();
     }
 }

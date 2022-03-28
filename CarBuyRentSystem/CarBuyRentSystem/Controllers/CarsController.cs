@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
 
@@ -14,7 +15,6 @@
     using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     using static Infrastructure.Data.WebConstants;
-    using System.Threading.Tasks;
 
     public class CarsController : Controller
     {
@@ -37,7 +37,9 @@
         [Authorize]
         public async Task<IActionResult> Add()
         {
-            if (!this.dealers.IsDealer(this.User.GetId()))
+            var isDealer = await this.dealers.IsDealer(this.User.GetId());
+
+            if (!isDealer)
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
@@ -52,7 +54,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddCarFormServiceModel car)
         {
-            var dealerId = this.dealers.GetDealerId(this.User.GetId());
+            var dealerId =  await dealers.GetDealerId(this.User.GetId());
 
             if (dealerId == 0)
             {
@@ -141,8 +143,9 @@
         public async Task<IActionResult> Edit(int id)
         {
             var userId = this.User.GetId();
+            var isDealer = await  this.dealers.IsDealer(userId);
 
-            if (!this.dealers.IsDealer(userId) && !User.IsAdmin())
+            if (!isDealer && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
@@ -168,7 +171,7 @@
         {
             var userId =  this.User.GetId();
 
-            var dealerId = this.dealers.GetDealerId(userId);
+            var dealerId = await this.dealers.GetDealerId(userId);
 
             if (dealerId == 0 && !User.IsAdmin())
             {
@@ -189,7 +192,7 @@
                 });
             }
 
-            var carData = this.db.Cars.Find(car.Id);
+            var carData = await this.db.Cars.FindAsync(car.Id);
 
             var isByDealer = await this.cars.IsByDealer(car.Id, dealerId);
 
@@ -197,6 +200,7 @@
             {
                 return BadRequest();
             }
+
 
             if (carData.DealerId != dealerId && !User.IsAdmin())
             {
@@ -236,9 +240,7 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            var getCar = await cars.GetCarId(id);
-
-            // var car = mapper.Map<CreateCarServiceModel>(getCar);
+            var getCar = await cars.GetCarId(id);           
 
             if (getCar == null)
             {
@@ -268,7 +270,6 @@
             {
                 return BadRequest();
             }
-
 
             return View(car);
         }
