@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - Best Buy and Renting Car System</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/js/bootstrap-datepicker.min.js" />
     <link rel="stylesheet" href="~/plugins/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     @await RenderSectionAsync("Head", false)
@@ -25,17 +24,16 @@
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>                      
-
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="All">All Cars</a>
-                        </li>                        
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="RentCars" asp-action="MyRentCars">My Rent</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="BuyCars" asp-action="MyBuyCars">My Cars</a>
-                        </li>                     
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -61,7 +59,6 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/bootstrap-datepicker.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

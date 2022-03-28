@@ -1,7 +1,5 @@
-namespace CarBuyRentSystem.Models
+namespace CarBuyRentSystem.Core.Models
 {
-    using System;
-
     public class ErrorViewModel
     {
         public string RequestId { get; set; }

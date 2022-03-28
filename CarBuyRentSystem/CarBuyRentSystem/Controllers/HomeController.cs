@@ -2,10 +2,10 @@
 {
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using CarBuyRentSystem.Models;
     using Microsoft.AspNetCore.Mvc;
 
-    using CarBuyRentSystem.Core.Services.Cars;
+    using CarBuyRentSystem.Core.Models;
+    using CarBuyRentSystem.Core.Services.Cars;    
 
     public class HomeController : Controller
     {
@@ -18,16 +18,16 @@
 
         public async Task<IActionResult> Index()
         {
-            var cars = await carService.GetLastThreeCar();
-
-            return View(cars);
+           var cars = await carService.GetLastThreeCar();
+           
+            return  View(cars);
         }
 
         public IActionResult ApplicationError() => View();       
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });       
-        
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });     
+    
     }
 }

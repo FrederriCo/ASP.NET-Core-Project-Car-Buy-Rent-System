@@ -48,7 +48,7 @@
         [Column(TypeName = DecimalDefaultValue)]
         public decimal Price { get; set; }
 
-        public int DealerId { get; init; }
+        public int DealerId { get; set; }
 
         public Dealer Dealer { get; init; }
         

@@ -1,35 +1,40 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Cars
 {
+    using System;
     using AutoMapper;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
     using AutoMapper.QueryableExtensions;
+
     using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Services.Data;
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using CarBuyRentSystem.Core.Models.View.Cars;
 
     public class CarService : DataService, ICarService
-    {       
+    {
         private readonly IConfigurationProvider mapper;
 
         public CarService(CarDbContext db, IConfigurationProvider mapper)
             : base(db)
         {
-            
             this.mapper = mapper;
         }
 
-        public IEnumerable<CarServiceListingViewModel> AdminGetAllCar()
-         => db.Cars.ProjectTo<CarServiceListingViewModel>(this.mapper).ToList();
-                //.Select(x => new CarDetailsServiceModel
-                //{
-                //    Brand = x.Brand
-                //}).ToList();
+        public async Task Add(Car car)
+        {
+            await this.db.Cars.AddAsync(car);
+            await this.db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<CarServiceListingViewModel>> AdminGetAllCar()
+             => await db.Cars
+               .ProjectTo<CarServiceListingViewModel>(this.mapper)
+               .ToListAsync();
+
 
         //public AllCarsViewModel All()
         //{
@@ -80,23 +85,24 @@
         //        .ToList();
         //}
 
-        public IEnumerable<string> AllCarBrands()
-           => db
+        public async Task<IEnumerable<string>> AllCarBrands()
+           => await db
               .Cars
               .Select(c => c.Brand)
               .Distinct()
               .OrderBy(b => b)
-              .ToList();
+              .ToListAsync();
 
-        public IEnumerable<CarLocationServiceModel> AllCarLocation()
-            => this.db
+        public async Task<IEnumerable<CarLocationServiceModel>> AllCarLocation()
+            => await  this.db
             .Locations
-            .Select(l => new CarLocationServiceModel
-            {
-                Id = l.Id,
-                Name = l.Name
-            })
-            .ToList();
+            .ProjectTo<CarLocationServiceModel>(this.mapper)
+            //.Select(l => new CarLocationServiceModel
+            //{
+            //    Id = l.Id,
+            //    Name = l.Name
+            //})
+            .ToListAsync();
 
         public async Task<bool> Buy(BuyCar buyCar, string username)
         {
@@ -122,18 +128,18 @@
             return true;
         }
 
-        public IEnumerable<CarServiceListingViewModel> ByUser(string userId)
-            => this.GetCars(this.db
-                            .Cars
-                            .Where(c => c.Dealer.UserId == userId));
+        public async Task<IEnumerable<CarServiceListingViewModel>> ByUser(string userId)
+            => await this.GetCars(this.db
+                         .Cars
+                         .Where(c => c.Dealer.UserId == userId));
 
-        public void ChangeVisability(int carId)
+        public async Task ChangeVisability(int carId)
         {
             var car = db.Cars.Find(carId);
 
             car.IsPublic = !car.IsPublic;
 
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         public int Create(CreateCarServiceModel car)
@@ -163,10 +169,9 @@
             return carAdd.Id;
 
         }
-
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var car = db.Cars.FirstOrDefault(c => c.Id == id);
+            var car = await db.Cars.FirstOrDefaultAsync(c => c.Id == id);
 
             if (car == null)
             {
@@ -174,13 +179,14 @@
             }
 
             db.Cars.Remove(car);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         public CarDetailsServiceModel Details(int id)
             => this.db.Cars
                     .Where(c => c.Id == id)
-                    .ProjectTo<CarDetailsServiceModel>(this.mapper) //--With AutoMapper
+                    .ProjectTo<CarDetailsServiceModel>(this.mapper)
+                    //--With AutoMapper
                     //.Select(c => new CarDetailsServiceModel
                     //{
                     //    Id = c.Id,
@@ -206,9 +212,14 @@
                     //}) -- Without AutoMapper
                     .FirstOrDefault();
 
-        public void Edit(CreateCarServiceModel car)
+        public async Task Edit(CreateCarServiceModel car)
         {
-            var carData = this.db.Cars.Find(car.Id);
+            var carData = await this.db.Cars.FindAsync(car.Id);
+
+            if (carData == null)
+            {
+                return;
+            }
 
             carData.Brand = car.Brand;
             carData.Model = car.Model;
@@ -225,19 +236,21 @@
             carData.Price = car.Price;
             carData.LocationId = car.LocationId;
 
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
         }
 
-        public Car GetCarId(int id)
+        public async Task<Car> GetCarId(int id)
         {
-            var car = db.Cars.FirstOrDefault(x => x.Id == id);
+            var car = await db
+                           .Cars
+                           .FirstOrDefaultAsync(x => x.Id == id);
 
             return car;
         }
 
-        public IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery)
-         => carQuery
+        public async Task<IEnumerable<CarServiceListingViewModel>> GetCars(IQueryable<Car> carQuery)
+         => await carQuery
            .Select(c => new CarServiceListingViewModel
            {
                Id = c.Id,
@@ -255,7 +268,7 @@
                Price = c.Price,
                RentPricePerDay = c.RentPricePerDay
            })
-           .ToList();
+           .ToListAsync();
 
         public async Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar()
         {
@@ -274,9 +287,9 @@
                 .Cars
                 .Any(x => x.Id == carId && x.DealerId == dealerId);
 
-        public bool LocationExsts(int locationId)
-         => db.Locations
-            .Any(x => x.Id == locationId);
+        public async Task<bool> LocationExsts(int locationId)
+         => await db.Locations
+            .AnyAsync(x => x.Id == locationId);
 
         public async Task<bool> Rent(RentCar rentCar, string username)
         {
@@ -290,7 +303,7 @@
             }
 
             rentCar.StartDate = DateTime.Now;
-            rentCar.CarUser  = user;
+            rentCar.CarUser = user;
 
             var totalDays = (rentCar.EndDate - rentCar.StartDate).Days + 1;
 
@@ -315,17 +328,19 @@
             var cars = db.Cars.Count();
             var dealer = db.Dealers.Count();
             var users = db.Users.Count();
+            //var rentCars = db.RentCars.Count();
+            //var buyCars = db.RentCars.Count();
 
             var carsUser = new TotalUserCar
             {
                 TotalCar = cars,
                 TotalUser = users,
-                TotalDealer = dealer
+                TotalDealer = dealer,
             };
 
             return carsUser;
         }
 
-       
+
     }
 }

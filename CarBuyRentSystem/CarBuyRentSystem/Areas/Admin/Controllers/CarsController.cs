@@ -39,9 +39,9 @@
 
         public IActionResult AllCars() => View(this.cars.AdminGetAllCar());       
 
-        public IActionResult ChangeVisability(int id)
+        public async Task<IActionResult> ChangeVisability(int id)
         {
-            cars.ChangeVisability(id);
+           await cars.ChangeVisability(id);
 
             return RedirectToAction(nameof(All));
         }

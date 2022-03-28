@@ -10,6 +10,11 @@
     public interface ICarService
     {
         // CarsViewModel All();
+        //int Create(CreateCarServiceModel car);
+
+        Task Add(Car car);
+
+        Task Edit(CreateCarServiceModel car);
 
         Task<bool> Buy(BuyCar buyCar, string username);
 
@@ -19,31 +24,28 @@
 
         Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar();
 
-        void ChangeVisability(int carId);
+        Task ChangeVisability(int carId);
 
-        Car GetCarId(int id);
+        Task<Car> GetCarId(int id);
 
-        IEnumerable<CarServiceListingViewModel> AdminGetAllCar();
+        bool IsByDealer(int carId, int dealerId);      
 
-        bool IsByDealer(int carId, int dealerId);
+        Task<bool> LocationExists(int locationId);
 
-        int Create(CreateCarServiceModel car);
+        Task Delete(int id);
 
-        void Edit(CreateCarServiceModel car);
+        TotalUserCar Total();
 
-        bool LocationExsts(int locationId);
+        Task<IEnumerable<string>> AllCarBrands();
 
-        void Delete(int id);
+        Task<IEnumerable<CarServiceListingViewModel>> AdminGetAllCar();
 
-         TotalUserCar Total();
+        Task<IEnumerable<CarServiceListingViewModel>> ByUser(string userId);
 
-        IEnumerable<string> AllCarBrands();
+        Task<IEnumerable<CarServiceListingViewModel>> GetCars(IQueryable<Car> carQuery);
 
-        IEnumerable<CarServiceListingViewModel> ByUser(string userId);
+        Task<IEnumerable<CarLocationServiceModel>> AllCarLocation();
 
-        IEnumerable<CarServiceListingViewModel> GetCars(IQueryable<Car> carQuery);
-
-        IEnumerable<CarLocationServiceModel> AllCarLocation();
 
     }
 }

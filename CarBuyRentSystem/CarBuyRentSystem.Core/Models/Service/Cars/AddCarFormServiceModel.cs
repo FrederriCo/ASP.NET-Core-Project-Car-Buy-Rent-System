@@ -1,12 +1,11 @@
-﻿namespace CarBuyRentSystem.Models.Cars
+﻿namespace CarBuyRentSystem.Core.Models.Cars
 {
-    using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Infrastructure.Models.Enums;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static CarBuyRentSystem.Infrastructure.Data.DataConstants.Car;
-    public class AddCarFormModel
+    public class AddCarFormServiceModel
     {
         public int Id { get; set; }
 

@@ -2,9 +2,7 @@
 {
     using AutoMapper;
     using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using CarBuyRentSystem.Models.Cars;
     using Microsoft.AspNetCore.Authorization;
 
     using CarBuyRentSystem.Core.Models.Cars;
@@ -14,9 +12,9 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars.Enums;
-    
-                
+
     using static Infrastructure.Data.WebConstants;
+    using System.Threading.Tasks;
 
     public class CarsController : Controller
     {
@@ -26,25 +24,25 @@
         private readonly IMapper mapper;
 
         public CarsController(CarDbContext db,
-            ICarService cars,
-            IDealerService dealers,
+            ICarService carService,
+            IDealerService dealerService,
             IMapper mapper)
         {
             this.db = db;
-            this.cars = cars;
-            this.dealers = dealers;
+            this.cars = carService;
+            this.dealers = dealerService;
             this.mapper = mapper;
         }
 
         [Authorize]
         public IActionResult Add()
-        {        
+        {
             if (!this.dealers.IsDealer(this.User.GetId()))
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            return View(new AddCarFormModel
+            return View(new AddCarFormServiceModel
             {
                 Locations = this.cars.AllCarLocation()
             });
@@ -52,7 +50,7 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult Add(AddCarFormModel car)
+        public async Task<IActionResult> Add(AddCarFormServiceModel car)
         {
             var dealerId = this.dealers.GetDealerId(this.User.GetId());
 
@@ -68,70 +66,33 @@
 
             if (!ModelState.IsValid)
             {
-                return View(new AddCarFormModel
+                return View(new AddCarFormServiceModel
                 {
                     Locations = this.cars.AllCarLocation()
                 });
             }
 
-            var carAdd = new Car
-            {
-                Brand = car.Brand,
-                Model = car.Model,
-                Year = car.Year,
-                ImageUrl = car.ImageUrl,
-                Description = car.Description,
-                Category = car.Category,
-                Fuel = car.Fuel,
-                Transmission = car.Transmission,
-                Lugage = car.Lugage,
-                Doors = car.Doors,
-                Passager = car.Passager,
-                RentPricePerDay = car.RentPricePerDay,
-                Price = car.Price,
-                LocationId = car.LocationId,
-                DealerId = dealerId
+            var carAdd = mapper.Map<Car>(car);
+            carAdd.DealerId = dealerId;
 
-            };
+            await this.cars.Add(carAdd);
 
-            db.Cars.Add(carAdd);
-            db.SaveChanges();
-            // cars.Create(car);
-            // car.DealerId = dealerId;
+            TempData[GlobalMessageKey] = SuccessCreatedCar;
 
-            TempData[GlobalMessageKey] = "Your Car was saved Success";
-
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(DealerCar));
         }
 
         [Authorize]
-        public IActionResult DealerCar()
+        public async Task<IActionResult> DealerCar()
         {
-            var delarCars = this.cars.ByUser(this.User.GetId());
+            var delarCars = await this.cars.ByUser(this.User.GetId());
 
             return View(delarCars);
         }
-
-        
-        //[Authorize]
-        //public IActionResult Delete(int id)
-        //{
-        //    var car = cars.GetCarId(id);
-           
-
-        //    if (car == false)
-        //    {
-        //        return RedirectToAction("ApplicationError", "Home");
-        //    }
-
-        //    cars.Delete(id);
-
-        //    return this.View(car);
-        //}
-
+       
         public IActionResult All([FromQuery] AllCarsViewModel query)
         {
-           var carsQuery = this.db.Cars.Where(c => c.IsPublic).AsQueryable();
+            var carsQuery = this.db.Cars.Where(c => c.IsPublic).AsQueryable();
 
             if (User.IsAdmin())
             {
@@ -163,13 +124,13 @@
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
                 .Take(AllCarsViewModel.CarPerPage));
 
-                
+
             var carBrands = this.cars.AllCarBrands();
 
             query.Brands = carBrands;
             query.Cars = cars;
             query.TotalCars = totalCars;
-            
+
             return View(query);
 
         }
@@ -184,7 +145,7 @@
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            var cars = this.cars.Details(id);
+            var cars =  this.cars.Details(id);
 
             if (cars.UserId != userId && !User.IsAdmin())
             {
@@ -193,35 +154,15 @@
 
             //Add Auto Mapper
 
-            var carForm = this.mapper.Map<AddCarFormModel>(cars);
+            var carForm = this.mapper.Map<AddCarFormServiceModel>(cars);
             carForm.Locations = this.cars.AllCarLocation(); // For Collection Atuo Mapper
 
-            
-            return View(carForm);
-
-            //return View(new AddCarFormModel
-            //{
-            //    Brand = cars.Brand,
-            //    Category = cars.Category,
-            //    Description = cars.Description,
-            //    Doors = cars.Doors,
-            //    Fuel = cars.Fuel,
-            //    ImageUrl = cars.ImageUrl,
-            //    Lugage = cars.Lugage,
-            //    Model = cars.Model,
-            //    Passager = cars.Passager,
-            //    Price = cars.Price,
-            //    RentPricePerDay = cars.RentPricePerDay,
-            //    Transmission = cars.Transmission,
-            //    Year = cars.Year,
-            //    LocationId = cars.LocationId,
-            //    Locations = this.cars.AllCarLocation()
-            //}); --- without AUTO MAPPER
+            return  View(carForm);           
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Edit(AddCarFormModel car)
+        public async Task<IActionResult> Edit(CreateCarServiceModel car)
         {
             var userId = this.User.GetId();
 
@@ -239,7 +180,7 @@
 
             if (!ModelState.IsValid)
             {
-                return View(new AddCarFormModel
+                return View(new CreateCarServiceModel
                 {
                     Locations = this.cars.AllCarLocation()
                 });
@@ -254,34 +195,40 @@
 
             if (carData.DealerId != dealerId && !User.IsAdmin())
             {
-                return Unauthorized();
+                return Unauthorized(); 
             }
-           
-            carData.Brand = car.Brand;
-            carData.Model = car.Model;
-            carData.Year = car.Year;
-            carData.ImageUrl = car.ImageUrl;
-            carData.Description = car.Description;
-            carData.Category = car.Category;
-            carData.Fuel = car.Fuel;
-            carData.Transmission = car.Transmission;
-            carData.Lugage = car.Lugage;
-            carData.Doors = car.Doors;
-            carData.Passager = car.Passager;
-            carData.RentPricePerDay = car.RentPricePerDay;
-            carData.Price = car.Price;
-            carData.LocationId = car.LocationId;
+
+            var carEdit = this.mapper.Map<CreateCarServiceModel>(car);
+
             carData.IsPublic = this.User.IsAdmin();
 
-            this.db.SaveChanges();
+            await this.cars.Edit(carEdit);
 
-            TempData[GlobalMessageKey] = "Your Car success edited";
+            //carData.Brand = car.Brand;
+            //carData.Model = car.Model;
+            //carData.Year = car.Year;
+            //carData.ImageUrl = car.ImageUrl;
+            //carData.Description = car.Description;
+            //carData.Category = car.Category;
+            //carData.Fuel = car.Fuel;
+            //carData.Transmission = car.Transmission;
+            //carData.Lugage = car.Lugage;
+            //carData.Doors = car.Doors;
+            //carData.Passager = car.Passager;
+            //carData.RentPricePerDay = car.RentPricePerDay;
+            //carData.Price = car.Price;
+            //carData.LocationId = car.LocationId;
+            //carData.IsPublic = this.User.IsAdmin();
+
+            //this.db.SaveChanges();
+
+            TempData[GlobalMessageKey] = SuccessEditedCar;
 
             return RedirectToAction(nameof(DealerCar));
         }
 
         [Authorize]
-        
+
         public IActionResult Delete(int id)
         {
             var getCar = cars.GetCarId(id);
@@ -303,7 +250,7 @@
             TempData[GlobalMessageKey] = "Your Car success delited";
 
             return RedirectToAction(nameof(DealerCar));
-            
+
         }
 
         public IActionResult Details(int id)

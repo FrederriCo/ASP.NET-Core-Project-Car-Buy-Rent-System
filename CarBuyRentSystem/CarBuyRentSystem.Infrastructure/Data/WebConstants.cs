@@ -9,5 +9,9 @@
         public const string DataFormatStringDefault = "{0:dd/MM/yyyy}";
 
         public const string WelcomeMessageDealer = "Welcome to Car Portal Buy And Rent dear Dealers!";
+
+        public const string SuccessCreatedCar = "Your Car has been successfully created";
+
+        public const string SuccessEditedCar = "Your Car successfully edited";
     }
 }
