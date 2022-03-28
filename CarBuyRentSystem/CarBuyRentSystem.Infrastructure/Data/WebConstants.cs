@@ -16,6 +16,10 @@
 
         public const string SuccessDelitedCar = "Your Car successfully delited";
 
+        public const string SuccessBuyCar = "You have successfully paid for the car. Thank you!";
+
+        public const string SuccessRentCar = "You have successfully rent for the car. Thank you!";
+
         public const int CurentPageStartValue = 1;
     }
 }

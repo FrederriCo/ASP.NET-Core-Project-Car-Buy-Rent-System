@@ -12,8 +12,9 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Core.Models.View.RentCars; 
+    using CarBuyRentSystem.Core.Models.View.RentCars;
 
+    using static Infrastructure.Data.WebConstants;
     public class BuyCarsController : Controller
     {
         private readonly IUserService userService;
@@ -57,7 +58,9 @@
             {
                 return RedirectToAction("ApplicationError", "Home");
             }
-            
+
+            TempData[GlobalMessageKey] = SuccessBuyCar;
+
             return RedirectToAction("MyBuyCars", "BuyCars");
         }
 

@@ -28,16 +28,28 @@
         {
             var total = cars.Total();
 
-           return View(total);
+             return View(total);
         }
 
-        public IActionResult All() => View(this.cars.AdminGetAllCar());
+        public async Task<IActionResult> All()
+        {
+             return View(await this.cars.AdminGetAllCar());            
+        }
 
-        public IActionResult Edit() => View(this.cars.AdminGetAllCar());       
+        public async Task<IActionResult> Edit()
+        { 
+             return View(await this.cars.AdminGetAllCar());       
+        }
 
-        public IActionResult Delete() => View(this.cars.AdminGetAllCar());
+        public async Task<IActionResult> Delete()
+        {
+            return View(await this.cars.AdminGetAllCar());
+        }
 
-        public IActionResult AllCars() => View(this.cars.AdminGetAllCar());       
+        public async Task<IActionResult> AllCars()
+        {
+            return View(await this.cars.AdminGetAllCar());
+        }
 
         public async Task<IActionResult> ChangeVisability(int id)
         {

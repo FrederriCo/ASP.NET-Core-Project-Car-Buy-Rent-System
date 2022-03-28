@@ -3,13 +3,17 @@
 @{
     ViewData["Title"] = "All Car";
 }
-  
+
 
 @if (!Model.Any())
 {
     <h2 class="text-centar">No cars Found!</h2>
 }
 
+<h1 class="display-4 text-center"><i class="fas fa-car" style="color: darkorange"></i> All Cars</h1>
+
+<h5 class="text-center" style="padding-top:50px;"><i class="fas fa-car" style="color:darkorange;"></i> @Model.Count() cars</h5>
+<br />
 
 
 <div class="row">
@@ -58,7 +62,7 @@
                         <a asp-action="EditCar" asp-controller="Cars" asp-route-id="@car.Id" class="btn btn-warning btn-sm"> Edit</a>
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -67,37 +71,37 @@
 
 
 @*@{
-    var previosPage = Model.CurentPage - 1;
+        var previosPage = Model.CurentPage - 1;
 
-    if (previosPage < 1)
-    {
-        previosPage = 1;
+        if (previosPage < 1)
+        {
+            previosPage = 1;
+        }
+
+        var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage);
     }
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-primary
+               @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Cars"
+               asp-action="All"
+               asp-route-CurentPage="@previosPage"
+               asp-route-brand="@Model.Brand"
+               asp-route-serch="@Model.Search"
+               asp-route-sorting="@((int)Model.Sorting)"><<</a>
 
-    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage);
-}
-<div class="row">
-    <div class="col-md-6">
-        <a class="btn btn-primary
-           @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="Cars"
-           asp-action="All"
-           asp-route-CurentPage="@previosPage"
-           asp-route-brand="@Model.Brand"
-           asp-route-serch="@Model.Search"
-           asp-route-sorting="@((int)Model.Sorting)"><<</a>
-
-    </div>
-    <div class="col-md-6">
-        <a class="btn btn-primary
-        float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
-           asp-controller="Cars"
-           asp-action="All"
-           asp-route-CurentPage="@(Model.CurentPage + 1)"
-           asp-route-brand="@Model.Brand"
-           asp-route-serch="@Model.Search"
-           asp-route-sorting="@((int)Model.Sorting)">>></a>
-    </div>
-</div>*@
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-primary
+            float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
+               asp-controller="Cars"
+               asp-action="All"
+               asp-route-CurentPage="@(Model.CurentPage + 1)"
+               asp-route-brand="@Model.Brand"
+               asp-route-serch="@Model.Search"
+               asp-route-sorting="@((int)Model.Sorting)">>></a>
+        </div>
+    </div>*@
 
 
