@@ -35,7 +35,7 @@
         }
 
         [Authorize]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             if (!this.dealers.IsDealer(this.User.GetId()))
             {
@@ -44,7 +44,7 @@
 
             return View(new AddCarFormServiceModel
             {
-                Locations = this.cars.AllCarLocation()
+                Locations = await this.cars.AllCarLocation()
             });
         }
 
@@ -59,7 +59,9 @@
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            if (!this.cars.LocationExsts(car.LocationId))
+            var locationExists = await this.cars.LocationExists(car.LocationId);
+
+            if (!locationExists)
             {
                 this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
             }
@@ -68,7 +70,7 @@
             {
                 return View(new AddCarFormServiceModel
                 {
-                    Locations = this.cars.AllCarLocation()
+                    Locations = await this.cars.AllCarLocation()
                 });
             }
 
@@ -89,8 +91,8 @@
 
             return View(delarCars);
         }
-       
-        public IActionResult All([FromQuery] AllCarsViewModel query)
+
+        public async Task<IActionResult> All([FromQuery] AllCarsViewModel query)
         {
             var carsQuery = this.db.Cars.Where(c => c.IsPublic).AsQueryable();
 
@@ -120,12 +122,12 @@
 
             var totalCars = carsQuery.Count();
 
-            var cars = this.cars.GetCars(carsQuery
+            var cars = await  this.cars.GetCars(carsQuery
                 .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
                 .Take(AllCarsViewModel.CarPerPage));
 
 
-            var carBrands = this.cars.AllCarBrands();
+            var carBrands = await this.cars.AllCarBrands();
 
             query.Brands = carBrands;
             query.Cars = cars;
@@ -136,7 +138,7 @@
         }
 
         [Authorize]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var userId = this.User.GetId();
 
@@ -145,8 +147,8 @@
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            var cars =  this.cars.Details(id);
-
+            var cars = await this.cars.Details(id);
+               
             if (cars.UserId != userId && !User.IsAdmin())
             {
                 return BadRequest();
@@ -155,16 +157,16 @@
             //Add Auto Mapper
 
             var carForm = this.mapper.Map<AddCarFormServiceModel>(cars);
-            carForm.Locations = this.cars.AllCarLocation(); // For Collection Atuo Mapper
+            carForm.Locations = await this.cars.AllCarLocation(); // For Collection Atuo Mapper
 
-            return  View(carForm);           
+            return View(carForm);
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Edit(CreateCarServiceModel car)
         {
-            var userId = this.User.GetId();
+            var userId =  this.User.GetId();
 
             var dealerId = this.dealers.GetDealerId(userId);
 
@@ -172,8 +174,9 @@
             {
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
+            var locationExists = await this.cars.LocationExists(car.LocationId);
 
-            if (!this.cars.LocationExsts(car.LocationId))
+            if (!locationExists)
             {
                 this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
             }
@@ -182,20 +185,22 @@
             {
                 return View(new CreateCarServiceModel
                 {
-                    Locations = this.cars.AllCarLocation()
+                    Locations = await this.cars.AllCarLocation()
                 });
             }
 
             var carData = this.db.Cars.Find(car.Id);
 
-            if (!this.cars.IsByDealer(car.Id, dealerId) && !User.IsAdmin())
+            var isByDealer = await this.cars.IsByDealer(car.Id, dealerId);
+
+            if (!isByDealer && !User.IsAdmin())
             {
                 return BadRequest();
             }
 
             if (carData.DealerId != dealerId && !User.IsAdmin())
             {
-                return Unauthorized(); 
+                return Unauthorized();
             }
 
             var carEdit = this.mapper.Map<CreateCarServiceModel>(car);
@@ -229,9 +234,9 @@
 
         [Authorize]
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var getCar = cars.GetCarId(id);
+            var getCar = await cars.GetCarId(id);
 
             // var car = mapper.Map<CreateCarServiceModel>(getCar);
 
@@ -240,7 +245,7 @@
                 return RedirectToAction("ApplicationError", "Home");
             }
 
-            cars.Delete(id);
+            await cars.Delete(id);
 
             if (User.IsAdmin())
             {
@@ -253,9 +258,9 @@
 
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var getCar = cars.GetCarId(id);
+            var getCar = await cars.GetCarId(id);
 
             var car = mapper.Map<CarServiceListingViewModel>(getCar);
 

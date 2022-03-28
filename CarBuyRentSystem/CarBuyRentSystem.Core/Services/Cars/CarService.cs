@@ -182,35 +182,36 @@
             await db.SaveChangesAsync();
         }
 
-        public CarDetailsServiceModel Details(int id)
-            => this.db.Cars
+        public async Task<CarDetailsServiceModel> Details(int id)
+            => await this.db.Cars
                     .Where(c => c.Id == id)
                     .ProjectTo<CarDetailsServiceModel>(this.mapper)
-                    //--With AutoMapper
-                    //.Select(c => new CarDetailsServiceModel
-                    //{
-                    //    Id = c.Id,
-                    //    Brand = c.Brand,
-                    //    Model = c.Model,
-                    //    Year = c.Year,
-                    //    Category = c.Category,
-                    //    Fuel = c.Fuel,
-                    //    Transmission = c.Transmission,
-                    //    ImageUrl = c.ImageUrl,
-                    //    Lugage = c.Lugage,
-                    //    Doors = c.Doors,
-                    //    Passager = c.Passager,
-                    //    LocationId = c.LocationId,
-                    //    Locaton = c.Location.Name,
-                    //    Price = c.Price,
-                    //    RentPricePerDay = c.RentPricePerDay,
-                    //    Description = c.Description,
-                    //    DealerId = c.DealerId,
-                    //    DealerName = c.Dealer.Name,
-                    //    UserId = c.Dealer.UserId
+                    .FirstOrDefaultAsync();
+        //--With AutoMapper
+        //.Select(c => new CarDetailsServiceModel
+        //{
+        //    Id = c.Id,
+        //    Brand = c.Brand,
+        //    Model = c.Model,
+        //    Year = c.Year,
+        //    Category = c.Category,
+        //    Fuel = c.Fuel,
+        //    Transmission = c.Transmission,
+        //    ImageUrl = c.ImageUrl,
+        //    Lugage = c.Lugage,
+        //    Doors = c.Doors,
+        //    Passager = c.Passager,
+        //    LocationId = c.LocationId,
+        //    Locaton = c.Location.Name,
+        //    Price = c.Price,
+        //    RentPricePerDay = c.RentPricePerDay,
+        //    Description = c.Description,
+        //    DealerId = c.DealerId,
+        //    DealerName = c.Dealer.Name,
+        //    UserId = c.Dealer.UserId
 
-                    //}) -- Without AutoMapper
-                    .FirstOrDefault();
+        //}) -- Without AutoMapper
+
 
         public async Task Edit(CreateCarServiceModel car)
         {
@@ -282,13 +283,13 @@
             return cars;
         }
 
-        public bool IsByDealer(int carId, int dealerId)
-            => this.db
+        public async Task<bool> IsByDealer(int carId, int dealerId)
+            => await this.db
                 .Cars
-                .Any(x => x.Id == carId && x.DealerId == dealerId);
+                .AnyAsync(x => x.Id == carId && x.DealerId == dealerId);
 
-        public async Task<bool> LocationExsts(int locationId)
-         => await db.Locations
+        public async Task<bool> LocationExists(int locationId)
+            => await db.Locations
             .AnyAsync(x => x.Id == locationId);
 
         public async Task<bool> Rent(RentCar rentCar, string username)

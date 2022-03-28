@@ -20,7 +20,7 @@
 
         Task<bool> Rent(RentCar rentCar, string username);
 
-        CarDetailsServiceModel Details(int id);
+        Task<CarDetailsServiceModel> Details(int id);
 
         Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar();
 
@@ -28,7 +28,7 @@
 
         Task<Car> GetCarId(int id);
 
-        bool IsByDealer(int carId, int dealerId);      
+        Task<bool> IsByDealer(int carId, int dealerId);      
 
         Task<bool> LocationExists(int locationId);
 
