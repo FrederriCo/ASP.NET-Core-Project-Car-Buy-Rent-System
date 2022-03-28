@@ -5,29 +5,26 @@
     using Microsoft.AspNetCore.Mvc;
 
     using CarBuyRentSystem.Core.Models;
-    using CarBuyRentSystem.Core.Services.Cars;    
+    using CarBuyRentSystem.Core.Services.Cars;
 
     public class HomeController : Controller
     {
-        private readonly ICarService carService;        
+        private readonly ICarService carService;
 
         public HomeController(ICarService carService)
-        {
-           this.carService = carService;
-        }
+           => this.carService = carService;
 
         public async Task<IActionResult> Index()
         {
-           var cars = await carService.GetLastThreeCar();
-           
-            return  View(cars);
+            var cars = await carService.GetLastThreeCar();
+
+            return View(cars);
         }
 
-        public IActionResult ApplicationError() => View();       
+        public IActionResult ApplicationError() => View();
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });     
-    
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

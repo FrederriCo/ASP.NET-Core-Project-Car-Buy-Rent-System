@@ -1,18 +1,19 @@
 ﻿namespace CarBuyRentSystem.Core.Services.Cars
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Infrastructure.Models;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     public interface ICarService
     {
-        // CarsViewModel All();
-        //int Create(CreateCarServiceModel car);
-
         Task Add(Car car);
+
+        Task<CarDetailsServiceModel> Details(int id);
 
         Task Edit(CreateCarServiceModel car);
 
@@ -20,7 +21,14 @@
 
         Task<bool> Rent(RentCar rentCar, string username);
 
-        Task<CarDetailsServiceModel> Details(int id);
+        Task Delete(int id);
+
+        Task<CarQueryServiceModel> All(string brand = null,
+                  string search = null,
+                  CarSorting sorting = CarSorting.DateCreated,
+                  int currentPage = 1,
+                  int carsPerPage = int.MaxValue,
+                  bool publicOnly = true);
 
         Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar();
 
@@ -28,11 +36,9 @@
 
         Task<Car> GetCarId(int id);
 
-        Task<bool> IsByDealer(int carId, int dealerId);      
+        Task<bool> IsByDealer(int carId, int dealerId);
 
         Task<bool> LocationExists(int locationId);
-
-        Task Delete(int id);
 
         TotalUserCar Total();
 

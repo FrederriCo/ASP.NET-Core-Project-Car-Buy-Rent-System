@@ -41,7 +41,6 @@
             TempData[GlobalMessageKey] = WelcomeMessageDealer;
 
             return RedirectToAction("All", "Cars");
-        }
-       
+        }       
     }
 }

@@ -29,9 +29,9 @@
         }
 
         [Authorize]
-        public IActionResult Rent(int id)
+        public async Task<IActionResult> Rent(int id)
         {
-            var getCar = this.carService.Details(id);
+            var getCar = await this.carService.Details(id);
 
             var car = mapper.Map<CarDetailsServiceModel>(getCar);
 

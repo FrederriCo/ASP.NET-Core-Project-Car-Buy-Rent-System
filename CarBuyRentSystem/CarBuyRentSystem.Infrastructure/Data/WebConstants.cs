@@ -13,5 +13,9 @@
         public const string SuccessCreatedCar = "Your Car has been successfully created";
 
         public const string SuccessEditedCar = "Your Car successfully edited";
+
+        public const string SuccessDelitedCar = "Your Car successfully delited";
+
+        public const int CurentPageStartValue = 1;
     }
 }

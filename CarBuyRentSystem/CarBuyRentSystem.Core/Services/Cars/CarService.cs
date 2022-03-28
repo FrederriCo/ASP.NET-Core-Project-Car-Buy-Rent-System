@@ -13,6 +13,9 @@
     using CarBuyRentSystem.Infrastructure.Data;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
+
+    using static Infrastructure.Data.WebConstants;
 
     public class CarService : DataService, ICarService
     {
@@ -35,80 +38,72 @@
                .ProjectTo<CarServiceListingViewModel>(this.mapper)
                .ToListAsync();
 
+        public async Task<CarQueryServiceModel> All(string brand = null,
+                            string search = null,
+                            CarSorting sorting = CarSorting.DateCreated,
+                            int currentPage = CurentPageStartValue,
+                            int carsPeerPage = int.MaxValue,
+                            bool publicOnly = true)
+        {
+            var carsQuery = this.db
+                                .Cars
+                                .Where(c => !publicOnly || c.IsPublic);
 
-        //public AllCarsViewModel All()
-        //{
-        //    var carsQuery = this.db.Cars.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(brand))
+            {
+                carsQuery = carsQuery.Where(c => c.Brand == brand);
+            }
 
-        //    if (!string.IsNullOrWhiteSpace(query.Brand))
-        //    {
-        //        carsQuery = carsQuery.Where(c => c.Brand == query.Brand);
-        //    }
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                carsQuery = carsQuery.Where(c =>
+                    (c.Brand + " " + c.Model).ToLower().Contains(search.ToLower()) ||
+                    c.Description.ToLower().Contains(search.ToLower()));
+            }
 
-        //    if (!string.IsNullOrWhiteSpace(query.Search))
-        //    {
-        //        carsQuery = carsQuery.Where(c =>
-        //                (c.Model + c.Brand).ToLower().Contains(query.Search.ToLower())
-        //                || c.Description.ToLower().Contains(query.Search.ToLower())
-        //            );
-        //    }
+            carsQuery = sorting switch
+            {
+                CarSorting.Year => carsQuery.OrderByDescending(c => c.Year),
+                CarSorting.BrandAndModel => carsQuery.OrderBy(c => c.Brand).ThenBy(c => c.Model),
+                CarSorting.DateCreated or _ => carsQuery.OrderByDescending(c => c.Id)
+            };
 
-        //    carsQuery = query.Sorting switch
-        //    {
-        //        CarSorting.Price => carsQuery.OrderByDescending(x => x.RentPricePerDay),
-        //        CarSorting.BrandAnyModel => carsQuery.OrderBy(x => x.Brand).ThenBy(c => c.Model),
-        //        CarSorting.Year or _ => carsQuery.OrderByDescending(c => c.Year)
-        //    };
+            var totalCars = carsQuery.Count();
 
-        //    var totalCars = carsQuery.Count();
+            var cars = await GetCars(carsQuery
+                       .Skip((currentPage - 1) * carsPeerPage)
+                       .Take(carsPeerPage));
 
-        //    var cars = carsQuery
-        //        .Skip((query.CurentPage - 1) * AllCarsViewModel.CarPerPage)
-        //        .Take(AllCarsViewModel.CarPerPage)
-        //        .Select(c => new CarListingVIewModel
-        //        {
-        //            Id = c.Id,
-        //            Brand = c.Brand,
-        //            Model = c.Model,
-        //            Year = c.Year,
-        //            Category = c.Category,
-        //            Fuel = c.Fuel,
-        //            Transmission = c.Transmission,
-        //            ImageUrl = c.ImageUrl,
-        //            Lugage = c.Lugage,
-        //            Doors = c.Doors,
-        //            Passager = c.Passager,
-        //            Locaton = c.Location.Name,
-        //            Price = c.Price,
-        //            RentPricePerDay = c.RentPricePerDay
-        //        })
-        //        .ToList();
-        //}
+            return new CarQueryServiceModel
+            {
+                TotalCars = totalCars,
+                CurentPage = currentPage,
+                CarsPerPage = carsPeerPage,
+                Cars = cars
+            };
+        }
 
         public async Task<IEnumerable<string>> AllCarBrands()
-           => await db
-              .Cars
-              .Select(c => c.Brand)
-              .Distinct()
-              .OrderBy(b => b)
-              .ToListAsync();
+               => await db
+                  .Cars
+                  .Select(c => c.Brand)
+                  .Distinct()
+                  .OrderBy(b => b)
+                  .ToListAsync();
 
         public async Task<IEnumerable<CarLocationServiceModel>> AllCarLocation()
-            => await  this.db
+            => await this.db
             .Locations
             .ProjectTo<CarLocationServiceModel>(this.mapper)
-            //.Select(l => new CarLocationServiceModel
-            //{
-            //    Id = l.Id,
-            //    Name = l.Name
-            //})
             .ToListAsync();
 
         public async Task<bool> Buy(BuyCar buyCar, string username)
         {
-            var user = await this.db.Users.SingleOrDefaultAsync(u => u.UserName == username);
+            var user = await this.db
+                .Users.SingleOrDefaultAsync(u => u.UserName == username);
 
-            var car = await this.db.Cars.SingleOrDefaultAsync(c => c.Id == buyCar.CarId);
+            var car = await this.db
+                .Cars.SingleOrDefaultAsync(c => c.Id == buyCar.CarId);
 
             if (user == null || car == null /*|| user.Balance < car.Price*/ )
             {
@@ -142,33 +137,6 @@
             await db.SaveChangesAsync();
         }
 
-        public int Create(CreateCarServiceModel car)
-        {
-            var carAdd = new Car
-            {
-                Brand = car.Brand,
-                Model = car.Model,
-                Year = car.Year,
-                ImageUrl = car.ImageUrl,
-                Description = car.Description,
-                Category = car.Category,
-                Fuel = car.Fuel,
-                Transmission = car.Transmission,
-                Lugage = car.Lugage,
-                Doors = car.Doors,
-                Passager = car.Passager,
-                RentPricePerDay = car.RentPricePerDay,
-                Price = car.Price,
-                LocationId = car.LocationId
-
-            };
-
-            db.Cars.Add(carAdd);
-            db.SaveChanges();
-
-            return carAdd.Id;
-
-        }
         public async Task Delete(int id)
         {
             var car = await db.Cars.FirstOrDefaultAsync(c => c.Id == id);
@@ -187,31 +155,6 @@
                     .Where(c => c.Id == id)
                     .ProjectTo<CarDetailsServiceModel>(this.mapper)
                     .FirstOrDefaultAsync();
-        //--With AutoMapper
-        //.Select(c => new CarDetailsServiceModel
-        //{
-        //    Id = c.Id,
-        //    Brand = c.Brand,
-        //    Model = c.Model,
-        //    Year = c.Year,
-        //    Category = c.Category,
-        //    Fuel = c.Fuel,
-        //    Transmission = c.Transmission,
-        //    ImageUrl = c.ImageUrl,
-        //    Lugage = c.Lugage,
-        //    Doors = c.Doors,
-        //    Passager = c.Passager,
-        //    LocationId = c.LocationId,
-        //    Locaton = c.Location.Name,
-        //    Price = c.Price,
-        //    RentPricePerDay = c.RentPricePerDay,
-        //    Description = c.Description,
-        //    DealerId = c.DealerId,
-        //    DealerName = c.Dealer.Name,
-        //    UserId = c.Dealer.UserId
-
-        //}) -- Without AutoMapper
-
 
         public async Task Edit(CreateCarServiceModel car)
         {
@@ -221,7 +164,7 @@
             {
                 return;
             }
-
+            
             carData.Brand = car.Brand;
             carData.Model = car.Model;
             carData.Year = car.Year;
@@ -238,7 +181,6 @@
             carData.LocationId = car.LocationId;
 
             await db.SaveChangesAsync();
-
         }
 
         public async Task<Car> GetCarId(int id)
@@ -246,30 +188,13 @@
             var car = await db
                            .Cars
                            .FirstOrDefaultAsync(x => x.Id == id);
-
             return car;
         }
 
         public async Task<IEnumerable<CarServiceListingViewModel>> GetCars(IQueryable<Car> carQuery)
-         => await carQuery
-           .Select(c => new CarServiceListingViewModel
-           {
-               Id = c.Id,
-               Brand = c.Brand,
-               Model = c.Model,
-               Year = c.Year,
-               Category = c.Category,
-               Fuel = c.Fuel,
-               Transmission = c.Transmission,
-               ImageUrl = c.ImageUrl,
-               Lugage = c.Lugage,
-               Doors = c.Doors,
-               Passager = c.Passager,
-               Locaton = c.Location.Name,
-               Price = c.Price,
-               RentPricePerDay = c.RentPricePerDay
-           })
-           .ToListAsync();
+          => await carQuery
+            .ProjectTo<CarServiceListingViewModel>(this.mapper)
+            .ToListAsync();
 
         public async Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar()
         {
@@ -290,13 +215,15 @@
 
         public async Task<bool> LocationExists(int locationId)
             => await db.Locations
-            .AnyAsync(x => x.Id == locationId);
+                .AnyAsync(x => x.Id == locationId);
 
         public async Task<bool> Rent(RentCar rentCar, string username)
         {
-            var user = await this.db.Users.SingleOrDefaultAsync(u => u.UserName == username);
+            var user = await this.db
+                .Users.SingleOrDefaultAsync(u => u.UserName == username);
 
-            var car = await this.db.Cars.SingleOrDefaultAsync(c => c.Id == rentCar.CarId);
+            var car = await this.db
+                .Cars.SingleOrDefaultAsync(c => c.Id == rentCar.CarId);
 
             if (user == null || car == null)
             {
@@ -341,7 +268,5 @@
 
             return carsUser;
         }
-
-
     }
 }
