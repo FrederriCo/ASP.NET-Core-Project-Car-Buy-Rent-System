@@ -4,46 +4,46 @@
     ViewData["Title"] = "All Car";
 }
 
-<form method="get">
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label asp-for="Brand"></label>
-            <select asp-for="Brand" class="form-control">
-                <option value="">All</option>
-                @foreach (var brand in Model.Brands)
-                {
-                    <option value="@brand">@brand</option>
-                }
-            </select>
-        </div>
+<div class="mb-5 my-all-search">
+    <form method="get" class="trip-form">
 
-        <div class="form-group col-md-4">
-            <label asp-for="Search"></label>
-            <input asp-for="Search" class="form-control" placeholder="Search Car etc..." />
-        </div>
+        <div class="row align-items-center">
 
-        <div class="form-group col-md-4">
-            <div class="form-group">
-                <label asp-for="Sorting"></label>
+            <div class="mb-3 mb-md-0 col-md-3">
+                <select asp-for="Brand" class="form-control">
+                    <option value="">All</option>
+                    @foreach (var brand in Model.Brands)
+                    {
+                        <option value="@brand">@brand</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3 mb-md-0 col-md-3">
+                <div class="form-control-wrap">
+                    <input asp-for="Search" class="form-control" placeholder="Search Car etc..." >
+                    <span asp-for="Search"></span>
+
+                </div>
+            </div>
+            <div class="mb-3 mb-md-0 col-md-3">
                 <select asp-for="Sorting" class="form-control">
                     <option value="0" selected>Year</option>
                     <option value="1">Price</option>
                     <option value="2">Brand And Model</option>
                 </select>
             </div>
+            <div class="mb-3 mb-md-0 col-md-3">
+                <input type="submit" value="Search Now" class="btn btn-primary btn-block py-3">
+            </div>
         </div>
-
-        <div class="form-group col-md-3">
-            <input type="submit" class="btn btn-primary d-none" value="Search" />
-        </div>
-
-    </div>
-</form>
+    </form>
+</div>
 
 
 @if (!Model.Cars.Any())
 {
-    <h2 class="text-centar">No cars Found!</h2>
+    <h2 style="text-align:center">No cars Found!</h2>
+
 }
 
 <div>
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="listing-feature pr-4">
                                     <span class="caption">Location:</span>
-                                    <span class="number">@cars.Locaton</span>
+                                    <span class="number">@cars.Locatio</span>
                                 </div>
                             </div>
                             <div>
@@ -128,7 +128,7 @@
            asp-route-CurentPage="@previosPage"
            asp-route-brand="@Model.Brand"
            asp-route-serch="@Model.Search"
-           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+           asp-route-sorting="@((int)Model.Sorting)"><< Back</a>
 
     </div>
     <div class="col-md-6">
@@ -139,6 +139,6 @@
            asp-route-CurentPage="@(Model.CurentPage + 1)"
            asp-route-brand="@Model.Brand"
            asp-route-serch="@Model.Search"
-           asp-route-sorting="@((int)Model.Sorting)">>></a>
+           asp-route-sorting="@((int)Model.Sorting)">Next >></a>
     </div>
 </div>
