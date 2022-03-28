@@ -11,12 +11,12 @@
 
 @if (!Model.Any())
 {
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Rent and Buy Car Sysytem</h1>
-        <p class="lead">Search the best car rent and buy</p>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Rent and Buy Car Sysytem</h1>
+            <p class="lead">Search the best car rent and buy</p>
+        </div>
     </div>
-</div>
 }
 
 <div class="text-center" style="padding-bottom: 30px;">
@@ -33,7 +33,7 @@
             <img class="d-block w-100" src="~/images/3.jpg" alt="First slide">
             <div class="carousel-caption">
                 <h5>Rate</h5>
-                <p>Vote for you favourite car.</p>
+                <p>Select your favourite car.</p>
             </div>
         </div>
         <div class="carousel-item">
@@ -60,23 +60,57 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<br />
-<br />
-<h1 class="display-4 text-center"><i class="fas fa-star" style="color: darkorange"></i> Top Cars</h1>
-<div class="row">
 
-    @foreach (var car in Model.Take(3))
-     {
-    <div class="col-sm-4" style="padding-top: 20px;">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="@car.ImageUrl" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@car.Brand @car.Model</h5>
-                <p><i class="far fa-heart" style="color: darkorange"></i> @*@car.Rating*@ </p>
-                <p class="card-text">The @car.Fuel @car.Model is one of the most beloved cars according to our users.</p>
-                <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="card-link" style="color: darkorange">View more</a>
+<div class="mb-5" style="background:white; padding:20px; margin:50px; border-radius:10px;">
+    <form class="trip-form">
+
+        <div class="row align-items-center">
+
+            <div class="mb-3 mb-md-0 col-md-3">
+                <select name="" id="" class="custom-select form-control">
+                    <option value="">Select Type</option>
+                    <option value="">Ferrari</option>
+                    <option value="">Toyota</option>
+                    <option value="">Ford</option>
+                    <option value="">Lamborghini</option>
+                </select>
+            </div>
+            <div class="mb-3 mb-md-0 col-md-3">
+                <div class="form-control-wrap">
+                    <input type="text" id="cf-3" placeholder="Pick up" class="form-control datepicker px-3">
+                    <span class="icon icon-date_range"></span>
+
+                </div>
+            </div>
+            <div class="mb-3 mb-md-0 col-md-3">
+                <div class="form-control-wrap">
+                    <input type="text" id="cf-4" placeholder="Drop off" class="form-control datepicker px-3">
+                    <span class="icon icon-date_range"></span>
+                </div>
+            </div>
+            <div class="mb-3 mb-md-0 col-md-3">
+                <input type="submit" value="Search Now" class="btn btn-primary btn-block py-3">
             </div>
         </div>
-    </div>
+    </form>
+</div>
+<br />
+<h1 class="display-4 text-center"><i class="fas fa-star" style="color: darkorange"></i> Top Cars</h1>
+
+<div class="row" style="display: flex;">
+
+    @foreach (var car in Model)
+    {
+        <div class="col-sm-4" style="padding-top: 20px;">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@car.ImageUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Brand @car.Model</h5>
+                    <p><i class="fas fa-dollar-sign" style="color: darkorange"></i> @car.RentPricePerDay / Rent</p>
+                    <p class="card-text">The @car.Fuel @car.Model is one of the most beloved cars according to our users.</p>
+                    <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="card-link" style="color: darkorange">View more</a>
+                </div>
+            </div>
+        </div>
     }
 </div>

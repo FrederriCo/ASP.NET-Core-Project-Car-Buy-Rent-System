@@ -6,7 +6,7 @@
 
 <form method="get">
     <div class="row">
-        <div class="form-group">
+        <div class="form-group col-md-4">
             <label asp-for="Brand"></label>
             <select asp-for="Brand" class="form-control">
                 <option value="">All</option>
@@ -17,12 +17,12 @@
             </select>
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
             <label asp-for="Search"></label>
             <input asp-for="Search" class="form-control" placeholder="Search Car etc..." />
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
             <div class="form-group">
                 <label asp-for="Sorting"></label>
                 <select asp-for="Sorting" class="form-control">
@@ -40,28 +40,27 @@
     </div>
 </form>
 
+
 @if (!Model.Cars.Any())
 {
     <h2 class="text-centar">No cars Found!</h2>
 }
 
-<div class="site-section bg-light">
+<div>
     <div class="container">
         <div class="col-lg-7">
             <h2 class="section-heading"><strong>Car Listings</strong></h2>
             <p class="mb-5">Choose the car you want to own or rent.</p>
         </div>
 
-
         <div class="row">
             @foreach (var cars in Model.Cars)
             {
-
                 <div class="col-md-6 col-lg-4 mb-4">
 
                     <div class="listing d-block  align-items-stretch">
                         <div class="listing-img h-100 mr-4">
-                            <img src="@cars.ImageUrl" class="img-fluid  " alt="Image">
+                            <img class="card-img-top" src="@cars.ImageUrl" alt="Image">
                         </div>
                         <div class="listing-contents h-100">
                             <h3>@cars.Brand @cars.Model</h3>
@@ -82,6 +81,20 @@
                                     <span class="number">@cars.Passager</span>
                                 </div>
                             </div>
+                            <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                                <div class="listing-feature pr-4">
+                                    <span class="caption">Fuel:</span>
+                                    <span class="number">@cars.Fuel</span>
+                                </div>
+                                <div class="listing-feature pr-4">
+                                    <span class="caption">Transmision:</span>
+                                    <span class="number">@cars.Transmission</span>
+                                </div>
+                                <div class="listing-feature pr-4">
+                                    <span class="caption">Location:</span>
+                                    <span class="number">@cars.Locaton</span>
+                                </div>
+                            </div>
                             <div>
                                 <p>@cars.Description</p>
                                 <p class="d-inline"><a asp-action="Rent" asp-controller="RentCars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Rent Now</a></p>
@@ -89,11 +102,43 @@
                                 <p class="d-inline"><a asp-action="Details" asp-controller="Cars" asp-route-id="@cars.Id" class="btn btn-primary btn-sm"> Details</a></p>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
             }
         </div>
+    </div>
+</div>
+@{
+    var previosPage = Model.CurentPage - 1;
+
+    if (previosPage < 1)
+    {
+        previosPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsViewModel.CarPerPage);
+}
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary
+           @(Model.CurentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurentPage="@previosPage"
+           asp-route-brand="@Model.Brand"
+           asp-route-serch="@Model.Search"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary
+        float-right @(Model.CurentPage == maxPage ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-CurentPage="@(Model.CurentPage + 1)"
+           asp-route-brand="@Model.Brand"
+           asp-route-serch="@Model.Search"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
     </div>
 </div>

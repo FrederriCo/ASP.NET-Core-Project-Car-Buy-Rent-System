@@ -2,7 +2,7 @@
 
 @{ ViewData["Title"] = "Details"; }
 
-<h1 class="display-4 text-center"><i class="fas fa-car" style="color: black"></i> @Model.Brand @Model.Model</h1>
+<h1 class="display-4 text-center"><i class="fas fa-car" style="color: darkorange"></i> @Model.Brand @Model.Model</h1>
 <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
     <div class="card text-center"  style="width: 35rem">
 
@@ -23,13 +23,13 @@
             <li class="list-group-item"><i class="my-stile fas fa-id-card"></i>Rent Price: @Model.RentPricePerDay$</li>
         </ul>
         <div class="card-body">
-            <button type="button" class="my-button btn btn-danger">Buy</button>
-            <button type="button" class="my-button btn btn-success">Rent</button>
-            @if (User.IsAdmin())
-            {
-            <a asp-controller="Cars" asp-action="Edit" asp-route-id="@Model.Id" class="my-button btn  btn-warning">Edit</a>
-            <a asp-controller="Cars" asp-action="Delete" asp-route-id="@Model.Id" class="my-button btn btn-dark">Delete</a>
-            }
+            <a asp-controller="BuyCars" asp-action="Buy" asp-route-id="@Model.Id" class="my-button btn btn-danger"> Buy</a>
+            <a asp-controller="RentCars" asp-action="Rent" asp-route-id="@Model.Id" class="my-button btn btn-success">Rent</a>
+                @if (User.IsAdmin())
+                {
+                    <a asp-controller="Cars" asp-action="Edit" asp-route-id="@Model.Id" class="my-button btn  btn-warning">Edit</a>
+                    <a asp-controller="Cars" asp-action="Delete" asp-route-id="@Model.Id" class="my-button btn btn-dark">Delete</a>
+                }
         </div>
     </div>
 </div>

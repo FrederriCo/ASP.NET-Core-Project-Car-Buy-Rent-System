@@ -30,9 +30,9 @@
         }
         
         [Authorize]
-        public  IActionResult Buy(int id)
+        public  async Task<IActionResult> Buy(int id)
         {
-            var getCar = this.carService.Details(id);
+            var getCar = await this.carService.Details(id);
 
             var car = mapper.Map<CarServiceListingViewModel>(getCar);
 
