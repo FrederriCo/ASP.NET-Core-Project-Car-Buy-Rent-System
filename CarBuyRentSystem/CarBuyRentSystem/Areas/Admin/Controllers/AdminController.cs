@@ -10,6 +10,5 @@
     [Authorize(Roles = WebConstants.AdministratorRoleName)]
     public abstract class AdminController : Controller
     {
-    }
-    
+    }    
 }

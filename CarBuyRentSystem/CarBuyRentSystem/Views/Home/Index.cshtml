@@ -1,4 +1,4 @@
-﻿@model List<CarListingVIewModel>
+﻿@model List<CarListingViewModel>
 @{
     ViewData["Title"] = "Rent and Buy Car system ";
 }
@@ -101,13 +101,13 @@
 
     @foreach (var car in Model)
     {
-        <div class="col-sm-4" style="padding-top: 20px;">
+        <div class="col-sm-4" style="padding-top: 10px;">
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="@car.ImageUrl" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">@car.Brand @car.Model</h5>
-                    <p><i class="fas fa-dollar-sign" style="color: darkorange"></i> @car.RentPricePerDay / Rent</p>
-                    <p class="card-text">The @car.Fuel @car.Model is one of the most beloved cars according to our users.</p>
+                    <p><i class="fas fa-dollar-sign" style="color: darkorange"></i> @car.RentPricePerDay / Rent / Location: @car.LocationName   </p>                   
+                    <p class="card-text">The @car.Fuel @car.Model is one of the most popular cars according to our users.</p>
                     <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="card-link" style="color: darkorange">View more</a>
                 </div>
             </div>

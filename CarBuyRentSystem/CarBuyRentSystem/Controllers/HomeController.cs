@@ -17,7 +17,7 @@
         public async Task<IActionResult> Index()
         {
             var cars = await carService.GetLastThreeCar();
-
+            
             return View(cars);
         }
 

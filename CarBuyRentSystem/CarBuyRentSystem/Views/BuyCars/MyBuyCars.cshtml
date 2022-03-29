@@ -5,6 +5,8 @@
 
 <br />
 
+@if (Model.Count() != 0)
+{
 <table class="table table-bordered table-hover text-center" style="background-color:white">
     <thead>
         <tr style="font-size: 30px;">
@@ -21,7 +23,12 @@
     <td>@car.BoughtOn.Date.ToShortDateString()</td>
     <td>@car.Price$</td>
 </tr>
-}
+        }
 
     </tbody>
 </table>
+}
+else
+{
+    <h2 class="display-4 text-center"> Ooops No Cars Add! Please Select your Car!</h2>
+}

@@ -154,11 +154,11 @@
             => await this.db.Cars
                     .Where(c => c.Id == id)
                     .ProjectTo<CarDetailsServiceModel>(this.mapper)
-                    .FirstOrDefaultAsync();
-
+                    .FirstOrDefaultAsync(); 
+        
         public async Task Edit(CreateCarServiceModel car)
-        {
-            var carData = await this.db.Cars.FindAsync(car.Id);
+        {          
+            var carData = await this.db.Cars.FindAsync(car.Id);           
 
             if (carData == null)
             {
@@ -196,17 +196,17 @@
             .ProjectTo<CarServiceListingViewModel>(this.mapper)
             .ToListAsync();
 
-        public async Task<IEnumerable<CarListingVIewModel>> GetLastThreeCar()
-        {
+        public async Task<IEnumerable<CarListingViewModel>> GetLastThreeCar()
+        {            
             var cars = await db
               .Cars
               .OrderByDescending(c => c.Id)
-              .ProjectTo<CarListingVIewModel>(this.mapper)
+              .ProjectTo<CarListingViewModel>(this.mapper)
               .Take(3)
-              .ToListAsync();
-
+              .ToListAsync();           
+            
             return cars;
-        }
+        }     
 
         public async Task<bool> IsByDealer(int carId, int dealerId)
             => await this.db

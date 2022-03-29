@@ -1,7 +1,11 @@
 ﻿namespace CarBuyRentSystem.Core.Models.View.Cars
 {
+    using System.Collections.Generic;
+
+    using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Infrastructure.Models.Enums;
-    public class CarListingVIewModel
+
+    public class CarListingViewModel
     {
         public int Id { get; set; }
 
@@ -25,11 +29,14 @@
 
         public int Passager { get; set; }
 
-        public string Locaton { get; set; }
+        public int LocationId { get; set; }
+
+        public string LocationName { get; set; }
 
         public decimal Price { get; set; }
 
         public decimal RentPricePerDay { get; set; }
-
+        
+        public IEnumerable<CarLocationServiceModel> Locations { get; set; }
     }
 }

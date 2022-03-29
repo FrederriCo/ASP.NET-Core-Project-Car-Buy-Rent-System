@@ -54,7 +54,7 @@
         
         public int LocationId { get; set; }
 
-        public Location Location { get; init; }
+        public Location Location { get; set; }
 
         public bool IsPublic { get; set; }
 

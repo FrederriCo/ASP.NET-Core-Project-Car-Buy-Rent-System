@@ -30,7 +30,7 @@
 
         public int LocationId { get; set; }
 
-        public string Locaton { get; set; }
+        public string LocationName { get; set; }
 
         public decimal Price { get; set; }
 

@@ -14,9 +14,9 @@
         {
             CreateMap<CarDetailsServiceModel, AddCarFormServiceModel>();
             CreateMap<Location, CarLocationServiceModel>();
-            CreateMap<Car, Car>();
+           // CreateMap<Car, Car>();
             CreateMap<AddCarFormServiceModel, Car> ();           
-            CreateMap<Car, CarListingVIewModel>();
+            CreateMap<Car, CarListingViewModel>();
             CreateMap<Car, CarServiceListingViewModel>();
             CreateMap<RentCar, RentedCarsViewModel>();
             CreateMap<BuyCar, BuyCarBindingModel>().ReverseMap();

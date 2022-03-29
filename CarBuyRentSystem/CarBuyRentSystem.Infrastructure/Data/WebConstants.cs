@@ -18,7 +18,7 @@
 
         public const string SuccessBuyCar = "You have successfully paid for the car. Thank you!";
 
-        public const string SuccessRentCar = "You have successfully rent for the car. Thank you!";
+        public const string SuccessRentCar = "You have successfully rent a car. Thank you!";
 
         public const int CurentPageStartValue = 1;
     }

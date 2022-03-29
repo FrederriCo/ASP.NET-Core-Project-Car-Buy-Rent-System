@@ -5,7 +5,8 @@
 
 <br />
 <br />
-
+@if (Model.Count() != 0)
+{
 <table class="table table-bordered table-hover text-center" style="background-color:white">
     <thead>
         <tr style="font-size: 30px;">
@@ -18,13 +19,18 @@
     <tbody>
         @foreach (var car in Model)
         {
-<tr>
-    <td><a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId">@car.Car.Brand @car.Car.Model</a></td>
-    <td>@car.StartDate.Date.ToShortDateString()</td>
-    <td>@car.EndDate.Date.ToShortDateString()</td>
-    <td>@car.TotalPrice $</td>
-</tr>
-}
+            <tr>
+                <td><a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId">@car.Car.Brand @car.Car.Model</a></td>
+                <td>@car.StartDate.Date.ToShortDateString()</td>
+                <td>@car.EndDate.Date.ToShortDateString()</td>
+                <td>@car.TotalPrice $</td>
+            </tr>
+        }
 
     </tbody>
 </table>
+}
+else
+{
+<h2 class="display-4 text-center"> Ooops No Cars Add! Please Select your Car! </h2>
+}
