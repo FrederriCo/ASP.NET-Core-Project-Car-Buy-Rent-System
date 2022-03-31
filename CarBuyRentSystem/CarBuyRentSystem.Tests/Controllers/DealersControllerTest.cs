@@ -1,9 +1,15 @@
 ﻿namespace CarBuyRentSystem.Tests.Controllers
 {
     using Xunit;
+    using System.Linq;
     using MyTested.AspNetCore.Mvc;
     using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models;
+
+    using CarBuyRentSystem.Infrastructure.Models;
+
+    using static Infrastructure.Data.WebConstants;
+    using CarBuyRentSystem.Core.Models.View.Cars;
 
     public class DealersControllerTest
     {
@@ -41,7 +47,7 @@
                 .View();
 
         [Theory]
-        [InlineData("TopAuto","+359888888888")]
+        [InlineData("TopAuto", "+3599999999")]
         public void PostCreateDealerShouldBeForAuthorizedUsersAndReturnRedirectWithValidModel(string dealerName, string phoneNumber)
             => MyController<DealersController>
                 .Instance(controller => controller
@@ -57,8 +63,19 @@
                     .RestrictingForAuthorizedRequests())
                 .AndAlso()
                 .ShouldHave()
-                .ValidModelState();
-                
+                .ValidModelState()
+                .Data(data => data.WithSet<Dealer>(d =>
+                {
+                    d.Any(d => d.Name == dealerName &&
+                          d.PhoneNumber == phoneNumber &&
+                          d.UserId == TestUser.Identifier);
+                }))
+            .TempData(tempData => tempData
+                .ContainingEntryWithKey(GlobalMessageKey))
+            .AndAlso()
+            .ShouldReturn()
+            .Redirect(r => r.To<CarsController>(c => c.All(With.Any<AllCarsViewModel>())));
+
 
     }
 }
