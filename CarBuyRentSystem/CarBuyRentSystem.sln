@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarBuyRentSystem.Infrastruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarBuyRentSystem.Core", "CarBuyRentSystem.Core\CarBuyRentSystem.Core.csproj", "{EA608F26-F4C0-4600-BFE7-15E665E29BF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarBuyRentSystem.Tests", "CarBuyRentSystem.Tests\CarBuyRentSystem.Tests.csproj", "{682AD2FE-3E5C-4DA2-A76B-5151E5206E24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EA608F26-F4C0-4600-BFE7-15E665E29BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA608F26-F4C0-4600-BFE7-15E665E29BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA608F26-F4C0-4600-BFE7-15E665E29BF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{682AD2FE-3E5C-4DA2-A76B-5151E5206E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{682AD2FE-3E5C-4DA2-A76B-5151E5206E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{682AD2FE-3E5C-4DA2-A76B-5151E5206E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{682AD2FE-3E5C-4DA2-A76B-5151E5206E24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

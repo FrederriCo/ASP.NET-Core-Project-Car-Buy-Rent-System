@@ -30,7 +30,7 @@
                   int carsPerPage = int.MaxValue,
                   bool publicOnly = true);
 
-        Task<IEnumerable<CarListingViewModel>> GetLastThreeCar();
+        Task <IEnumerable<CarListingViewModel>> GetLastThreeCar();
 
         Task ChangeVisability(int carId);
 

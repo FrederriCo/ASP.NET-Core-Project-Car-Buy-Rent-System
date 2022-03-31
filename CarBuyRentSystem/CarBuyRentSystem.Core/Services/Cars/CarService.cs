@@ -21,10 +21,10 @@
     {
         private readonly IConfigurationProvider mapper;
 
-        public CarService(CarDbContext db, IConfigurationProvider mapper)
+        public CarService(CarDbContext db, IMapper mapper)
             : base(db)
         {
-            this.mapper = mapper;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public async Task Add(Car car)
@@ -154,17 +154,17 @@
             => await this.db.Cars
                     .Where(c => c.Id == id)
                     .ProjectTo<CarDetailsServiceModel>(this.mapper)
-                    .FirstOrDefaultAsync(); 
-        
+                    .FirstOrDefaultAsync();
+
         public async Task Edit(CreateCarServiceModel car)
-        {          
-            var carData = await this.db.Cars.FindAsync(car.Id);           
+        {
+            var carData = await this.db.Cars.FindAsync(car.Id);
 
             if (carData == null)
             {
                 return;
             }
-            
+
             carData.Brand = car.Brand;
             carData.Model = car.Model;
             carData.Year = car.Year;
@@ -197,16 +197,16 @@
             .ToListAsync();
 
         public async Task<IEnumerable<CarListingViewModel>> GetLastThreeCar()
-        {            
+        {
             var cars = await db
-              .Cars
-              .OrderByDescending(c => c.Id)
-              .ProjectTo<CarListingViewModel>(this.mapper)
-              .Take(3)
-              .ToListAsync();           
-            
+               .Cars
+               .OrderByDescending(c => c.Id)
+               .ProjectTo<CarListingViewModel>(this.mapper)
+               .Take(3)
+               .ToListAsync();
+
             return cars;
-        }     
+        }
 
         public async Task<bool> IsByDealer(int carId, int dealerId)
             => await this.db

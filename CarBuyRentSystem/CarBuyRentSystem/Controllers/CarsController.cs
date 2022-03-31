@@ -17,7 +17,7 @@
     public class CarsController : Controller
     {
         private readonly ICarService carsService;
-        private readonly IDealerService dealers;
+        private readonly IDealerService dealerService;
         private readonly IMapper mapper;
 
         public CarsController(ICarService carService,
@@ -25,14 +25,15 @@
                               IMapper mapper)
         {
             this.carsService = carService;
-            this.dealers = dealerService;
+            this.dealerService = dealerService;
             this.mapper = mapper;
         }
+
 
         [Authorize]
         public async Task<IActionResult> Add()
         {
-            var isDealer = await this.dealers.IsDealer(this.User.GetId());
+            var isDealer = await this.dealerService.IsDealer(this.User.GetId());
 
             if (!isDealer)
             {
@@ -45,11 +46,12 @@
             });
         }
 
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(AddCarFormServiceModel car)
         {
-            var dealerId = await dealers.GetDealerId(this.User.GetId());
+            var dealerId = await dealerService.GetDealerId(this.User.GetId());
 
             if (dealerId == 0)
             {
@@ -112,7 +114,7 @@
         {
             var userId = this.User.GetId();
 
-            var isDealer = await this.dealers.IsDealer(userId);
+            var isDealer = await this.dealerService.IsDealer(userId);
 
             if (!isDealer && !User.IsAdmin())
             {
@@ -139,7 +141,7 @@
         {
             var userId = this.User.GetId();
 
-            var dealerId = await this.dealers.GetDealerId(userId);
+            var dealerId = await this.dealerService.GetDealerId(userId);
 
             if (dealerId == 0 && !User.IsAdmin())
             {
@@ -185,8 +187,8 @@
             return RedirectToAction(nameof(DealerCar));
         }
 
-        [Authorize]
 
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var getCar = await carsService.GetCarId(id);
