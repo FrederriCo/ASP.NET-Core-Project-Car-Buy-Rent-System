@@ -16,6 +16,7 @@
     using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     using static Infrastructure.Data.WebConstants;
+  //  using CarBuyRentSystem.Services.Cars;
 
     public class CarService : DataService, ICarService
     {
@@ -152,9 +153,9 @@
 
         public async Task<CarDetailsServiceModel> Details(int id)
             => await this.db.Cars
-                    .Where(c => c.Id == id)
-                    .ProjectTo<CarDetailsServiceModel>(this.mapper)
-                    .FirstOrDefaultAsync();
+                .Where(c => c.Id == id)
+                .ProjectTo<CarDetailsServiceModel>(this.mapper)
+                .FirstOrDefaultAsync();
 
         public async Task Edit(CreateCarServiceModel car)
         {
@@ -197,16 +198,14 @@
             .ToListAsync();
 
         public async Task<IEnumerable<CarListingViewModel>> GetLastThreeCar()
-        {
-            var cars = await db
-               .Cars
-               .OrderByDescending(c => c.Id)
-               .ProjectTo<CarListingViewModel>(this.mapper)
-               .Take(3)
-               .ToListAsync();
-
-            return cars;
-        }
+            => await this.db
+                   .Cars
+                   .Where(c => c.IsPublic)
+                   .OrderByDescending(c => c.Id)
+                   .ProjectTo<CarListingViewModel>(this.mapper)
+                   .Take(3)
+                   .ToListAsync();       
+       
 
         public async Task<bool> IsByDealer(int carId, int dealerId)
             => await this.db
@@ -220,7 +219,7 @@
         public async Task<bool> Rent(RentCar rentCar, string username)
         {
             var user = await this.db
-                .Users.SingleOrDefaultAsync(u => u.UserName == username);
+                .CarUsers.SingleOrDefaultAsync(u => u.UserName == username);
 
             var car = await this.db
                 .Cars.SingleOrDefaultAsync(c => c.Id == rentCar.CarId);

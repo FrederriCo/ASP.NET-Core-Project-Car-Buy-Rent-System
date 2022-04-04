@@ -38,7 +38,7 @@ namespace CarBuyRentSystem
                 options.Password.RequireUppercase = false;
             })
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<CarDbContext>();
+                .AddEntityFrameworkStores<CarDbContext>();           
 
             services.AddAutoMapper(typeof(Startup));
 

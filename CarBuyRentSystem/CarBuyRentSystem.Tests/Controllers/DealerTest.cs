@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace CarBuyRentSystem.Tests.Controllers
-{ 
-   public  class DealerTest
+{
+    public class DealerTest
     {
-        private IMapper mapper = MapperMock.Instance;
+         private IMapper mapper = MapperMock.Instance;
         private const string userId = "TestUserId";
 
         [Fact]
@@ -25,8 +25,8 @@ namespace CarBuyRentSystem.Tests.Controllers
 
             var dealarService = new DealerService(data, mapper);
 
-            var result = await dealarService.IsDealer(userId);     
-                
+            var result = await dealarService.IsDealer(userId);
+
             Assert.True(result);
             Assert.Equal(1, data.Dealers.Count());
         }
@@ -35,7 +35,7 @@ namespace CarBuyRentSystem.Tests.Controllers
         public async Task IsDealerNotDealer()
         {
             //Arrange
-            using var data = GetDealerData();           
+            using var data = GetDealerData();
 
             var dealarService = new DealerService(data, mapper);
 
@@ -68,7 +68,7 @@ namespace CarBuyRentSystem.Tests.Controllers
 
             var dealarService = new DealerService(data, mapper);
 
-           var dataa = await dealarService.Create(Mock.Of<DealerFormServiceModel>(), userId);
+            var dataa = await dealarService.Create(Mock.Of<DealerFormServiceModel>(), userId);
 
             ;
 

@@ -22,8 +22,8 @@
         private readonly ICarService carService;
 
         public RentCarsController(IUserService userService
-                                 , IMapper mapper
-                                 , ICarService carService)
+                                 ,IMapper mapper
+                                 ,ICarService carService)
         {
             this.userService = userService;
             this.mapper = mapper;

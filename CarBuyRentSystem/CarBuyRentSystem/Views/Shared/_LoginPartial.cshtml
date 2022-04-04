@@ -1,12 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using CarBuyRentSystem.Infrastructure.Models
 
-@inject SignInManager<CarUser> SignInManager
-@inject UserManager<CarUser> UserManager
 @inject IDealerService Dealers
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (User.Identity.IsAuthenticated)
     {
         var userId = User.GetId();
 

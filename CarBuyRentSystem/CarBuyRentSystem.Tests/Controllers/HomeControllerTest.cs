@@ -7,23 +7,34 @@
     using CarBuyRentSystem.Controllers;
 
     using CarBuyRentSystem.Core.Models.View.Cars;
-    using CarBuyRentSystem.Infrastructure.Models;
 
     using static Data.Cars;
 
     public class HomeControllerTest
     {
         [Fact]
-        public void IndexShouldReturnViewWithCorrectModelAndData()
-           => MyController<HomeController>
-                .Instance(instance => instance
-                    .WithData(TenPublicCars()))
-                 .Calling(c => c.Index())
-                 .ShouldReturn()
-                 .View(view => view
+        public void IndexShouldReturnViewWithValidCarsInDataBase()
+           => MyMvc
+                .Pipeline()
+                .ShouldMap("/")
+                .To<HomeController>(c => c.Index())
+                .Which(c => c.WithData(TenPublicCars()))
+                .ShouldReturn()
+                .View(view => view
                        .WithModelOfType<IEnumerable<CarListingViewModel>>()
-                       .Passing(m => m.Should().HaveCount(0)));
+                       .Passing(m => m.Should().HaveCount(3)));
 
+        [Fact]
+        public void IndexShouldReturnViewWithNoCarsInDataBase()
+          => MyMvc
+               .Pipeline()
+               .ShouldMap("/")
+               .To<HomeController>(c => c.Index())
+               .Which(c => c.WithoutUser())
+                .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<IEnumerable<CarListingViewModel>>()
+                      .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void IndexRoutShouldBeMapeer()
@@ -52,7 +63,6 @@
                .Which()
                .ShouldReturn()
                .View();
-     
     }
 }
 
