@@ -18,48 +18,33 @@
         }
 
         public async Task<IEnumerable<BuyCar>> GetAllSoldCars()
-        {
-            var soldCars = await this.db
+            => await this.db
                     .BuyCars
                     .Include(c => c.Car)
                     .Include(u => u.User)
                     .ToListAsync();
-
-            return soldCars;
-        }
-
+        
         public async Task<IEnumerable<RentCar>> GetAllRentedCars()
-        {
-            var rentedCars = await this.db
+            => await this.db
                     .RentCars
                     .Include(c => c.Car)
                     .Include(u => u.CarUser)
-                    .ToListAsync();
-
-            return rentedCars;
-        }
+                    .ToListAsync();           
+        
 
         public async Task<IEnumerable<BuyCar>> GetAllBoughtCarsByUser(string username)
-        {
-            var allBoughtCars = await this.db
+            => await this.db
                     .BuyCars
                     .Include(c => c.Car)
                     .Where(u => u.User.Id == username)
                     .ToListAsync();
-
-            return allBoughtCars;
-        }
-
+     
         public async Task<IEnumerable<RentCar>> GetAllRentedCarsByUser(string username)
-        {
-            var allRentetCars = await this.db
+            => await this.db
                     .RentCars
                     .Include(c => c.Car)
                     .Where(u => u.CarUser.Id == username)
                     .ToListAsync();
-
-            return allRentetCars;
-        }
 
         public async Task<IEnumerable<UserServiceViewListingModel>> GetAllUser()
             => await db.CarUsers
