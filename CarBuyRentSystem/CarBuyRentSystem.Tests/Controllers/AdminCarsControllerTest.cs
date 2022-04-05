@@ -1,16 +1,16 @@
 ﻿namespace CarBuyRentSystem.Tests.Controllers
 {
     using Xunit;
+    using FluentAssertions;
     using MyTested.AspNetCore.Mvc;
-    using CarBuyRentSystem.Areas.Admin.Controllers;
+    using System.Collections.Generic;
 
+    using CarBuyRentSystem.Areas.Admin.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.RentCars;
 
     using static Data.Delars;
     using static Data.Cars;
-    using FluentAssertions;
-    using System.Collections.Generic;
-    using CarBuyRentSystem.Core.Models.View.RentCars;
 
     public class AdminCarsControllerTest
     {
