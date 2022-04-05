@@ -4,12 +4,13 @@
     using System.Linq;
     using MyTested.AspNetCore.Mvc;
     using CarBuyRentSystem.Controllers;
+
     using CarBuyRentSystem.Core.Models;
-
     using CarBuyRentSystem.Infrastructure.Models;
-
-    using static Infrastructure.Data.WebConstants;
     using CarBuyRentSystem.Core.Models.View.Cars;
+
+    using static Data.Delars;
+    using static Infrastructure.Data.WebConstants;
 
     public class DealersControllerTest
     {
@@ -39,6 +40,27 @@
                     .RestrictingForAuthorizedRequests());
 
         [Fact]
+        public void CreateDealerShouldBeForAuthorizedUsersNotValidModelState()
+           => MyMvc.
+                 Controller<DealersController>()
+                .WithUser()
+                .Calling(c => c.Create(CreateDealerNotValidModel))
+                .ShouldHave()
+                .ModelState(modelState => modelState
+                    .For<DealerFormServiceModel>()
+                    .ContainingNoErrorFor(m => m.Name)
+                    .AndAlso()
+                    .ContainingErrorFor(m => m.PhoneNumber)
+                    .ThatEquals("The field Phone Number must be a string with a minimum length of 4 and a maximum length of 20."))
+                 .AndAlso()
+                 .ShouldReturn()
+                .View(CreateDealerNotValidModel);
+               
+               //.ActionAttributes(attributes => attributes
+               //    .RestrictingForHttpMethod(HttpMethod.Post)
+               // .RestrictingForAuthorizedRequests())
+
+        [Fact]
         public void GetCreateShouldReturnView()
             => MyController<DealersController>
                 .Instance()
@@ -46,17 +68,12 @@
                 .ShouldReturn()
                 .View();
 
-        [Theory]
-        [InlineData("TopAuto", "+3599999999")]
-        public void PostCreateDealerShouldBeForAuthorizedUsersAndReturnRedirectWithValidModel(string dealerName, string phoneNumber)
+        [Fact]
+        public void PostCreateDealerShouldBeForAuthorizedUsersAndReturnRedirectWithValidModel()
             => MyController<DealersController>
                 .Instance(controller => controller
                     .WithUser(TestUser.Username, TestUser.Identifier))
-                .Calling(c => c.Create(new DealerFormServiceModel
-                {
-                    Name = dealerName,
-                    PhoneNumber = phoneNumber
-                }))
+                .Calling(c => c.Create(CreateDealer))
                 .ShouldHave()
                 .ActionAttributes(attributes => attributes
                     .RestrictingForHttpMethod(HttpMethod.Post)
@@ -66,8 +83,8 @@
                 .ValidModelState()
                 .Data(data => data.WithSet<Dealer>(d =>
                 {
-                    d.Any(d => d.Name == dealerName &&
-                          d.PhoneNumber == phoneNumber &&
+                    d.Any(d => d.Name == CreateDealer.Name &&
+                          d.PhoneNumber == CreateDealer.PhoneNumber &&
                           d.UserId == TestUser.Identifier);
                 }))
             .TempData(tempData => tempData
