@@ -1,13 +1,12 @@
 ﻿namespace CarBuyRentSystem.Areas.Admin.Controllers
 {
-    using CarBuyRentSystem.Infrastructure.Data;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
-    using static AdminConstants;
+    using static CarBuyRentSystem.Infrastructure.Data.WebConstants;
 
-    [Area(AreaName)]
-    [Authorize(Roles = WebConstants.AdministratorRoleName)]
+    [Area(AdministratorAreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public abstract class AdminController : Controller
     {
     }    

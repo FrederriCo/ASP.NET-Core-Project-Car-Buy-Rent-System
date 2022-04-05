@@ -18,7 +18,7 @@
                 .Pipeline()
                 .ShouldMap("/")
                 .To<HomeController>(c => c.Index())
-                .Which(c => c.WithData(TenPublicCars()))
+                .Which(c => c.WithData(PublicCars))
                 .ShouldReturn()
                 .View(view => view
                        .WithModelOfType<IEnumerable<CarListingViewModel>>()

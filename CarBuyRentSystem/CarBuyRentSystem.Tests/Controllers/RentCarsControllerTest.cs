@@ -39,7 +39,7 @@
            => MyController<RentCarsController>
                .Instance()
                .WithUser(TestUser.Identifier)
-                .WithData(TenPublicCars())
+                .WithData(PublicCars)
                .Calling(c => c.Rent(20))
                 .ShouldHave()
                .ActionAttributes(attributes => attributes
@@ -54,7 +54,7 @@
            => MyController<RentCarsController>
                 .Instance()
                   .WithUser(TestUser.Identifier)
-                  .WithData(TenPublicCars())
+                  .WithData(PublicCars)
                  .Calling(c => c.Rent(2))
                 .ShouldReturn()
                 .View(v => v.WithModelOfType<CarServiceListingViewModel>());
@@ -66,6 +66,11 @@
                 .Instance()
                 .WithUser(c => c.WithIdentifier(UserOne.Id))
                 .Calling(x => x.Rent(RentCarBindig))
+                .ShouldHave()
+                .ActionAttributes(attributes => attributes
+                       .RestrictingForHttpMethod(HttpMethod.Post)
+                       .RestrictingForAuthorizedRequests())
+                .AndAlso()
                 .ShouldReturn()
                 .RedirectToAction("ApplicationError", "Home");
 
@@ -110,14 +115,6 @@
                 .ShouldReturn()
                 .View(view => view
                        .WithModelOfType<IEnumerable<RentedCarsViewModel>>());
-
-
-        private static RentCarBindingModel RentCarBindig
-            => new RentCarBindingModel
-            {
-                CarId = OneCar.Id,
-                RentCarId = OneCar.Id
-            };
 
     }
 }

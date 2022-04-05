@@ -25,7 +25,8 @@
             CreateMap<Location, CarLocationServiceModel>();
             CreateMap<AddCarFormServiceModel, Car>();
             CreateMap<CarListingViewModel, Car>();
-            CreateMap<Car, CarServiceListingViewModel>();
+            CreateMap<Car, CarServiceListingViewModel>()
+                .ForPath(c => c.LocationName, cfg => cfg.MapFrom(c => c.Location.Name));
             CreateMap<RentCar, RentedCarsViewModel>();
             CreateMap<BuyCar, BuyCarBindingModel>().ReverseMap();
             CreateMap<BuyCar, SoldCarsViewModel>();
