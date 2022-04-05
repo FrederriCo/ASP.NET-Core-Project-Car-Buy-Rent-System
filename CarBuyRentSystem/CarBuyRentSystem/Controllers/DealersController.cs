@@ -35,7 +35,7 @@
 
             if (!userIdAlreadyDealer)
             {
-                RedirectToAction("ApplicationError", "Home");
+              return RedirectToAction("ApplicationError", "Home");
             }            
 
             TempData[GlobalMessageKey] = WelcomeMessageDealer;

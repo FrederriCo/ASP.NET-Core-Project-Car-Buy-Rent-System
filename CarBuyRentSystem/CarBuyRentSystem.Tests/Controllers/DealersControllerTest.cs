@@ -54,11 +54,8 @@
                     .ThatEquals("The field Phone Number must be a string with a minimum length of 4 and a maximum length of 20."))
                  .AndAlso()
                  .ShouldReturn()
-                .View(CreateDealerNotValidModel);
-               
-               //.ActionAttributes(attributes => attributes
-               //    .RestrictingForHttpMethod(HttpMethod.Post)
-               // .RestrictingForAuthorizedRequests())
+                .View(CreateDealerNotValidModel);              
+              
 
         [Fact]
         public void GetCreateShouldReturnView()
@@ -93,6 +90,19 @@
             .ShouldReturn()
             .Redirect(r => r.To<CarsController>(c => c.All(With.Any<AllCarsViewModel>())));
 
-
+        [Fact]
+        public void PostCreateDealerShouldBeForAuthorizedUsersAndDealerAreExistsRedirectToApplicationError()
+           => MyController<DealersController>
+               .Instance(controller => controller
+                   .WithUser(TestUser.Username, TestUser.Identifier)
+                    .WithData(OneDealaer))                   
+               .Calling(c => c.Create(CreateDealer))
+               .ShouldHave()
+               .ActionAttributes(attributes => attributes
+                   .RestrictingForHttpMethod(HttpMethod.Post)
+                   .RestrictingForAuthorizedRequests())
+               .AndAlso()
+                .ShouldReturn()
+                .RedirectToAction("ApplicationError", "Home");
     }
 }

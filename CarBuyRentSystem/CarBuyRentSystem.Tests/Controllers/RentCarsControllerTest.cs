@@ -57,7 +57,7 @@
                   .WithData(TenPublicCars())
                  .Calling(c => c.Rent(2))
                 .ShouldReturn()
-                .View(v => v.WithModelOfType<CarDetailsServiceModel>());
+                .View(v => v.WithModelOfType<CarServiceListingViewModel>());
 
 
         [Fact]

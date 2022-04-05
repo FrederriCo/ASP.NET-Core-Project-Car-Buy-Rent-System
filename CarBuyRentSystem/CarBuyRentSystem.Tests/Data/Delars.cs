@@ -1,4 +1,5 @@
 ﻿using CarBuyRentSystem.Core.Models;
+using CarBuyRentSystem.Infrastructure.Models;
 
 namespace CarBuyRentSystem.Tests.Data
 {
@@ -17,5 +18,11 @@ namespace CarBuyRentSystem.Tests.Data
                Name = "Auto Mania",
                PhoneNumber = "1"
            };
+
+        public static Dealer OneDealaer
+            => new Dealer
+            {
+                UserId = "TestUser"
+            };
     }
 }
