@@ -22,7 +22,15 @@ namespace CarBuyRentSystem.Tests.Data
         public static Dealer OneDealaer
             => new Dealer
             {
+                Id = 4,
                 UserId = "TestUser"
+            };
+
+        public static Dealer SecondDealaer
+            => new Dealer
+            {
+                Id = 4,
+                UserId = "TestId"
             };
     }
 }

@@ -6,6 +6,7 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
+    using CarBuyRentSystem.Core.Models.Cars;
 
     public static class Cars
     {
@@ -45,13 +46,20 @@
         public static BuyCar MyBuyCars
           => new BuyCar
           {
-              Car = OneCar,               
+              Car = OneCar,
               BuyCarId = OneCar.Id,
               CarId = OneCar.Id,
               UserId = UserOne.Id
           };
 
         public static CarUser UserOne
+          => new CarUser()
+          {
+              Id = "TestUser",
+              UserName = "TestUser"
+          };
+
+        public static CarUser UserSecond
           => new CarUser()
           {
               Id = "TestId",
@@ -70,6 +78,7 @@
           {
               CarId = OneCar.Id,
               BuyCarId = OneCar.Id
-          };
+          };    
+              
     }
 }
