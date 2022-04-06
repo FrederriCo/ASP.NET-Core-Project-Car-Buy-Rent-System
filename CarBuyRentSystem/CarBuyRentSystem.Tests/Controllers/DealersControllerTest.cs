@@ -13,8 +13,7 @@
     using static Infrastructure.Data.WebConstants;
 
     public class DealersControllerTest
-    {       
-
+    {     
       
         [Fact]
         public void CreateDealerShouldBeForAuthorizedUsers()
