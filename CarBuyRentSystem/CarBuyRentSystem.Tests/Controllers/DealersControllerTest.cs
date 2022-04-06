@@ -13,23 +13,9 @@
     using static Infrastructure.Data.WebConstants;
 
     public class DealersControllerTest
-    {
-        [Fact]
-        public void GetCreateDealerShuldBeMapped()
-            => MyRouting
-                .Configuration()
-                .ShouldMap("Dealers/Create")
-                .To<DealersController>(c => c.Create());
+    {       
 
-        [Fact]
-        public void PostCreateDealerShuldBeMapped()
-           => MyRouting
-               .Configuration()
-               .ShouldMap(request => request
-                .WithPath("/Dealers/Create")
-                .WithMethod(HttpMethod.Post))
-               .To<DealersController>(c => c.Create(With.Any<DealerFormServiceModel>()));
-
+      
         [Fact]
         public void CreateDealerShouldBeForAuthorizedUsers()
             => MyController<DealersController>

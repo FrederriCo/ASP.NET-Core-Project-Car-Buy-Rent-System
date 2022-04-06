@@ -13,15 +13,7 @@
 
     public class BuyCarsControllerTest
     {
-        [Fact]
-        public void PostBuyShuldBeMapped()
-          => MyRouting
-              .Configuration()
-                .ShouldMap(request => request
-               .WithPath("/BuyCars/Buy/32")
-                .WithMethod(HttpMethod.Post))
-              .To<BuyCarsController>(c => c.Buy(32));
-
+       
         [Fact]
         public void BuyACarForAuthorizedUsers()
              => MyController<BuyCarsController>

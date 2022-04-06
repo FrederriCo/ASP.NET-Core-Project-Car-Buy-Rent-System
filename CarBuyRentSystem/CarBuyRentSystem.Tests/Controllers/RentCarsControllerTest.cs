@@ -12,16 +12,7 @@
     using static Data.Cars;
 
     public class RentCarsControllerTest
-    {
-        [Fact]
-        public void PostRentShuldBeMapped()
-          => MyRouting
-              .Configuration()
-                .ShouldMap(request => request
-               .WithPath("/RentCars/Rent/32")
-                .WithMethod(HttpMethod.Post))
-              .To<RentCarsController>(c => c.Rent(32));
-
+    {      
 
         [Fact]
         public void RentACarForAuthorizedUsers()
@@ -92,17 +83,6 @@
                 .AndAlso()
                 .ShouldReturn()
                 .RedirectToAction("MyRentCars", "RentCars");
-
-
-        [Fact]
-        public void MyAllRentedCarsRoutShouldBeMapeer()
-            => MyRouting
-              .Configuration()
-                .ShouldMap(request => request
-               .WithPath("/RentCars/MyRentCars")
-                .WithUser()
-                .WithMethod(HttpMethod.Post))
-              .To<RentCarsController>(c => c.MyRentCars());
 
 
         [Fact]

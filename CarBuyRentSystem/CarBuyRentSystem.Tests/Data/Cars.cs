@@ -70,7 +70,9 @@
             => new RentCarBindingModel
             {
                 CarId = OneCar.Id,
-                RentCarId = OneCar.Id
+                RentCarId = OneCar.Id,
+                Car = OneCar                 
+                 
             };
 
         public static BuyCarBindingModel BuyCarBindig
