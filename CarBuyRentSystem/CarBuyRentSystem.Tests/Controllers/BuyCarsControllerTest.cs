@@ -12,8 +12,7 @@
     using static Infrastructure.Data.WebConstants;
 
     public class BuyCarsControllerTest
-    {
-       
+    {       
         [Fact]
         public void BuyACarForAuthorizedUsers()
              => MyController<BuyCarsController>

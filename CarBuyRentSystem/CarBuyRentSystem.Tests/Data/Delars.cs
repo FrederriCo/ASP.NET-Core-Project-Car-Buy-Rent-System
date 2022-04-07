@@ -5,6 +5,8 @@ namespace CarBuyRentSystem.Tests.Data
 {
     public static class Delars
     {
+        public static string ErrorMeesagessDealer = "The field Phone Number must be a string with a minimum length of 4 and a maximum length of 20.";
+
         public static DealerFormServiceModel CreateDealer
            => new DealerFormServiceModel
            {

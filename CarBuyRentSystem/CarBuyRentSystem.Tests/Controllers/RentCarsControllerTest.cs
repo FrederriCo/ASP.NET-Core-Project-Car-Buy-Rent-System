@@ -12,8 +12,7 @@
     using static Data.Cars;
 
     public class RentCarsControllerTest
-    {      
-
+    {    
         [Fact]
         public void RentACarForAuthorizedUsers()
                => MyController<RentCarsController>

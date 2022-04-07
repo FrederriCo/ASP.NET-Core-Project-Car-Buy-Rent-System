@@ -7,9 +7,13 @@
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
     using CarBuyRentSystem.Core.Models.Cars;
+    using System;
+    using CarBuyRentSystem.Infrastructure.Models.Enums;
 
     public static class Cars
     {
+        public static string ErrorMessagesCarAdd = "The length mst be between 2 and 30";
+
         public static IEnumerable<Car> PublicCars
          => Enumerable.Range(0, 15).Select(i => new Car
          {
@@ -71,8 +75,8 @@
             {
                 CarId = OneCar.Id,
                 RentCarId = OneCar.Id,
-                Car = OneCar                 
-                 
+                Car = OneCar
+
             };
 
         public static BuyCarBindingModel BuyCarBindig
@@ -80,7 +84,47 @@
           {
               CarId = OneCar.Id,
               BuyCarId = OneCar.Id
-          };    
-              
+          };
+
+        public static AddCarFormServiceModel AddCarService
+            => new AddCarFormServiceModel
+            { 
+                Brand = "Brand",
+                Model = "bmw",
+                Year = 2020,
+                ImageUrl = "https://www.bmwgroup.com/content/dam/grpw/websites/bmwgroup_com/brands/einstiegsseite/1280x854_P90351044_highRes_the-new-bmw-8-series.jpg",
+                Description = "dfdsfdsfdssdvsvfvdfvdfvdfvfdvf",
+                Category = Category.Cabriolet,
+                Fuel = Fuel.Diesel,
+                Transmission = Transmission.Automatic,
+                Lugage = 5,
+                Doors = 4,                
+                Passager = 4,
+                Price = 23230,
+                RentPricePerDay = 500,
+                LocationId = 4,
+                Locations = null
+            };
+
+        public static AddCarFormServiceModel NotValidModelAddCar
+            => new AddCarFormServiceModel
+            {
+                Model = "Mercedes",
+                Lugage = 5,
+                Brand = "B",
+                Price = 23230,
+                RentPricePerDay = 500,
+                Description = "dfdsfdsfds",
+                ImageUrl = "www.yahoo.com",
+
+                Year = 2020,
+
+            };
+
+        public static IEnumerable<Location> LocatinAdd
+            => Enumerable.Range(0, 5).Select(i => new Location
+            {
+                Name = "Plovdiv"
+            });
     }
 }

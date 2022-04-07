@@ -12,8 +12,7 @@
     using static Data.Delars;
 
     public class AdminUsersControllerTest
-    {     
-
+    { 
         [Fact]
         public void AdminAreaIndexShouldReturnViewWithDataForAllUsers()
            => MyController<UsersController>

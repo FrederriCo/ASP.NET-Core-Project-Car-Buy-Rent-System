@@ -62,7 +62,7 @@
 
             if (!locationExists)
             {
-                this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
+                this.ModelState.AddModelError(nameof(car.LocationId), LocationNotExists);
             }
 
             if (!ModelState.IsValid)

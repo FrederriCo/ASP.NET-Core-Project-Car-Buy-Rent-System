@@ -10,13 +10,22 @@
 
     public class CarsControllerTest
     {
-
         [Fact]
         public void GetAddCarShouldBeRoutedCorrectly()
          => MyRouting
              .Configuration()
              .ShouldMap("/Cars/Add")
              .To<CarsController>(c => c.Add());
+
+        [Fact]
+        public void PostAddCarShouldBeRoutedCorrectly()
+         => MyRouting
+             .Configuration()
+             .ShouldMap(request => request
+                .WithPath("/Cars/Add")
+                .WithUser()
+              .WithMethod(HttpMethod.Post))
+             .To<CarsController>(c => c.Add(With.Any<AddCarFormServiceModel>()));
 
 
         [Fact]
