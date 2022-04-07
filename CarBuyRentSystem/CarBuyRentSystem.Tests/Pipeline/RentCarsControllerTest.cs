@@ -13,7 +13,7 @@
     public class RentCarsControllerTest
     {
         [Fact]
-        public void CreateShuldBeAuthorizedUsersAndReturnView()
+        public void RentShuldBeAuthorizedUsersAndReturnView()
            => MyMvc
                .Pipeline()
                .ShouldMap(request => request
@@ -31,7 +31,7 @@
              .View(v => v.WithModelOfType<CarServiceListingViewModel>());
 
         [Fact]
-        public void PostCreateShuldBeAuthorizedUsersAndReturnApplicatonErrorView()
+        public void PostRentShuldBeAuthorizedUsersAndReturnApplicatonErrorView()
            => MyMvc
                .Pipeline()
                .ShouldMap(request => request
@@ -57,9 +57,10 @@
         //      .ShouldMap(request => request
         //       .WithPath("/RentCars/Rent")
         //      .WithMethod(HttpMethod.Post)
+        //      .WithFormFields(RentCarBindig)
         //       .WithUser()
         //       .WithAntiForgeryToken())
-        //      .To<RentCarsController>(c => c.Rent(new RentCarBindingModel { }))
+        //      .To<RentCarsController>(c => c.Rent(RentCarBindig))
         //      .Which(controller => controller
         //        .WithData(UserSecond)
         //        .WithData(SecondCar))
