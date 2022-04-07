@@ -35,8 +35,21 @@
                 Brand = "BMW",
                 Model = "M5",
                 ImageUrl = "www.imagethebestBmw.com",
-                Description = "The best car"
+                Description = "The best car",
+                DealerId = 4
+
             };
+
+        public static Car SecondCar
+           => new Car
+           {
+               
+               Brand = "BMW",
+               Model = "M5",
+               ImageUrl = "www.imagethebestBmw.com",
+               Description = "The best car",
+               DealerId = 3
+           };
 
         public static RentCar MyRentCars
             => new RentCar
@@ -74,9 +87,7 @@
             => new RentCarBindingModel
             {
                 CarId = OneCar.Id,
-                RentCarId = OneCar.Id,
-                Car = OneCar
-
+                RentCarId = OneCar.Id,               
             };
 
         public static BuyCarBindingModel BuyCarBindig
@@ -88,7 +99,7 @@
 
         public static AddCarFormServiceModel AddCarService
             => new AddCarFormServiceModel
-            { 
+            {
                 Brand = "Brand",
                 Model = "bmw",
                 Year = 2020,
@@ -98,7 +109,7 @@
                 Fuel = Fuel.Diesel,
                 Transmission = Transmission.Automatic,
                 Lugage = 5,
-                Doors = 4,                
+                Doors = 4,
                 Passager = 4,
                 Price = 23230,
                 RentPricePerDay = 500,
@@ -120,6 +131,54 @@
                 Year = 2020,
 
             };
+
+        public static CarDetailsServiceModel CarDetails
+             => new CarDetailsServiceModel
+             {
+                 Id = 3,
+                 Brand = "BMW",
+                 Model = "M5",
+                 ImageUrl = "www.imagethebestBmw.com",
+                 Description = "The best car",
+                 UserId = "TestId"
+             };
+
+        public static CreateCarServiceModel CarEdit
+            => new CreateCarServiceModel
+            {
+                Id = 3,
+                Brand = "Brand",
+                Model = "bmw",
+                Year = 2020,
+                ImageUrl = "https://www.bmwgroup.com/content/dam/grpw/websites/bmwgroup_com/brands/einstiegsseite/1280x854_P90351044_highRes_the-new-bmw-8-series.jpg",
+                Description = "dfdsfdsfdssdvsvfvdfvdfvdfvfdvf",
+                Category = Category.Cabriolet,
+                Fuel = Fuel.Diesel,
+                Transmission = Transmission.Automatic,
+                Lugage = 5,
+                Doors = 4,
+                Passager = 4,
+                Price = 23230,
+                RentPricePerDay = 500,
+                LocationId = 2,
+                DealerId = 4,
+                 
+            };
+
+        public static CreateCarServiceModel NotValidCarEdit
+         => new CreateCarServiceModel
+         {
+             Id = 3,            
+             Lugage = 5,
+             Doors = 4,
+             Passager = 4,
+              Description = "a",
+             Price = 23230,
+             RentPricePerDay = 500,
+             LocationId = 2,
+             DealerId = 4,
+
+         };
 
         public static IEnumerable<Location> LocatinAdd
             => Enumerable.Range(0, 5).Select(i => new Location

@@ -70,8 +70,8 @@
             => MyController<RentCarsController>
                 .Instance()
                 .WithUser()
-                .WithData(UserOne)
-                .WithData(OneCar)
+                .WithData(UserSecond)
+                .WithData(SecondCar)
                 .Calling(c => c.Rent(RentCarBindig))
                 .ShouldHave()
                 .ActionAttributes(attributes => attributes

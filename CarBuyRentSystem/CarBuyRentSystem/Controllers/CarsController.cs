@@ -151,7 +151,7 @@
 
             if (!locationExists)
             {
-                this.ModelState.AddModelError(nameof(car.LocationId), "Location does not exists.");
+                this.ModelState.AddModelError(nameof(car.LocationId), LocationNotExists);
             }
 
             if (!ModelState.IsValid)
@@ -209,7 +209,7 @@
 
             return RedirectToAction(nameof(DealerCar));
         }
-
+        
         public async Task<IActionResult> Details(int id)
         {
             var getCar = await carsService.GetCarId(id);

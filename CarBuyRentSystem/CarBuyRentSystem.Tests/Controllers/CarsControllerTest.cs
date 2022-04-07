@@ -12,6 +12,7 @@
     using CarBuyRentSystem.Infrastructure.Models;
     using System.Linq;
     using System.Collections.Generic;
+    using FluentAssertions;
 
     public class CarsControllerTest
     {
@@ -132,6 +133,167 @@
                 .View(view => view
                      .WithModelOfType<IEnumerable<CarServiceListingViewModel>>());
 
+        [Fact]
+        public void EditCarForAuthorizedUsersWhenUserIsNotADealer()
+          => MyController<CarsController>
+              .Instance()
+                .WithData(OneCar)
+               .WithUser(TestUser.Identifier)
+                .Calling(c => c.Edit(OneCar.Id))
+             .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForAuthorizedRequests())
+              .AndAlso()
+              .ShouldReturn()
+              .RedirectToAction("Create");
 
+        [Fact]
+        public void EditCarForAuthorizedUsersWhenUserIsIsNotValid()
+          => MyController<CarsController>
+              .Instance()
+                .WithData(OneCar)
+                .WithData(SecondDealaer)
+                .WithData(LocatinAdd)
+               .WithUser(TestUser.Identifier)
+                .Calling(c => c.Edit(OneCar.Id))
+             .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForAuthorizedRequests())
+              .AndAlso()
+                .ShouldReturn()
+                .BadRequest();
+
+        [Fact]
+        public void PostEditCarForAuthorizedUsersWhenUserIsDealer()
+         => MyController<CarsController>
+             .Instance()
+               .WithData(OneCar)
+               .WithData(SecondDealaer)
+               .WithData(LocatinAdd)
+              .WithUser(TestUser.Identifier)
+               .Calling(c => c.Edit(CarEdit))
+            .ShouldHave()
+             .ActionAttributes(attributes => attributes
+                 .RestrictingForHttpMethod(HttpMethod.Post)
+                    .RestrictingForAuthorizedRequests())
+                .AndAlso()
+               .ShouldHave()
+            .TempData(tempData => tempData
+                .ContainingEntryWithKey(GlobalMessageKey))
+            .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("DealerCar");
+
+        [Fact]
+        public void PostEditCarForAuthorizedUsersWhenUserIsNotADealer()
+     => MyController<CarsController>
+         .Instance()
+           .WithData(OneCar)
+           .WithUser(TestUser.Identifier)
+           .Calling(c => c.Edit(CarEdit))
+        .ShouldHave()
+         .ActionAttributes(attributes => attributes
+             .RestrictingForHttpMethod(HttpMethod.Post)
+                .RestrictingForAuthorizedRequests())
+            .AndAlso()
+        .ShouldReturn()
+        .RedirectToAction("Create", "Dealers");
+
+        [Fact]
+        public void PostEditCarForAuthorizedUsersWhenUserADealerWhenLocationDoesNotExists()
+   => MyController<CarsController>
+       .Instance()
+         .WithData(OneCar)
+          .WithData(SecondDealaer)
+         .WithUser(TestUser.Identifier)
+         .Calling(c => c.Edit(CarEdit))
+      .ShouldHave()
+       .ActionAttributes(attributes => attributes
+           .RestrictingForHttpMethod(HttpMethod.Post)
+              .RestrictingForAuthorizedRequests())
+          .AndAlso()
+      .ShouldReturn()
+      .View();
+
+        [Fact]
+        public void PostEditCarForAuthorizedUsersWhenUserCarIsNotADealerId()
+        => MyController<CarsController>
+            .Instance()
+              .WithData(SecondCar)
+              .WithData(SecondDealaer)
+              .WithData(LocatinAdd)
+             .WithUser(TestUser.Identifier)
+              .Calling(c => c.Edit(CarEdit))
+           .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                .RestrictingForHttpMethod(HttpMethod.Post)
+                   .RestrictingForAuthorizedRequests())
+               .AndAlso()
+              .ShouldReturn()
+              .BadRequest();
+
+        [Fact]
+        public void ShouldReturnApplicationErrorWhenCarNotFoundForDelete()
+          => MyController<CarsController>
+              .Instance()
+              .WithData(OneCar)
+              .Calling(x => x.Delete(1))
+            .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("ApplicationError", "Home");
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDelete()
+        => MyController<CarsController>
+            .Instance()
+            .WithUser()
+            .WithData(OneCar)
+            .Calling(x => x.Delete(OneCar.Id))
+           .ShouldHave()
+             .ActionAttributes(attributes => attributes                 
+                    .RestrictingForAuthorizedRequests())
+                .AndAlso()
+               .ShouldHave()
+            .TempData(tempData => tempData
+                .ContainingEntryWithKey(GlobalMessageKey))
+            .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("DealerCar");
+
+        [Fact]
+        public void ShouldReturnAdminAreaViewWhenUserIsAdmin()
+       => MyController<CarsController>
+           .Instance()
+           .WithUser(x => x.InRole(AdministratorRoleName))
+           .WithData(OneCar)
+           .Calling(x => x.Delete(OneCar.Id))
+          .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests())
+               .AndAlso()
+            .ShouldReturn()
+           .RedirectToAction("All", "Cars", new { area = "Admin" });
+
+        [Fact]
+        public void ShouldReturnBadRequestWhenCarNotFoundForDetails()
+         => MyController<CarsController>
+             .Instance()
+             .WithData(OneCar)
+             .Calling(x => x.Details(5))              
+           .ShouldReturn()
+           .BadRequest();
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetails()
+         => MyController<CarsController>
+             .Instance()
+             .WithData(OneCar)
+             .Calling(x => x.Details(OneCar.Id))
+           .ShouldReturn()
+           .View(view => view
+                     .WithModelOfType<CarServiceListingViewModel>());
     }
 }
