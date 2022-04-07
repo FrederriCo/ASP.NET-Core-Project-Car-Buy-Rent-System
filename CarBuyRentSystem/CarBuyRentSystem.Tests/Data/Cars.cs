@@ -43,7 +43,7 @@
         public static Car SecondCar
            => new Car
            {
-               
+               Id = 3,
                Brand = "BMW",
                Model = "M5",
                ImageUrl = "www.imagethebestBmw.com",
@@ -87,7 +87,9 @@
             => new RentCarBindingModel
             {
                 CarId = OneCar.Id,
-                RentCarId = OneCar.Id,               
+                RentCarId = OneCar.Id, 
+                Car = SecondCar
+                
             };
 
         public static BuyCarBindingModel BuyCarBindig
@@ -180,10 +182,16 @@
 
          };
 
+        public static AllCarsViewModel AllCarsModel
+            => new AllCarsViewModel
+            {
+                 
+            };
+
         public static IEnumerable<Location> LocatinAdd
             => Enumerable.Range(0, 5).Select(i => new Location
             {
                 Name = "Plovdiv"
-            });
+            });               
     }
 }

@@ -13,21 +13,32 @@
     using System.Linq;
     using System.Collections.Generic;
     using FluentAssertions;
+    using CarBuyRentSystem.Core.Models.View.Cars;
 
     public class CarsControllerTest
     {
         [Fact]
-        public void AddCarForAuthorizedUsersFirstRegistrationForDealer()
-                => MyController<CarsController>
+        public void ShouldReturnViewWhenForAllCar()
+            => MyController<CarsController>
                     .Instance()
-                     .WithUser(TestUser.Identifier)
-                    .Calling(c => c.Add())
-                    .ShouldHave()
-                    .ActionAttributes(attributes => attributes
-                        .RestrictingForAuthorizedRequests())
-                    .AndAlso()
+                    .WithData(PublicCars)
+                    .Calling(c => c.All(AllCarsModel))                   
                     .ShouldReturn()
-                    .RedirectToAction("Create", "Dealers");
+                    .View(view => view
+                     .WithModelOfType<AllCarsViewModel>());
+
+        [Fact]
+        public void AddCarForAuthorizedUsersFirstRegistrationForDealer()
+            => MyController<CarsController>
+                 .Instance()
+                  .WithUser(TestUser.Identifier)
+                 .Calling(c => c.Add())
+                 .ShouldHave()
+                 .ActionAttributes(attributes => attributes
+                     .RestrictingForAuthorizedRequests())
+                 .AndAlso()
+                 .ShouldReturn()
+                .RedirectToAction("Create", "Dealers");
 
         [Fact]
         public void AddCarForAuthorizedUserWhenUserIsBecomeDealer()
@@ -253,7 +264,7 @@
             .WithData(OneCar)
             .Calling(x => x.Delete(OneCar.Id))
            .ShouldHave()
-             .ActionAttributes(attributes => attributes                 
+             .ActionAttributes(attributes => attributes
                     .RestrictingForAuthorizedRequests())
                 .AndAlso()
                .ShouldHave()
@@ -282,7 +293,7 @@
          => MyController<CarsController>
              .Instance()
              .WithData(OneCar)
-             .Calling(x => x.Details(5))              
+             .Calling(x => x.Details(5))
            .ShouldReturn()
            .BadRequest();
 

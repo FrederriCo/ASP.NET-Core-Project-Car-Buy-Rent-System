@@ -121,7 +121,7 @@
                 return RedirectToAction(nameof(DealersController.Create), "Dealers");
             }
 
-            var cars = await this.carsService.Details(id);
+            var cars = await this.carsService.Details(id);            
 
             if (cars.UserId != userId && !User.IsAdmin())
             {
