@@ -15,8 +15,82 @@
     public class AdminCarsControllerTest
     {
         [Fact]
-        public void AdminAreaIndexShouldReturnViewWithDataForTotalUserAndCar()
+        public void AdminAreaIndexShouldReturnViewWithDataForOneUser()
             => MyController<CarsController>
+                .Instance()                
+                .WithData(UserOne)                
+                .Calling(x => x.Index())
+                .ShouldReturn()
+                .View(view => view
+                       .WithModelOfType<TotalUserCar>()
+                        .Passing(model => model.TotalUser == 1));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithNoUsers()
+           => MyController<CarsController>
+               .Instance()               
+               .Calling(x => x.Index())
+               .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<TotalUserCar>()
+                       .Passing(model => model.TotalUser == 0));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWitNoDealer()
+          => MyController<CarsController>
+              .Instance()              
+              .Calling(x => x.Index())
+              .ShouldReturn()
+              .View(view => view
+                     .WithModelOfType<TotalUserCar>()
+                      .Passing(model => model.TotalDealer == 0));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForOneDealer()
+           => MyController<CarsController>
+               .Instance()
+               .WithData(OneDealaer)
+               .Calling(x => x.Index())
+               .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<TotalUserCar>()
+                       .Passing(model => model.TotalDealer == 1));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithNoCars()
+        => MyController<CarsController>
+            .Instance()            
+            .Calling(x => x.Index())
+            .ShouldReturn()
+            .View(view => view
+                   .WithModelOfType<TotalUserCar>()
+                    .Passing(model => model.TotalCar == 0));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForAllCars()
+          => MyController<CarsController>
+              .Instance()
+              .WithData(PublicCars)
+              .Calling(x => x.Index())
+              .ShouldReturn()
+              .View(view => view
+                     .WithModelOfType<TotalUserCar>()
+                      .Passing(model => model.TotalCar == 15));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForUsersDealersAndCarsWhenIsZero()
+        => MyController<CarsController>
+               .Instance()               
+               .Calling(x => x.Index())
+               .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<TotalUserCar>()
+                       .Passing(model => model.TotalUser == 0 &&
+                                 model.TotalDealer == 0 &&
+                                  model.TotalCar == 0));
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForUsersDealersAndCars()
+         => MyController<CarsController>
                 .Instance()
                 .WithData(PublicCars)
                 .WithData(UserOne)
@@ -24,7 +98,22 @@
                 .Calling(x => x.Index())
                 .ShouldReturn()
                 .View(view => view
-                       .WithModelOfType<TotalUserCar>());
+                       .WithModelOfType<TotalUserCar>()
+                        .Passing(model => model.TotalUser == 1 &&
+                                  model.TotalDealer == 1 &&
+                                   model.TotalCar == 15));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithAllData()
+        => MyController<CarsController>
+               .Instance()
+               .WithData(PublicCars)
+               .WithData(UserOne)
+               .WithData(OneDealaer)
+               .Calling(x => x.Index())
+               .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<TotalUserCar>());                       
 
         [Fact]
         public void AdminAreaShouldReturnViewWithDataForAllCarsInformation()

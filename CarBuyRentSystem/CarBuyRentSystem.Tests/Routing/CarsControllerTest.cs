@@ -7,9 +7,17 @@
     using CarBuyRentSystem.Core.Models.Cars;
 
     using static Data.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
 
     public class CarsControllerTest
     {
+        [Fact]
+        public void GetAllCarShouldBeRoutedCorrectly()
+         => MyRouting
+             .Configuration()
+             .ShouldMap("/Cars/All")
+             .To<CarsController>(c => c.All(With.Any<AllCarsViewModel>()));
+
         [Fact]
         public void GetAddCarShouldBeRoutedCorrectly()
          => MyRouting

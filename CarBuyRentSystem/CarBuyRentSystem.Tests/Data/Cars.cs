@@ -88,7 +88,7 @@
             {
                 CarId = OneCar.Id,
                 RentCarId = OneCar.Id, 
-                Car = SecondCar
+               // Car = SecondCar
                 
             };
 
@@ -185,7 +185,7 @@
         public static AllCarsViewModel AllCarsModel
             => new AllCarsViewModel
             {
-                 
+                  
             };
 
         public static IEnumerable<Location> LocatinAdd

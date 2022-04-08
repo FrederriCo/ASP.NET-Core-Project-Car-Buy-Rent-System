@@ -18,14 +18,35 @@
     public class CarsControllerTest
     {
         [Fact]
-        public void ShouldReturnViewWhenForAllCar()
+        public void ShouldReturnViewWhenForValidAllCar()
             => MyController<CarsController>
                     .Instance()
                     .WithData(PublicCars)
-                    .Calling(c => c.All(AllCarsModel))                   
+                    .Calling(c => c.All(AllCarsModel))
                     .ShouldReturn()
                     .View(view => view
-                     .WithModelOfType<AllCarsViewModel>());
+                     .WithModelOfType<AllCarsViewModel>());                        
+
+        [Fact]
+        public void ShouldReturnViewWhenForValidAllCarTotalCount()
+           => MyController<CarsController>
+                   .Instance()
+                   .WithData(PublicCars)
+                   .Calling(c => c.All(AllCarsModel))
+                   .ShouldReturn()
+                   .View(view => view
+                    .WithModelOfType<AllCarsViewModel>()
+                    .Passing(c => c.TotalCars == 15));
+
+        [Fact]
+        public void ShouldReturnViewWhenWhenCarIsZeroCount()
+           => MyController<CarsController>
+                   .Instance()                   
+                   .Calling(c => c.All(AllCarsModel))
+                   .ShouldReturn()
+                   .View(view => view
+                    .WithModelOfType<AllCarsViewModel>()
+                    .Passing(c => c.TotalCars == 0));
 
         [Fact]
         public void AddCarForAuthorizedUsersFirstRegistrationForDealer()
@@ -41,7 +62,7 @@
                 .RedirectToAction("Create", "Dealers");
 
         [Fact]
-        public void AddCarForAuthorizedUserWhenUserIsBecomeDealer()
+        public void AddCarForAuthorizedUserWhenUserIsDealer()
                => MyController<CarsController>
                    .Instance()
                     .WithData(SecondDealaer)
