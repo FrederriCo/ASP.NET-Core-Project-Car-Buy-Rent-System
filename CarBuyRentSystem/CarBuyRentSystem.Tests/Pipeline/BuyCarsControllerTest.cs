@@ -4,6 +4,7 @@
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
+    using FluentAssertions;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
     using Xunit;
@@ -66,7 +67,7 @@
               .RedirectToAction("ApplicationError", "Home");
 
         [Fact]
-        public void MyAllBuyCarsShouldReturnViewWith()
+        public void MyAllBuyCarsShouldReturnView()
           => MyMvc
               .Pipeline()
               .ShouldMap(request => request
@@ -82,5 +83,24 @@
               .AndAlso()
               .ShouldReturn()
             .View(v => v.WithModelOfType<IEnumerable<SoldCarsViewModel>>());
+
+        [Fact]
+        public void MyAllBuyCarsShouldReturnViewWhenCountIsZero()
+         => MyMvc
+             .Pipeline()
+             .ShouldMap(request => request
+              .WithPath("/BuyCars/MyBuyCars")
+              .WithUser()
+              .WithAntiForgeryToken())
+             .To<BuyCarsController>(c => c.MyBuyCars())
+             .Which(controller => controller
+              .WithData(MyBuyCars))
+              .ShouldHave()
+             .ActionAttributes(attribute => attribute
+                 .RestrictingForAuthorizedRequests())
+             .AndAlso()
+             .ShouldReturn()
+           .View(v => v.WithModelOfType<IEnumerable<SoldCarsViewModel>>()
+            .Passing(m => m.Should().HaveCount(0)));
     }
 }

@@ -10,6 +10,7 @@
 
     using static Data.Cars;
     using static Infrastructure.Data.WebConstants;
+    using FluentAssertions;
 
     public class BuyCarsControllerTest
     {       
@@ -89,5 +90,16 @@
               .ShouldReturn()
               .View(view => view
                      .WithModelOfType<IEnumerable<SoldCarsViewModel>>());
+
+        [Fact]
+        public void MyAllBuyCarsShouldReturnViewWithCarsWhenCountIsZero()
+        => MyController<BuyCarsController>
+             .Instance()
+             .WithUser()
+             .Calling(c => c.MyBuyCars())
+             .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
+                     .Passing(m => m.Should().HaveCount(0)));
     }
 }

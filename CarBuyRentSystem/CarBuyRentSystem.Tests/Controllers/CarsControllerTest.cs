@@ -32,11 +32,44 @@
            => MyController<CarsController>
                    .Instance()
                    .WithData(PublicCars)
-                   .Calling(c => c.All(AllCarsModel))
+                   .Calling(c => c.All(new AllCarsViewModel { }))
                    .ShouldReturn()
                    .View(view => view
                     .WithModelOfType<AllCarsViewModel>()
                     .Passing(c => c.TotalCars == 15));
+
+        [Fact]
+        public void ShouldReturnViewWhenForCurrentPage()
+          => MyController<CarsController>
+                  .Instance()
+                  .WithData(PublicCars)
+                  .Calling(c => c.All(AllCarsModel))
+                  .ShouldReturn()
+                  .View(view => view
+                   .WithModelOfType<AllCarsViewModel>()
+                   .Passing(c => c.CurentPage == 3));
+
+        [Fact]
+        public void ShouldReturnViewWhenForValCurrentBrand()
+         => MyController<CarsController>
+                 .Instance()
+                 .WithData(PublicCars)
+                 .Calling(c => c.All(AllCarsModel))
+                 .ShouldReturn()
+                 .View(view => view
+                  .WithModelOfType<AllCarsViewModel>()
+                  .Passing(c => c.Brand == "Bmw"));
+
+        [Fact]
+        public void ShouldReturnViewWhenForValCurrenntSearch()
+        => MyController<CarsController>
+                .Instance()
+                .WithData(PublicCars)
+                .Calling(c => c.All(AllCarsModel))
+                .ShouldReturn()
+                .View(view => view
+                 .WithModelOfType<AllCarsViewModel>()
+                 .Passing(c => c.Search == "Audi"));
 
         [Fact]
         public void ShouldReturnViewWhenWhenCarIsZeroCount()
@@ -84,7 +117,8 @@
                     .Calling(c => c.Add(AddCarService))
                     .ShouldHave()
                     .ActionAttributes(attributes => attributes
-                        .RestrictingForAuthorizedRequests())
+                        .RestrictingForAuthorizedRequests()
+                        .RestrictingForHttpMethod(HttpMethod.Post))
                     .AndAlso()
                     .ShouldReturn()
                     .RedirectToAction("Create", "Dealers");
@@ -107,10 +141,195 @@
                         .ContainingNoErrorFor(c => c.Model)
                         .AndAlso()
                         .ContainingErrorFor(c => c.Brand)
-                        .ThatEquals(ErrorMessagesCarAdd))
+                        .ThatEquals(ErrorMessagesCarAddBrandModel))
                      .AndAlso()
                      .ShouldReturn()
                      .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateDescription()
+             => MyController<CarsController>
+                 .Instance()
+                  .WithData(SecondDealaer)
+                  .WithUser(TestUser.Identifier)
+                 .Calling(c => c.Add(NotValidModelAddCar))
+                 .ShouldHave()
+                 .ActionAttributes(attributes => attributes
+                     .RestrictingForHttpMethod(HttpMethod.Post)
+                     .RestrictingForAuthorizedRequests())
+                   .AndAlso()
+                   .ShouldHave()
+                   .ModelState(modelstate => modelstate
+                       .For<AddCarFormServiceModel>()
+                       .ContainingNoErrorFor(c => c.Model)
+                       .AndAlso()
+                       .ContainingErrorFor(c => c.Description)
+                       .ThatEquals(ErrorMessagesCarAddDescription))
+                    .AndAlso()
+                    .ShouldReturn()
+                    .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModel()
+            => MyController<CarsController>
+                .Instance()
+                 .WithData(SecondDealaer)
+                 .WithUser(TestUser.Identifier)
+                .Calling(c => c.Add(NotValidModelAddCarOther))
+                .ShouldHave()
+                .ActionAttributes(attributes => attributes
+                    .RestrictingForHttpMethod(HttpMethod.Post)
+                    .RestrictingForAuthorizedRequests())
+                  .AndAlso()
+                  .ShouldHave()
+                  .ModelState(modelstate => modelstate
+                      .For<AddCarFormServiceModel>()
+                      .ContainingNoErrorFor(c => c.Brand)
+                      .AndAlso()
+                      .ContainingErrorFor(c => c.ImageUrl)
+                      .ThatEquals(ErrorMessagesCarAddImageUrl))
+                   .AndAlso()
+                   .ShouldReturn()
+                   .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelForInvalidYear()
+           => MyController<CarsController>
+               .Instance()
+                .WithData(SecondDealaer)
+                .WithUser(TestUser.Identifier)
+               .Calling(c => c.Add(NotValidModelAddCarOther))
+               .ShouldHave()
+               .ActionAttributes(attributes => attributes
+                   .RestrictingForHttpMethod(HttpMethod.Post)
+                   .RestrictingForAuthorizedRequests())
+                 .AndAlso()
+                 .ShouldHave()
+                 .ModelState(modelstate => modelstate
+                     .For<AddCarFormServiceModel>()
+                     .ContainingNoErrorFor(c => c.Brand)
+                     .AndAlso()
+                     .ContainingErrorFor(c => c.Year)
+                     .ThatEquals(ErrorMessagesCarAddInvalidYear))
+                  .AndAlso()
+                  .ShouldReturn()
+                  .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelForInvalidDoors()
+          => MyController<CarsController>
+              .Instance()
+               .WithData(SecondDealaer)
+               .WithUser(TestUser.Identifier)
+              .Calling(c => c.Add(NotValidModelAddCarOther))
+              .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForHttpMethod(HttpMethod.Post)
+                  .RestrictingForAuthorizedRequests())
+                .AndAlso()
+                .ShouldHave()
+                .ModelState(modelstate => modelstate
+                    .For<AddCarFormServiceModel>()
+                    .ContainingNoErrorFor(c => c.Brand)
+                    .AndAlso()
+                    .ContainingErrorFor(c => c.Doors)
+                    .ThatEquals(ErrorMessagesCarAddInvalidDoors))
+                 .AndAlso()
+                 .ShouldReturn()
+                 .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelForInvalidPrice()
+          => MyController<CarsController>
+              .Instance()
+               .WithData(SecondDealaer)
+               .WithUser(TestUser.Identifier)
+              .Calling(c => c.Add(NotValidModelAddCarOther))
+              .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                  .RestrictingForHttpMethod(HttpMethod.Post)
+                  .RestrictingForAuthorizedRequests())
+                .AndAlso()
+                .ShouldHave()
+                .ModelState(modelstate => modelstate
+                    .For<AddCarFormServiceModel>()
+                    .ContainingNoErrorFor(c => c.Brand)
+                    .AndAlso()
+                    .ContainingErrorFor(c => c.Price)
+                    .ThatEquals(ErrorMessagesCarAddInvalidPrice))
+                 .AndAlso()
+                 .ShouldReturn()
+                 .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelForInvalidPassager()
+         => MyController<CarsController>
+             .Instance()
+              .WithData(SecondDealaer)
+              .WithUser(TestUser.Identifier)
+             .Calling(c => c.Add(NotValidModelAddCarOther))
+             .ShouldHave()
+             .ActionAttributes(attributes => attributes
+                 .RestrictingForHttpMethod(HttpMethod.Post)
+                 .RestrictingForAuthorizedRequests())
+               .AndAlso()
+               .ShouldHave()
+               .ModelState(modelstate => modelstate
+                   .For<AddCarFormServiceModel>()
+                   .ContainingNoErrorFor(c => c.Brand)
+                   .AndAlso()
+                   .ContainingErrorFor(c => c.Passager)
+                   .ThatEquals(ErrorMessagesCarAddInvalidPassager))
+                .AndAlso()
+                .ShouldReturn()
+                .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelForInvalidPricePeerDay()
+         => MyController<CarsController>
+             .Instance()
+              .WithData(SecondDealaer)
+              .WithUser(TestUser.Identifier)
+             .Calling(c => c.Add(NotValidModelAddCarOther))
+             .ShouldHave()
+             .ActionAttributes(attributes => attributes
+                 .RestrictingForHttpMethod(HttpMethod.Post)
+                 .RestrictingForAuthorizedRequests())
+               .AndAlso()
+               .ShouldHave()
+               .ModelState(modelstate => modelstate
+                   .For<AddCarFormServiceModel>()
+                   .ContainingNoErrorFor(c => c.Brand)
+                   .AndAlso()
+                   .ContainingErrorFor(c => c.RentPricePerDay)
+                   .ThatEquals(ErrorMessagesCarAddInvalidPrice))
+                .AndAlso()
+                .ShouldReturn()
+                .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelForInvalidLugage()
+        => MyController<CarsController>
+            .Instance()
+             .WithData(SecondDealaer)
+             .WithUser(TestUser.Identifier)
+            .Calling(c => c.Add(NotValidModelAddCarOther))
+            .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                .RestrictingForHttpMethod(HttpMethod.Post)
+                .RestrictingForAuthorizedRequests())
+              .AndAlso()
+              .ShouldHave()
+              .ModelState(modelstate => modelstate
+                  .For<AddCarFormServiceModel>()
+                  .ContainingNoErrorFor(c => c.Description)
+                  .AndAlso()
+                  .ContainingErrorFor(c => c.Lugage)
+                  .ThatEquals(ErrorMessagesCarAddInvalidLugage))
+               .AndAlso()
+               .ShouldReturn()
+               .View();
+
 
 
         [Fact]
@@ -133,7 +352,7 @@
         public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealer()
             => MyController<CarsController>
                 .Instance()
-                  .WithData(LocatinAdd)
+                  .WithData(LocationAdd)
                  .WithData(SecondDealaer)
                  .WithUser(TestUser.Identifier)
                 .Calling(c => c.Add(AddCarService))
@@ -150,10 +369,10 @@
             .RedirectToAction("DealerCar");
 
         [Fact]
-        public void GetDealerAllCarForAuthorizedUsers()
+        public void GetDealerAllCarForAuthorizedUsersWhenCarsIsZero()
             => MyController<CarsController>
                 .Instance()
-                  .WithData(LocatinAdd)
+                  .WithData(LocationAdd)
                  .WithData(SecondDealaer)
                  .WithUser(TestUser.Identifier)
                   .Calling(c => c.DealerCar())
@@ -163,7 +382,26 @@
                 .AndAlso()
                 .ShouldReturn()
                 .View(view => view
-                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>());
+                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                        .Passing(model => model.Should().HaveCount(0)));
+
+        [Fact]
+        public void GetDealerAllCarForAuthorizedUsers()
+           => MyController<CarsController>
+               .Instance()
+                 .WithData(LocationAdd)
+                .WithData(SecondDealaer)
+                .WithData(OneCar)
+                .WithUser(TestUser.Identifier)
+                 .Calling(c => c.DealerCar())
+              .ShouldHave()
+               .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests())
+               .AndAlso()
+               .ShouldReturn()
+               .View(view => view
+                    .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                       .Passing(model => model.Should().HaveCount(1)));
 
         [Fact]
         public void EditCarForAuthorizedUsersWhenUserIsNotADealer()
@@ -185,7 +423,7 @@
               .Instance()
                 .WithData(OneCar)
                 .WithData(SecondDealaer)
-                .WithData(LocatinAdd)
+                .WithData(LocationAdd)
                .WithUser(TestUser.Identifier)
                 .Calling(c => c.Edit(OneCar.Id))
              .ShouldHave()
@@ -201,7 +439,7 @@
              .Instance()
                .WithData(OneCar)
                .WithData(SecondDealaer)
-               .WithData(LocatinAdd)
+               .WithData(LocationAdd)
               .WithUser(TestUser.Identifier)
                .Calling(c => c.Edit(CarEdit))
             .ShouldHave()
@@ -253,7 +491,7 @@
             .Instance()
               .WithData(SecondCar)
               .WithData(SecondDealaer)
-              .WithData(LocatinAdd)
+              .WithData(LocationAdd)
              .WithUser(TestUser.Identifier)
               .Calling(c => c.Edit(CarEdit))
            .ShouldHave()

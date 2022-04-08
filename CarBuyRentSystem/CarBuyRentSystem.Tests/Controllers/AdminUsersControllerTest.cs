@@ -24,7 +24,7 @@
                       .WithModelOfType<IEnumerable<UserServiceViewListingModel>>());
 
         [Fact]
-        public void AdminAreaIndexShouldReturnViewWithDataForAllUsersCountTest()
+        public void AdminAreaIndexShouldReturnViewWithDataForAllUsersCount()
            => MyController<UsersController>
                .Instance()
                .WithData(UserOne)
@@ -33,6 +33,16 @@
                .View(view => view
                       .WithModelOfType<IEnumerable<UserServiceViewListingModel>>()
                         .Passing(m => m.Should().HaveCount(1)));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForAllUsersCountIsZero()
+         => MyController<UsersController>
+             .Instance()             
+             .Calling(x => x.AllUsers())
+             .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<UserServiceViewListingModel>>()
+                      .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaIndexShouldReturnViewWithDataForAllDealers()
@@ -45,7 +55,7 @@
                     .WithModelOfType<IEnumerable<DealerServiceViewListingModel>>());
 
         [Fact]
-        public void AdminAreaIndexShouldReturnViewWithDataForAllDealersCountTest()
+        public void AdminAreaIndexShouldReturnViewWithDataForAllDealersValidCount()
            => MyController<UsersController>
                .Instance()
                .WithData(OneDealaer)
@@ -54,6 +64,16 @@
                .View(view => view
                       .WithModelOfType<IEnumerable<DealerServiceViewListingModel>>()
                         .Passing(m => m.Should().HaveCount(1)));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForAllDealersWhenCountIsZero()
+          => MyController<UsersController>
+              .Instance()
+              .Calling(x => x.AllDealers())
+              .ShouldReturn()
+              .View(view => view
+                     .WithModelOfType<IEnumerable<DealerServiceViewListingModel>>()
+                       .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaShouldReturnViewForDeleteUser()

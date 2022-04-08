@@ -163,9 +163,8 @@
          .View(view => view
                 .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
 
-
         [Fact]
-        public void AdminAreadReturnViewForCarsInDataBase()
+        public void AdminAreadReturnViewForCars()
          => MyMvc
              .Pipeline()
              .ShouldMap(request => request
@@ -179,6 +178,22 @@
              .View(view => view
                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                      .Passing(m => m.Should().HaveCount(15))));
+
+        [Fact]
+        public void AdminAreadReturnViewWhenCarsIsZeroCount()
+         => MyMvc
+             .Pipeline()
+             .ShouldMap(request => request
+              .WithPath("/Admin/Cars/All")
+              .WithUser(x => x.InRole(AdministratorRoleName))
+              .WithAntiForgeryToken())
+             .To<CarsController>(x => x.All())
+            .Which(controller => controller
+               .WithData(UserOne))
+              .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                     .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaReturnViewForEditCarsInformation()
@@ -196,7 +211,7 @@
                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
 
         [Fact]
-        public void AdminAreaReturnViewWithValidEditCarsInDataBase()
+        public void AdminAreaReturnViewWithValidEditCars()
          => MyMvc
              .Pipeline()
              .ShouldMap(request => request
@@ -210,6 +225,22 @@
              .View(view => view
                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                    .Passing(m => m.Should().HaveCount(15))));
+
+        [Fact]
+        public void AdminAreaReturnViewWithEditCarsWhenCountIsZero()
+        => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+             .WithPath("/Admin/Cars/Edit")
+             .WithUser(x => x.InRole(AdministratorRoleName))
+             .WithAntiForgeryToken())
+            .To<CarsController>(x => x.Edit())
+            .Which(controller => controller
+             .WithData(UserOne)
+             .ShouldReturn()
+            .View(view => view
+                   .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                  .Passing(m => m.Should().HaveCount(0))));
 
         [Fact]
         public void AdminAreaReturnViewForDeleteCarsInformation()
@@ -257,6 +288,22 @@
           .View(view => view
                  .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                   .Passing(m => m.Should().HaveCount(15))));
+
+        [Fact]
+        public void AdminAreaReturnViewWithDataForAllCarsWhenCountIsZero()
+     => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+             .WithPath("/Admin/Cars/AllCars")
+             .WithUser(x => x.InRole(AdministratorRoleName))
+             .WithAntiForgeryToken())
+            .To<CarsController>(x => x.AllCars())
+            .Which(controller => controller
+             .WithData(UserOne)
+         .ShouldReturn()
+         .View(view => view
+                .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                 .Passing(m => m.Should().HaveCount(0))));
 
         [Fact]
         public void AdminAreaReturnViewWithDataForAllCarsInDataBase()
@@ -319,6 +366,22 @@
                     .Passing(m => m.Should().HaveCount(1))));
 
         [Fact]
+        public void AdminAreaReturnViewWithValidRentedCarsCountIsZero()
+         => MyMvc
+           .Pipeline()
+           .ShouldMap(request => request
+            .WithPath("/Admin/Cars/RentedCars")
+            .WithUser(x => x.InRole(AdministratorRoleName))
+            .WithAntiForgeryToken())
+           .To<CarsController>(x => x.RentedCars())
+           .Which(controller => controller
+            .WithData(UserOne)
+      .ShouldReturn()
+      .View(view => view
+             .WithModelOfType<IEnumerable<RentedCarsViewModel>>()
+                  .Passing(m => m.Should().HaveCount(0))));
+
+        [Fact]
         public void AdminAreaReturnViewWithSoldCars()
            => MyMvc
              .Pipeline()
@@ -349,10 +412,20 @@
               .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
                .Passing(m => m.Should().HaveCount(1))));
 
-
-
-
-
-
+        [Fact]
+        public void AdminAreaReturnViewWithSoldCarsWhenCountIsZero()
+           => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+             .WithPath("/Admin/Cars/SoldCars")
+             .WithUser(x => x.InRole(AdministratorRoleName))
+             .WithAntiForgeryToken())
+            .To<CarsController>(x => x.SoldCars())
+            .Which(controller => controller
+             .WithData(UserOne)
+      .ShouldReturn()
+      .View(view => view
+             .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
+              .Passing(m => m.Should().HaveCount(0))));
     }
 }

@@ -38,7 +38,7 @@
            => MyMvc.
                  Controller<DealersController>()
                 .WithUser()
-                .Calling(c => c.Create(CreateDealerNotValidModel))
+                .Calling(c => c.Create(CreateDealerNotValidModelPhone))
                 .ShouldHave()
                  .ActionAttributes(attributes => attributes
                   .RestrictingForHttpMethod(HttpMethod.Post)
@@ -48,10 +48,30 @@
                     .ContainingNoErrorFor(m => m.Name)
                     .AndAlso()
                     .ContainingErrorFor(m => m.PhoneNumber)
-                    .ThatEquals(ErrorMeesagessDealer))
+                    .ThatEquals(ErrorMeesagessDealerPhone))
                  .AndAlso()
                  .ShouldReturn()
-                .View(CreateDealerNotValidModel);
+                .View(CreateDealerNotValidModelPhone);
+
+        [Fact]
+        public void CreateDealerShouldBeForAuthorizedUsersNotValidModelStateName()
+         => MyMvc.
+               Controller<DealersController>()
+              .WithUser()
+              .Calling(c => c.Create(CreateDealerNotValidModelName))
+              .ShouldHave()
+               .ActionAttributes(attributes => attributes
+                .RestrictingForHttpMethod(HttpMethod.Post)
+                .RestrictingForAuthorizedRequests())
+              .ModelState(modelState => modelState
+                  .For<DealerFormServiceModel>()
+                  .ContainingNoErrorFor(m => m.PhoneNumber)
+                  .AndAlso()
+                  .ContainingErrorFor(m => m.Name)
+                  .ThatEquals(ErrorMeesagessDealerName))
+               .AndAlso()
+               .ShouldReturn()
+              .View(CreateDealerNotValidModelName);
 
 
         [Fact]

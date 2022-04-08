@@ -126,7 +126,7 @@
                       .WithModelOfType<IEnumerable<CarServiceListingViewModel>>());
 
         [Fact]
-        public void AdminAreaShouldReturnViewWithValidCarsInDataBase()
+        public void AdminAreaShouldReturnViewWithValidCars()
           => MyController<CarsController>
               .Instance()
               .WithData(PublicCars)
@@ -135,6 +135,16 @@
               .View(view => view
                      .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                       .Passing(m => m.Should().HaveCount(15)));
+
+        [Fact]
+        public void AdminAreaShouldReturnViewWithCarIsZeroCount()
+         => MyController<CarsController>
+             .Instance()             
+             .Calling(x => x.All())
+             .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                     .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaShouldReturnViewWithDataForEditCarsInformation()
@@ -158,6 +168,16 @@
                      .Passing(m => m.Should().HaveCount(15)));
 
         [Fact]
+        public void AdminAreaShouldReturnViewWithCarsForEditIsZero()
+         => MyController<CarsController>
+             .Instance()             
+             .Calling(x => x.Edit())
+             .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                     .Passing(m => m.Should().HaveCount(0)));
+
+        [Fact]
         public void AdminAreaShouldReturnViewWithDataForDeleteCarsInformation()
          => MyController<CarsController>
              .Instance()
@@ -179,6 +199,16 @@
                     .Passing(m => m.Should().HaveCount(15)));
 
         [Fact]
+        public void AdminAreaShouldReturnViewWithCarForDeleteIsZero()
+      => MyController<CarsController>
+          .Instance()          
+          .Calling(x => x.Delete())
+          .ShouldReturn()
+          .View(view => view
+                 .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                  .Passing(m => m.Should().HaveCount(0)));
+
+        [Fact]
         public void AdminAreaShouldReturnViewWithDataForAllCars()
         => MyController<CarsController>
             .Instance()
@@ -188,6 +218,16 @@
             .View(view => view
                    .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                     .Passing(m => m.Should().HaveCount(15)));
+
+        [Fact]
+        public void AdminAreaShouldReturnViewWithDataCarsIsZeroCount()
+       => MyController<CarsController>
+           .Instance()
+           .Calling(x => x.AllCars())
+           .ShouldReturn()
+           .View(view => view
+                  .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                   .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaShouldReturnViewWithDataForAllCarsInDataBase()
@@ -230,6 +270,16 @@
                      .Passing(m => m.Should().HaveCount(1)));
 
         [Fact]
+        public void AdminAreaShouldReturnViewWithValidRentedCarsCountIsZero()
+     => MyController<CarsController>
+         .Instance()         
+         .Calling(x => x.RentedCars())
+         .ShouldReturn()
+         .View(view => view
+                .WithModelOfType<IEnumerable<RentedCarsViewModel>>()
+                     .Passing(m => m.Should().HaveCount(0)));
+
+        [Fact]
         public void AdminAreaShouldReturnViewWithSoldCars()
       => MyController<CarsController>
           .Instance()
@@ -239,6 +289,15 @@
           .View(view => view
                  .WithModelOfType<IEnumerable<SoldCarsViewModel>>());
 
+        [Fact]
+        public void AdminAreaShouldReturnViewWithSoldCarsCarsIsZero()
+      => MyController<CarsController>
+          .Instance()          
+          .Calling(x => x.SoldCars())
+          .ShouldReturn()
+          .View(view => view
+                 .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
+          .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaShouldReturnViewWithSoldCarsCountValid()

@@ -48,9 +48,6 @@
         public async Task<bool> IsDealer(string userId)
             => await this.db
                 .Dealers
-                .AnyAsync(d => d.UserId == userId);
-
-        public async Task TotalUser()
-           => await this.db.Users.CountAsync();
+                .AnyAsync(d => d.UserId == userId);      
     }
 }

@@ -66,7 +66,6 @@
                     Name = x.Name,
                     Phone = x.PhoneNumber,
                     CarCount = x.Cars.Count()
-
                 })
                 .ToListAsync();
 

@@ -8,8 +8,6 @@
 
         Task<bool> IsDealer(string userId);
 
-        Task<int> GetDealerId(string userId);
-
-        Task TotalUser();
+        Task<int> GetDealerId(string userId);      
     }
 }

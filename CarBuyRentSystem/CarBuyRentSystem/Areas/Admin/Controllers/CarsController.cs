@@ -11,50 +11,50 @@
   
     public class CarsController : AdminController
     {
-        private readonly ICarService cars;
+        private readonly ICarService carService;
         private readonly IUserService userService;
         private readonly IMapper mapper;
 
        
-        public CarsController(ICarService cars
+        public CarsController(ICarService carService
                               ,IUserService userService
                              ,IMapper mapper)                              
         {
-            this.cars = cars;
+            this.carService = carService;
             this.userService = userService;
             this.mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var total = cars.Total();
+            var total = carService.Total();
 
              return View(total);
         }
 
         public async Task<IActionResult> All()
         {
-             return View(await this.cars.AdminGetAllCar());            
+             return View(await this.carService.AdminGetAllCar());            
         }
 
         public async Task<IActionResult> Edit()
         { 
-             return View(await this.cars.AdminGetAllCar());       
+             return View(await this.carService.AdminGetAllCar());       
         }
 
         public async Task<IActionResult> Delete()
         {
-            return View(await this.cars.AdminGetAllCar());
+            return View(await this.carService.AdminGetAllCar());
         }
 
         public async Task<IActionResult> AllCars()
         {
-            return View(await this.cars.AdminGetAllCar());
+            return View(await this.carService.AdminGetAllCar());
         }
 
         public async Task<IActionResult> ChangeVisability(int id)
         {
-           await cars.ChangeVisability(id);
+           await carService.ChangeVisability(id);
 
             return RedirectToAction(nameof(All));
         }

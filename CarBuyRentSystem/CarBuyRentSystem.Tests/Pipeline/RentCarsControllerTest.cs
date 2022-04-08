@@ -9,6 +9,7 @@
     using CarBuyRentSystem.Core.Models.View.RentCars;
     using static Infrastructure.Data.WebConstants;
     using System.Collections.Generic;
+    using FluentAssertions;
 
     public class RentCarsControllerTest
     {
@@ -92,5 +93,23 @@
                .ShouldReturn()
              .View(v => v.WithModelOfType<IEnumerable<RentedCarsViewModel>>());
 
+        [Fact]
+        public void MyAllRentedCarsWhenCountIsZero()
+          => MyMvc
+              .Pipeline()
+              .ShouldMap(request => request
+               .WithPath("/RentCars/MyRentCars")
+               .WithUser()
+               .WithAntiForgeryToken())
+              .To<RentCarsController>(c => c.MyRentCars())
+              .Which(controller => controller
+               .WithData(UserOne))
+               .ShouldHave()
+              .ActionAttributes(attribute => attribute
+                  .RestrictingForAuthorizedRequests())
+              .AndAlso()
+              .ShouldReturn()
+            .View(v => v.WithModelOfType<IEnumerable<RentedCarsViewModel>>()
+             .Passing(m => m.Should().HaveCount(0)));
     }
 }

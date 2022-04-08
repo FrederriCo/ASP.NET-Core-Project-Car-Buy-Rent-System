@@ -30,7 +30,7 @@
                      .WithModelOfType<IEnumerable<UserServiceViewListingModel>>());
 
         [Fact]
-        public void AdminAreaIndexShouldReturnViewForAllUsersCountTest()
+        public void AdminAreaIndexShouldReturnViewForAllUsersCount()
          => MyMvc
              .Pipeline()
              .ShouldMap(request => request
@@ -44,6 +44,22 @@
              .View(view => view
                     .WithModelOfType<IEnumerable<UserServiceViewListingModel>>()
                       .Passing(m => m.Should().HaveCount(1)));
+
+        [Fact]
+        public void AdminAreaIndexShouldReturnViewForAllUsersWhenCountIsZero()
+        => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+             .WithPath("/Admin/Users/AllUsers")
+             .WithUser(x => x.InRole(AdministratorRoleName))
+             .WithAntiForgeryToken())
+            .To<UsersController>(x => x.AllUsers())
+           .Which(controller => controller
+              .WithData(OneCar))
+            .ShouldReturn()
+            .View(view => view
+                   .WithModelOfType<IEnumerable<UserServiceViewListingModel>>()
+                     .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaIndexReturnViewWithDataForAllDealers()
@@ -61,7 +77,7 @@
                    .WithModelOfType<IEnumerable<DealerServiceViewListingModel>>());
 
         [Fact]
-        public void AdminAreaIndexReturnViewWithDataForAllDealersCountTest()
+        public void AdminAreaIndexReturnViewWithDataForAllDealersValidCount()
           => MyMvc
              .Pipeline()
              .ShouldMap(request => request
@@ -75,6 +91,22 @@
               .View(view => view
                      .WithModelOfType<IEnumerable<DealerServiceViewListingModel>>()
                        .Passing(m => m.Should().HaveCount(1)));
+
+        [Fact]
+        public void AdminAreaIndexReturnViewWithDataForAllDealersWhenCountIsSero()
+         => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+             .WithPath("/Admin/Users/AllDealers")
+             .WithUser(x => x.InRole(AdministratorRoleName))
+             .WithAntiForgeryToken())
+            .To<UsersController>(x => x.AllDealers())
+           .Which(controller => controller
+              .WithData(OneCar))
+               .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<DealerServiceViewListingModel>>()
+                      .Passing(m => m.Should().HaveCount(0)));
 
         [Fact]
         public void AdminAreaReturnViewForDeleteUser()

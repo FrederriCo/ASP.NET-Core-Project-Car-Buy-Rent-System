@@ -12,7 +12,25 @@
 
     public static class Cars
     {
-        public static string ErrorMessagesCarAdd = "The length mst be between 2 and 30";
+        public static string ErrorMessagesCarAddBrandModel = "The length mst be between 2 and 30";
+
+        public static string ErrorMessagesCarAddDescription = "Enter a description, please!";
+
+        public static string ErrorMessagesCarAddImageUrl = "The Image URL field is not a valid fully-qualified http, https, or ftp URL.";
+
+        public static string ErrorMessagesCarAddInvalidYear = "Invalid year";
+
+        public static string ErrorMessagesCarAddInvalidDoors = "Invalid doors";
+
+        public static string ErrorMessagesCarAddInvalidPassager = "Invalid Passager";
+
+        public static string ErrorMessagesCarAddInvalidPrice = "Cannot enter negative values!";
+
+        public static string ErrorMessagesCarAddInvalidLugage = "Invalid Lugage";
+
+        
+
+
 
         public static IEnumerable<Car> PublicCars
          => Enumerable.Range(0, 15).Select(i => new Car
@@ -88,8 +106,7 @@
             {
                 CarId = OneCar.Id,
                 RentCarId = OneCar.Id, 
-               // Car = SecondCar
-                
+               // Car = SecondCar                
             };
 
         public static BuyCarBindingModel BuyCarBindig
@@ -127,10 +144,26 @@
                 Brand = "B",
                 Price = 23230,
                 RentPricePerDay = 500,
-                Description = "dfdsfdsfds",
+                Description = "d",
                 ImageUrl = "www.yahoo.com",
 
                 Year = 2020,
+
+            };
+
+        public static AddCarFormServiceModel NotValidModelAddCarOther
+            => new AddCarFormServiceModel
+            {
+                Brand = "Mercedes",                
+                Lugage = 0,
+                Price = -50,
+                Doors = 0,
+                Passager = 0,
+                RentPricePerDay = -20,
+                Description = "ddafsdfscsdcds",
+                Model = "M",
+                ImageUrl = "www.yahoo.com",
+                Year = 1880,
 
             };
 
@@ -185,10 +218,13 @@
         public static AllCarsViewModel AllCarsModel
             => new AllCarsViewModel
             {
-                  
+                 CurentPage = 3,
+                  Brand = "Bmw",
+                   Search = "Audi",
+                   TotalCars = 15
             };
 
-        public static IEnumerable<Location> LocatinAdd
+        public static IEnumerable<Location> LocationAdd
             => Enumerable.Range(0, 5).Select(i => new Location
             {
                 Name = "Plovdiv"

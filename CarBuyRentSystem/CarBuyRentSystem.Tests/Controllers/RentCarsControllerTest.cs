@@ -10,6 +10,7 @@
 
     using static Infrastructure.Data.WebConstants;
     using static Data.Cars;
+    using FluentAssertions;
 
     public class RentCarsControllerTest
     {    
@@ -95,5 +96,15 @@
                 .View(view => view
                        .WithModelOfType<IEnumerable<RentedCarsViewModel>>());
 
+        [Fact]
+        public void MyAllRentedCarsShouldReturnViewWhenCarsIsZeroCount()
+          => MyController<RentCarsController>
+               .Instance()
+               .WithUser()               
+               .Calling(c => c.MyRentCars())
+               .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<IEnumerable<RentedCarsViewModel>>()
+                        .Passing(m => m.Should().HaveCount(0)));
     }
 }
