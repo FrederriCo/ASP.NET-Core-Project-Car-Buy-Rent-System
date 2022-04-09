@@ -2,18 +2,18 @@
 {
     using Xunit;
     using MyTested.AspNetCore.Mvc;
-    using CarBuyRentSystem.Controllers;
+    using System.Collections.Generic;
+    using FluentAssertions;
 
+    using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     using static Data.Delars;
     using static Data.Cars;
     using static Infrastructure.Data.WebConstants;
-    using CarBuyRentSystem.Infrastructure.Models;
-    using System.Linq;
-    using System.Collections.Generic;
-    using FluentAssertions;
-    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Infrastructure.Models.Enums;
 
     public class CarsControllerTest
     {
@@ -25,7 +25,16 @@
                     .Calling(c => c.All(AllCarsModel))
                     .ShouldReturn()
                     .View(view => view
-                     .WithModelOfType<AllCarsViewModel>());                        
+                     .WithModelOfType<AllCarsViewModel>());
+
+        [Fact]
+        public void ShouldReturnViewWithoutCar()
+           => MyController<CarsController>
+                   .Instance()
+                   .Calling(c => c.All(AllCarsModel))
+                   .ShouldReturn()
+                   .View(view => view
+                    .WithModelOfType<AllCarsViewModel>());
 
         [Fact]
         public void ShouldReturnViewWhenForValidAllCarTotalCount()
@@ -49,8 +58,20 @@
                    .WithModelOfType<AllCarsViewModel>()
                    .Passing(c => c.CurentPage == 3));
 
+
         [Fact]
-        public void ShouldReturnViewWhenForValCurrentBrand()
+        public void ShouldReturnViewWhenForCurrentIsPageZero()
+        => MyController<CarsController>
+                .Instance()
+                .WithData(PublicCars)
+                .Calling(c => c.All(new AllCarsViewModel { CurentPage = 0 }))
+                .ShouldReturn()
+                .View(view => view
+                 .WithModelOfType<AllCarsViewModel>()
+                 .Passing(c => c.CurentPage == 0));
+
+        [Fact]
+        public void ShouldReturnViewWhenForValidCurrentBrand()
          => MyController<CarsController>
                  .Instance()
                  .WithData(PublicCars)
@@ -61,7 +82,29 @@
                   .Passing(c => c.Brand == "Bmw"));
 
         [Fact]
-        public void ShouldReturnViewWhenForValCurrenntSearch()
+        public void ShouldReturnViewWhenForValidCurrentOtherBrand()
+        => MyController<CarsController>
+                .Instance()
+                .WithData(PublicCars)
+                .Calling(c => c.All(new AllCarsViewModel { Brand = "Mercedes" }))
+                .ShouldReturn()
+                .View(view => view
+                 .WithModelOfType<AllCarsViewModel>()
+                 .Passing(c => c.Brand == "Mercedes"));
+
+        [Fact]
+        public void ShouldReturnViewWhenBrandIsNull()
+       => MyController<CarsController>
+               .Instance()
+               .WithData(PublicCars)
+               .Calling(c => c.All(new AllCarsViewModel { }))
+               .ShouldReturn()
+               .View(view => view
+                .WithModelOfType<AllCarsViewModel>()
+                .Passing(c => c.Brand == null));
+
+        [Fact]
+        public void ShouldReturnViewWhenForValidCurrentSearch()
         => MyController<CarsController>
                 .Instance()
                 .WithData(PublicCars)
@@ -72,9 +115,53 @@
                  .Passing(c => c.Search == "Audi"));
 
         [Fact]
+        public void ShouldReturnViewWhenALlBrandsCountIsCurrect()
+        => MyController<CarsController>
+                .Instance()
+                .WithData(PublicCars)
+                .Calling(c => c.All(AllCarsModel))
+                .ShouldReturn()
+                .View(view => view
+                 .WithModelOfType<AllCarsViewModel>()
+                 .Passing(c => c.Brands.Should().HaveCount(1)));
+
+        [Fact]
+        public void ShouldReturnViewWhenSortingForDataCreated()
+      => MyController<CarsController>
+              .Instance()
+              .WithData(PublicCars)
+              .Calling(c => c.All(new AllCarsViewModel { Sorting = CarSorting.DateCreated }))
+              .ShouldReturn()
+              .View(view => view
+               .WithModelOfType<AllCarsViewModel>()
+               .Passing(c => c.Sorting == CarSorting.DateCreated));
+
+        [Fact]
+        public void ShouldReturnViewWhenSortingForYear()
+     => MyController<CarsController>
+             .Instance()
+             .WithData(PublicCars)
+             .Calling(c => c.All(new AllCarsViewModel { Sorting = CarSorting.Year }))
+             .ShouldReturn()
+             .View(view => view
+              .WithModelOfType<AllCarsViewModel>()
+              .Passing(c => c.Sorting == CarSorting.Year));
+
+        [Fact]
+        public void ShouldReturnViewWhenSortingForBrandModel()
+      => MyController<CarsController>
+              .Instance()
+              .WithData(PublicCars)
+              .Calling(c => c.All(new AllCarsViewModel { Sorting = CarSorting.BrandAndModel }))
+              .ShouldReturn()
+              .View(view => view
+               .WithModelOfType<AllCarsViewModel>()
+               .Passing(c => c.Sorting == CarSorting.BrandAndModel));
+
+        [Fact]
         public void ShouldReturnViewWhenWhenCarIsZeroCount()
            => MyController<CarsController>
-                   .Instance()                   
+                   .Instance()
                    .Calling(c => c.All(AllCarsModel))
                    .ShouldReturn()
                    .View(view => view
@@ -124,7 +211,7 @@
                     .RedirectToAction("Create", "Dealers");
 
         [Fact]
-        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelState()
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateBrand()
               => MyController<CarsController>
                   .Instance()
                    .WithData(SecondDealaer)
@@ -145,6 +232,29 @@
                      .AndAlso()
                      .ShouldReturn()
                      .View();
+
+        [Fact]
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModel()
+             => MyController<CarsController>
+                 .Instance()
+                  .WithData(SecondDealaer)
+                  .WithUser(TestUser.Identifier)
+                 .Calling(c => c.Add(NotValidModelAddCarOther))
+                 .ShouldHave()
+                 .ActionAttributes(attributes => attributes
+                     .RestrictingForHttpMethod(HttpMethod.Post)
+                     .RestrictingForAuthorizedRequests())
+                   .AndAlso()
+                   .ShouldHave()
+                   .ModelState(modelstate => modelstate
+                       .For<AddCarFormServiceModel>()
+                       .ContainingNoErrorFor(c => c.Brand)
+                       .AndAlso()
+                       .ContainingErrorFor(c => c.Model)
+                       .ThatEquals(ErrorMessagesCarAddModel))
+                    .AndAlso()
+                    .ShouldReturn()
+                    .View();
 
         [Fact]
         public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateDescription()
@@ -170,7 +280,7 @@
                     .View();
 
         [Fact]
-        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModel()
+        public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealerForErrorModelStateModelImageUrl()
             => MyController<CarsController>
                 .Instance()
                  .WithData(SecondDealaer)
@@ -403,6 +513,7 @@
                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                        .Passing(model => model.Should().HaveCount(1)));
 
+
         [Fact]
         public void EditCarForAuthorizedUsersWhenUserIsNotADealer()
           => MyController<CarsController>
@@ -565,5 +676,182 @@
            .ShouldReturn()
            .View(view => view
                      .WithModelOfType<CarServiceListingViewModel>());
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidForId()
+        => MyController<CarsController>
+            .Instance()
+            .WithData(OneCar)
+            .Calling(x => x.Details(OneCar.Id))
+          .ShouldReturn()
+          .View(view => view
+                    .WithModelOfType<CarServiceListingViewModel>()
+                    .Passing(x => x.Id == OneCar.Id));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidForBrand()
+        => MyController<CarsController>
+            .Instance()
+            .WithData(OneCar)
+            .Calling(x => x.Details(OneCar.Id))
+          .ShouldReturn()
+          .View(view => view
+                    .WithModelOfType<CarServiceListingViewModel>()
+                    .Passing(x => x.Brand == "BMW"));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidForModel()
+         => MyController<CarsController>
+          .Instance()
+          .WithData(OneCar)
+          .Calling(x => x.Details(OneCar.Id))
+        .ShouldReturn()
+        .View(view => view
+                  .WithModelOfType<CarServiceListingViewModel>()
+                  .Passing(x => x.Model == "M5"));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForDoors()
+        => MyController<CarsController>
+         .Instance()
+         .WithData(OneCar)
+         .Calling(x => x.Details(OneCar.Id))
+       .ShouldReturn()
+       .View(view => view
+                 .WithModelOfType<CarServiceListingViewModel>()
+                 .Passing(x => x.Doors == 5));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForLugage()
+       => MyController<CarsController>
+        .Instance()
+        .WithData(OneCar)
+        .Calling(x => x.Details(OneCar.Id))
+      .ShouldReturn()
+      .View(view => view
+                .WithModelOfType<CarServiceListingViewModel>()
+                .Passing(x => x.Lugage == 4));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForIsPublic()
+         => MyController<CarsController>
+         .Instance()
+         .WithData(OneCar)
+         .Calling(x => x.Details(OneCar.Id))
+         .ShouldReturn()
+         .View(view => view
+                .WithModelOfType<CarServiceListingViewModel>()
+                .Passing(x => x.IsPublic == false));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForCategory()
+        => MyController<CarsController>
+        .Instance()
+        .WithData(OneCar)
+        .Calling(x => x.Details(OneCar.Id))
+        .ShouldReturn()
+        .View(view => view
+               .WithModelOfType<CarServiceListingViewModel>()
+               .Passing(x => x.Category == Category.Limousine));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForFuel()
+       => MyController<CarsController>
+       .Instance()
+       .WithData(OneCar)
+       .Calling(x => x.Details(OneCar.Id))
+       .ShouldReturn()
+       .View(view => view
+              .WithModelOfType<CarServiceListingViewModel>()
+              .Passing(x => x.Fuel == Fuel.Petrol));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForTransmission()
+             => MyController<CarsController>
+             .Instance()
+             .WithData(OneCar)
+             .Calling(x => x.Details(OneCar.Id))
+             .ShouldReturn()
+             .View(view => view
+              .WithModelOfType<CarServiceListingViewModel>()
+              .Passing(x => x.Transmission == Transmission.Automatic));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForPassager()
+            => MyController<CarsController>
+            .Instance()
+            .WithData(OneCar)
+            .Calling(x => x.Details(OneCar.Id))
+            .ShouldReturn()
+            .View(view => view
+             .WithModelOfType<CarServiceListingViewModel>()
+             .Passing(x => x.Passager == 4));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForRentPricePeerDay()
+            => MyController<CarsController>
+            .Instance()
+            .WithData(OneCar)
+            .Calling(x => x.Details(OneCar.Id))
+            .ShouldReturn()
+            .View(view => view
+             .WithModelOfType<CarServiceListingViewModel>()
+             .Passing(x => x.RentPricePerDay == 200));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForPriceCar()
+            => MyController<CarsController>
+            .Instance()
+            .WithData(OneCar)
+            .Calling(x => x.Details(OneCar.Id))
+            .ShouldReturn()
+            .View(view => view
+             .WithModelOfType<CarServiceListingViewModel>()
+             .Passing(x => x.Price == 30000));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForYear()
+          => MyController<CarsController>
+          .Instance()
+          .WithData(OneCar)
+          .Calling(x => x.Details(OneCar.Id))
+          .ShouldReturn()
+          .View(view => view
+           .WithModelOfType<CarServiceListingViewModel>()
+           .Passing(x => x.Year == 2005));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForLocationId()
+          => MyController<CarsController>
+          .Instance()
+          .WithData(OneCar)
+          .Calling(x => x.Details(OneCar.Id))
+          .ShouldReturn()
+          .View(view => view
+           .WithModelOfType<CarServiceListingViewModel>()
+           .Passing(x => x.LocationId == 2));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForImageUrl()
+          => MyController<CarsController>
+          .Instance()
+          .WithData(OneCar)
+          .Calling(x => x.Details(OneCar.Id))
+          .ShouldReturn()
+          .View(view => view
+           .WithModelOfType<CarServiceListingViewModel>()
+           .Passing(x => x.ImageUrl == "www.imagethebestBmw.com"));
+
+        [Fact]
+        public void ShouldReturnViewWhenCarFoundForDetailsValidModelForDescription()
+         => MyController<CarsController>
+         .Instance()
+         .WithData(OneCar)
+         .Calling(x => x.Details(OneCar.Id))
+         .ShouldReturn()
+         .View(view => view
+          .WithModelOfType<CarServiceListingViewModel>()
+          .Passing(x => x.Description == "The best car"));      
+
     }
 }

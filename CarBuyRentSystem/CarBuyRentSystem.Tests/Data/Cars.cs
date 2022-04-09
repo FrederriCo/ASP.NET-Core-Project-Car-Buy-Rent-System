@@ -14,6 +14,9 @@
     {
         public static string ErrorMessagesCarAddBrandModel = "The length mst be between 2 and 30";
 
+        public static string ErrorMessagesCarAddModel = "The Model field is required.";
+
+
         public static string ErrorMessagesCarAddDescription = "Enter a description, please!";
 
         public static string ErrorMessagesCarAddImageUrl = "The Image URL field is not a valid fully-qualified http, https, or ftp URL.";
@@ -28,7 +31,7 @@
 
         public static string ErrorMessagesCarAddInvalidLugage = "Invalid Lugage";
 
-        
+
 
 
 
@@ -52,9 +55,19 @@
                 Id = 3,
                 Brand = "BMW",
                 Model = "M5",
+                Doors = 5,
+                Lugage = 4,
+                IsPublic = false,
+                Category = Category.Limousine,
+                Transmission = Transmission.Automatic,
+                Fuel = Fuel.Petrol,
+                Passager = 4,
+                RentPricePerDay = 200,
+                Year = 2005,
+                Price = 30000,
+                LocationId = 2,
                 ImageUrl = "www.imagethebestBmw.com",
-                Description = "The best car",
-                DealerId = 4
+                Description = "The best car",                DealerId = 4
 
             };
 
@@ -105,8 +118,8 @@
             => new RentCarBindingModel
             {
                 CarId = OneCar.Id,
-                RentCarId = OneCar.Id, 
-               // Car = SecondCar                
+                RentCarId = OneCar.Id,
+                // Car = SecondCar                
             };
 
         public static BuyCarBindingModel BuyCarBindig
@@ -144,9 +157,8 @@
                 Brand = "B",
                 Price = 23230,
                 RentPricePerDay = 500,
-                Description = "d",
+                Description = "a",
                 ImageUrl = "www.yahoo.com",
-
                 Year = 2020,
 
             };
@@ -154,14 +166,14 @@
         public static AddCarFormServiceModel NotValidModelAddCarOther
             => new AddCarFormServiceModel
             {
-                Brand = "Mercedes",                
+                Model = null,
+                Brand = "Mercedes",
                 Lugage = 0,
                 Price = -50,
                 Doors = 0,
                 Passager = 0,
                 RentPricePerDay = -20,
                 Description = "ddafsdfscsdcds",
-                Model = "M",
                 ImageUrl = "www.yahoo.com",
                 Year = 1880,
 
@@ -197,17 +209,17 @@
                 RentPricePerDay = 500,
                 LocationId = 2,
                 DealerId = 4,
-                 
+
             };
 
         public static CreateCarServiceModel NotValidCarEdit
          => new CreateCarServiceModel
          {
-             Id = 3,            
+             Id = 3,
              Lugage = 5,
              Doors = 4,
              Passager = 4,
-              Description = "a",
+             Description = "a",
              Price = 23230,
              RentPricePerDay = 500,
              LocationId = 2,
@@ -218,16 +230,25 @@
         public static AllCarsViewModel AllCarsModel
             => new AllCarsViewModel
             {
-                 CurentPage = 3,
-                  Brand = "Bmw",
-                   Search = "Audi",
-                   TotalCars = 15
+                CurentPage = 3,
+                Brand = "Bmw",
+                Search = "Audi",
+                Brands = Brands,
+                TotalCars = 15
             };
+
+        public static IEnumerable<string> Brands
+          => new List<string>
+             {
+                 "Audi",
+                 "Bmw",
+                 "Mercedes"
+             };
 
         public static IEnumerable<Location> LocationAdd
             => Enumerable.Range(0, 5).Select(i => new Location
             {
                 Name = "Plovdiv"
-            });               
+            });
     }
 }

@@ -1,19 +1,19 @@
 ﻿namespace CarBuyRentSystem.Tests.Pipeline
 {
     using Xunit;
+    using FluentAssertions;
     using MyTested.AspNetCore.Mvc;
-    using CarBuyRentSystem.Controllers;
+    using System.Collections.Generic;
 
+    using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
 
     using static Data.Delars;
     using static Data.Cars;
     using static Infrastructure.Data.WebConstants;
-    using CarBuyRentSystem.Infrastructure.Models;
-    using System.Linq;
-    using System.Collections.Generic;
-    using FluentAssertions;
-    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
+
     public class CarsControllerTest
     {
         [Fact]
@@ -28,7 +28,7 @@
                      .WithData(PublicCars))
                    .ShouldReturn()
                    .View(view => view
-                    .WithModelOfType<AllCarsViewModel>());     
+                    .WithModelOfType<AllCarsViewModel>());       
 
         [Fact]
         public void ShouldReturnViewWhenForValidAllCarTotalCount()
@@ -60,6 +60,36 @@
                   .WithModelOfType<AllCarsViewModel>()
                    .Passing(c => c.TotalCars == 0));
 
+        [Fact]
+        public void ShouldReturnViewWhenBrandsIsZeroCount()
+       => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+                .WithPath("/Cars/All")
+                .WithAntiForgeryToken())
+                .To<CarsController>(c => c.All(new AllCarsViewModel { }))
+                 .Which(controller => controller
+                 .WithData(UserOne))
+               .ShouldReturn()
+               .View(view => view
+                .WithModelOfType<AllCarsViewModel>()
+                 .Passing(c => c.Brands.Should().HaveCount(0)));
+
+        [Fact]
+        public void ShouldReturnViewForSortingDateCreated()
+      => MyMvc
+           .Pipeline()
+           .ShouldMap(request => request
+               .WithPath("/Cars/All")
+               .WithAntiForgeryToken())
+               .To<CarsController>(c => c.All(new AllCarsViewModel { Sorting = CarSorting.DateCreated }))
+                .Which(controller => controller
+                .WithData(UserOne))
+              .ShouldReturn()
+              .View(view => view
+               .WithModelOfType<AllCarsViewModel>()
+                .Passing(c => c.Sorting == CarSorting.DateCreated)); 
+     
         [Fact]
         public void AddCarForAuthorizedUsersFirstRegistrationForDealer()
         => MyMvc

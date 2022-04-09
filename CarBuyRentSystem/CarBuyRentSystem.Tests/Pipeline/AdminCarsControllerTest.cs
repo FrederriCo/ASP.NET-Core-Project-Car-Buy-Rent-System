@@ -47,6 +47,22 @@
               .Passing(model => model.TotalCar == 15));
 
         [Fact]
+        public void AdminAreaIndexShouldReturnViewWithOneCar()
+       => MyMvc
+          .Pipeline()
+          .ShouldMap(request => request
+           .WithPath("/Admin/Cars/Index")
+           .WithUser(x => x.InRole(AdministratorRoleName))
+           .WithAntiForgeryToken())
+          .To<CarsController>(x => x.Index())
+         .Which(controller => controller
+           .WithData(OneCar))
+         .ShouldReturn()
+           .View(view => view
+                  .WithModelOfType<TotalUserCar>()
+            .Passing(model => model.TotalCar == 1));
+
+        [Fact]
         public void AdminAreaIndexShouldReturnViewWithNoUsers()
        => MyMvc
           .Pipeline()

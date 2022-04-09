@@ -46,6 +46,7 @@
             .AndAlso()
             .ShouldReturn()
             .RedirectToAction("ApplicationError", "Home");
+
         [Fact]
         public void PostBuyCarShuldBeAuthorizedUsersAndReturnApplicatonErrorView()
          => MyMvc

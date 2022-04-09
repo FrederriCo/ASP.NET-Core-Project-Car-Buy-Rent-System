@@ -78,6 +78,17 @@
                       .Passing(model => model.TotalCar == 15));
 
         [Fact]
+        public void AdminAreaIndexShouldReturnViewWithDataForOneCar()
+         => MyController<CarsController>
+             .Instance()
+             .WithData(OneCar)
+             .Calling(x => x.Index())
+             .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<TotalUserCar>()
+                     .Passing(model => model.TotalCar == 1));
+
+        [Fact]
         public void AdminAreaIndexShouldReturnViewWithDataForUsersDealersAndCarsWhenIsZero()
         => MyController<CarsController>
                .Instance()               
