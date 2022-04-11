@@ -8,14 +8,32 @@
     using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     using static Data.Delars;
     using static Data.Cars;
     using static Infrastructure.Data.WebConstants;
-    using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     public class CarsControllerTest
     {
+        [Fact]
+        public void ShouldReturnViewForMyWallet()
+           => MyMvc
+                .Pipeline()
+                .ShouldMap(request => request
+                    .WithPath("/Cars/MyWallet")
+                    .WithUser()
+                    .WithAntiForgeryToken())
+                    .To<CarsController>(c => c.MyWallet())
+                     .Which(controller => controller
+                     .WithData(UserOne))
+                    .ShouldHave()
+                   .ActionAttributes(attribute => attribute
+                    .RestrictingForAuthorizedRequests())                    
+                    .AndAlso()
+                   .ShouldReturn()
+                   .View();
+       
         [Fact]
         public void ShouldReturnViewWhenForValidAllCar()
            => MyMvc
@@ -28,7 +46,7 @@
                      .WithData(PublicCars))
                    .ShouldReturn()
                    .View(view => view
-                    .WithModelOfType<AllCarsViewModel>());       
+                    .WithModelOfType<AllCarsViewModel>());
 
         [Fact]
         public void ShouldReturnViewWhenForValidAllCarTotalCount()
@@ -88,8 +106,8 @@
               .ShouldReturn()
               .View(view => view
                .WithModelOfType<AllCarsViewModel>()
-                .Passing(c => c.Sorting == CarSorting.DateCreated)); 
-     
+                .Passing(c => c.Sorting == CarSorting.DateCreated));
+
         [Fact]
         public void AddCarForAuthorizedUsersFirstRegistrationForDealer()
         => MyMvc
@@ -100,7 +118,7 @@
                  .WithAntiForgeryToken())
                  .To<CarsController>(c => c.Add())
                   .Which(controller => controller
-                  .WithData(UserOne))                    
+                  .WithData(UserOne))
                 .ShouldHave()
                 .ActionAttributes(attribute => attribute
                     .RestrictingForAuthorizedRequests())
@@ -135,12 +153,12 @@
              .ShouldMap(request => request
                  .WithPath("/Cars/Add")
                   .WithUser()
-                    .WithMethod(HttpMethod.Post)                    
+                    .WithMethod(HttpMethod.Post)
                  .WithAntiForgeryToken())
-                 .To<CarsController>(c => c.Add(new AddCarFormServiceModel {  }))
+                 .To<CarsController>(c => c.Add(new AddCarFormServiceModel { }))
                   .Which(controller => controller
                   .WithData(OneCar)
-                  .WithData(UserOne))                  
+                  .WithData(UserOne))
                   .ShouldHave()
                 .ActionAttributes(attribute => attribute
                     .RestrictingForAuthorizedRequests()
@@ -158,14 +176,14 @@
                  .WithUser()
                    .WithMethod(HttpMethod.Post)
                 .WithAntiForgeryToken())
-                .To<CarsController>(c => c.Add(new AddCarFormServiceModel {}))
+                .To<CarsController>(c => c.Add(new AddCarFormServiceModel { }))
                  .Which(controller => controller
                  .WithData(SecondDealaer))
                  .ShouldHave()
                .ActionAttributes(attribute => attribute
                    .RestrictingForAuthorizedRequests()
                .RestrictingForHttpMethod(HttpMethod.Post))
-               .AndAlso()                
+               .AndAlso()
                 .ShouldReturn()
                 .View();
 
@@ -174,10 +192,10 @@
          => MyMvc
             .Pipeline()
             .ShouldMap(request => request
-                .WithPath("/Cars/DealerCar")
+                .WithPath("/Cars/DealerCars")
                  .WithUser()
                 .WithAntiForgeryToken())
-                .To<CarsController>(c => c.DealerCar())
+                .To<CarsController>(c => c.DealerCars())
                  .Which(controller => controller
                  .WithData(SecondDealaer)
                  .WithData(LocationAdd)
@@ -188,17 +206,17 @@
                .AndAlso()
                 .ShouldReturn()
                 .View(view => view
-                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>());            
+                     .WithModelOfType<IEnumerable<CarServiceListingViewModel>>());
 
         [Fact]
         public void GetDealerCarForAuthorizedUsersWhenCarsIsZero()
          => MyMvc
             .Pipeline()
             .ShouldMap(request => request
-                .WithPath("/Cars/DealerCar")
+                .WithPath("/Cars/DealerCars")
                  .WithUser()
                 .WithAntiForgeryToken())
-                .To<CarsController>(c => c.DealerCar())
+                .To<CarsController>(c => c.DealerCars())
                  .Which(controller => controller
                  .WithData(SecondDealaer)
                  .WithData(LocationAdd))
@@ -222,7 +240,7 @@
                 .WithAntiForgeryToken())
                 .To<CarsController>(c => c.Edit(OneCar.Id))
                  .Which(controller => controller
-                 .WithData(OneCar))                 
+                 .WithData(OneCar))
                  .ShouldHave()
                .ActionAttributes(attribute => attribute
                    .RestrictingForAuthorizedRequests())
@@ -284,7 +302,7 @@
                    .RestrictingForAuthorizedRequests())
                .AndAlso()
                 .ShouldReturn()
-                .RedirectToAction("DealerCar");
+                .RedirectToAction("DealerCars");
 
         [Fact]
         public void ShouldReturnAdminAreaViewWhenUserIsAdmin()

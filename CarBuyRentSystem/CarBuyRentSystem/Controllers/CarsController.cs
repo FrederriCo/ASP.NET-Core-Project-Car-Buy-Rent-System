@@ -13,6 +13,7 @@
     using CarBuyRentSystem.Core.Models.View.Cars;
 
     using static Infrastructure.Data.WebConstants;
+    using CarBuyRentSystem.Core.Models.Service.Cars;
 
     public class CarsController : Controller
     {
@@ -80,11 +81,11 @@
 
             TempData[GlobalMessageKey] = SuccessCreatedCar;
 
-            return RedirectToAction(nameof(DealerCar));
+            return RedirectToAction(nameof(DealerCars));
         }
 
         [Authorize]
-        public async Task<IActionResult> DealerCar()
+        public async Task<IActionResult> DealerCars()
         {
             var delarCars = await this.carsService.ByUser(this.User.GetId());
 
@@ -130,7 +131,7 @@
 
             var carForm = this.mapper.Map<AddCarFormServiceModel>(cars);
 
-            carForm.Locations = await this.carsService.AllCarLocation(); // For Collection Atuo Mapper
+            carForm.Locations = await this.carsService.AllCarLocation();
 
             return View(carForm);
         }
@@ -184,7 +185,7 @@
 
             TempData[GlobalMessageKey] = SuccessEditedCar;
 
-            return RedirectToAction(nameof(DealerCar));
+            return RedirectToAction(nameof(DealerCars));
         }
 
 
@@ -207,21 +208,53 @@
 
             TempData[GlobalMessageKey] = SuccessDelitedCar;
 
-            return RedirectToAction(nameof(DealerCar));
+            return RedirectToAction(nameof(DealerCars));
         }
         
         public async Task<IActionResult> Details(int id)
         {
-            var getCar = await carsService.GetCarId(id);
+            var getCar = await carsService.GetCarId(id);          
 
-            var car = mapper.Map<CarServiceListingViewModel>(getCar);
-
-            if (car == null)
+            if (getCar == null)
             {
                 return BadRequest();
             }
 
-            return View(car);
+            return View(getCar);
+        }
+
+        public async Task<IActionResult> CompareCars(int firstCarId, int secondCarId)
+        {
+            var getCars = await this.carsService.CompareCars(firstCarId, secondCarId);
+
+            var carsToCompare = mapper.Map<CompareCarsViewModel>(getCars);
+
+            if (carsToCompare == null)
+            {
+                return RedirectToAction("ApplicationError", "Home");
+            }
+
+            return this.View(carsToCompare);
+        }
+
+        [Authorize]
+        public IActionResult MyWallet()
+            => this.View();
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> MyWallet(AddMyWalletBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            var result = mapper.Map<AddMyWalletServiceModel>(model);
+
+            await this.carsService.AddBalance(result, this.User.Identity.Name);
+
+            return RedirectToAction("MyWallet", "Cars");
         }
     }
 }

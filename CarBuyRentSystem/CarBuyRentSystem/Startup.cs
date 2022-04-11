@@ -1,6 +1,7 @@
 namespace CarBuyRentSystem
 {    
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
@@ -47,6 +48,12 @@ namespace CarBuyRentSystem
                 option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
+            services.Configure<CookiePolicyOptions>(options =>
+            {                
+                options.CheckConsentNeeded = context => true;                
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             services.AddTransient<IDealerService, DealerService>();
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IUserService, UserService>();
@@ -69,6 +76,7 @@ namespace CarBuyRentSystem
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 

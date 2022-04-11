@@ -13,7 +13,7 @@ namespace CarBuyRentSystem.Areas.Admin.Controllers
         {
             this.userService = userService;
         }
-        public async Task<IActionResult> AllUsers() 
+        public async Task<IActionResult> AllUsers()
             => View(await this.userService.GetAllUser());
 
         public async Task<IActionResult> AllDealers()
@@ -44,9 +44,7 @@ namespace CarBuyRentSystem.Areas.Admin.Controllers
         }
 
         public IActionResult ApplicationError()
-        {
-            return View();
-        }
+            => View();
 
     }
 }

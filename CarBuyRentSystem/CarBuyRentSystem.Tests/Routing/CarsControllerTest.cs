@@ -40,8 +40,8 @@
         public void GetDealerCarShouldBeRoutedCorrectly()
           => MyRouting
               .Configuration()
-              .ShouldMap("/Cars/DealerCar")
-              .To<CarsController>(c => c.DealerCar());
+              .ShouldMap("/Cars/DealerCars")
+              .To<CarsController>(c => c.DealerCars());
 
 
         [Fact]
@@ -77,5 +77,24 @@
               .Configuration()
               .ShouldMap("/Cars/Details/3")
               .To<CarsController>(c => c.Details(OneCar.Id));
+
+        [Fact]
+        public void MyWalletShouldBeRoutedCorrectly()
+          => MyRouting
+              .Configuration()
+              .ShouldMap("/Cars/MyWallet/")              
+              .To<CarsController>(c => c.MyWallet());
+
+        [Fact]
+        public void PostMyWalletShouldBeRoutedCorrectly()
+        => MyRouting
+            .Configuration()
+            .ShouldMap(request => request
+               .WithPath("/Cars/MyWallet/")
+               .WithUser()
+             .WithMethod(HttpMethod.Post))
+            .To<CarsController>(c => c.MyWallet(With.Any<AddMyWalletBindingModel>()));
+
+       
     }
 }

@@ -8,6 +8,7 @@
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars.Enums;
+    using CarBuyRentSystem.Core.Models.Service.Cars;
 
     public interface ICarService
     {
@@ -32,9 +33,11 @@
 
         Task<IEnumerable<CarListingViewModel>> GetLastThreeCar();
 
+        Task<CompareCarsViewServiceModel> CompareCars(int firstCarId, int secondCarId);
+
         Task ChangeVisability(int carId);
 
-        Task<Car> GetCarId(int id);
+        Task<CarDetailsServiceModel> GetCarId(int id);
 
         Task<bool> IsByDealer(int carId, int dealerId);
 
@@ -43,6 +46,8 @@
         TotalUserCar Total();
 
         Task<IEnumerable<string>> AllCarBrands();
+
+        Task AddBalance(AddMyWalletServiceModel model, string username);
 
         Task<IEnumerable<CarServiceListingViewModel>> AdminGetAllCar();
 

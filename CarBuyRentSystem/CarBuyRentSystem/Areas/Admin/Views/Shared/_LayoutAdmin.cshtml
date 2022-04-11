@@ -40,8 +40,7 @@
                 <a asp-area="Admin" asp-action="Delete" asp-controller="Cars"><i class="fas fa-trash"></i><span class="nav-label">Delete</span></a>
                 <a asp-area="Admin" asp-action="SoldCars" asp-controller="Cars"><i class="fas fa-chart-line"></i><span class="nav-label">Sold Cars</span></a>
                 <a asp-area="Admin" asp-action="RentedCars" asp-controller="Cars"><i class="fas fa-hand-holding-usd"></i><span class="nav-label">Rented Cars</span></a>
-                <a asp-action="All" asp-controller="Cars"><i class="fas fa-shopping-cart"></i><span class="nav-label">Buy</span></a>
-                <a asp-action="All" asp-controller="Cars"><i class="fas fa-money-check-alt"></i><span class="nav-label">Rent</span></a>
+                <a asp-area="" asp-action="MyWallet"  asp-controller="Cars"><i class="fas fa-shopping-cart"></i><span class="nav-label">Balance</span></a>                
             <li>
                 <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <a href="#" onclick="document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt"></i><span class="nav-label">Logout</span></a>

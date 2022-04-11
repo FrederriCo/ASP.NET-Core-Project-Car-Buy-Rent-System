@@ -8,15 +8,75 @@
     using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Infrastructure.Models.Enums;
     using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     using static Data.Delars;
     using static Data.Cars;
     using static Infrastructure.Data.WebConstants;
-    using CarBuyRentSystem.Infrastructure.Models.Enums;
 
     public class CarsControllerTest
     {
+        [Fact]
+        public void ShouldReturnViewForMyWallet()
+           => MyController<CarsController>
+                   .Instance()
+                    .WithUser()
+                   .Calling(c => c.MyWallet())
+                   .ShouldReturn()
+                   .View();
+
+        [Fact]
+        public void PostShouldReturnViewForMyWalletInvalidModelState()
+           => MyController<CarsController>
+                   .Instance()
+                    .WithUser()
+                   .Calling(c => c.MyWallet(new AddMyWalletBindingModel { Balance = -1, UserId = TestUser.Identifier }))
+                    .ShouldHave()
+                    .ActionAttributes(attributes => attributes
+                     .RestrictingForAuthorizedRequests())
+                      .AndAlso()
+                   .ShouldReturn()
+                   .View();
+
+        [Fact]
+        public void PostShouldReturnViewForMyWalletInvalidModelStateErrorMessage()
+              => MyController<CarsController>
+                  .Instance()
+                   .WithData(UserOne)
+                   .WithUser(TestUser.Identifier)
+                  .Calling(c => c.MyWallet(NegativeBalance))
+                  .ShouldHave()
+                  .ActionAttributes(attributes => attributes
+                      .RestrictingForHttpMethod(HttpMethod.Post)
+                      .RestrictingForAuthorizedRequests())
+                    .AndAlso()
+                    .ShouldHave()
+                    .ModelState(modelstate => modelstate
+                        .For<AddMyWalletBindingModel>()
+                        .ContainingNoErrorFor(c => c.UserId)
+                        .AndAlso()
+                        .ContainingErrorFor(c => c.Balance)
+                        .ThatEquals(ErrorMessagesBalance))
+                     .AndAlso()
+                     .ShouldReturn()
+                     .View();
+
+        [Fact]
+        public void PostShouldReturnViewForMyWallet()
+          => MyController<CarsController>
+                  .Instance()
+                    .WithUser()
+                   .WithData(UserOne)
+                  .Calling(c => c.MyWallet(new AddMyWalletBindingModel { Balance = 200, UserId = UserOne.Id}))
+                    .ShouldHave()
+                    .ActionAttributes(attributes => attributes
+                    .RestrictingForAuthorizedRequests()
+                     .RestrictingForHttpMethod(HttpMethod.Post))
+                    .AndAlso()
+                  .ShouldReturn()
+                  .RedirectToAction("MyWallet", "Cars");
+
         [Fact]
         public void ShouldReturnViewWhenForValidAllCar()
             => MyController<CarsController>
@@ -476,7 +536,7 @@
                 .ContainingEntryWithKey(GlobalMessageKey))
             .AndAlso()
             .ShouldReturn()
-            .RedirectToAction("DealerCar");
+            .RedirectToAction("DealerCars");
 
         [Fact]
         public void GetDealerAllCarForAuthorizedUsersWhenCarsIsZero()
@@ -485,7 +545,7 @@
                   .WithData(LocationAdd)
                  .WithData(SecondDealaer)
                  .WithUser(TestUser.Identifier)
-                  .Calling(c => c.DealerCar())
+                  .Calling(c => c.DealerCars())
                .ShouldHave()
                 .ActionAttributes(attributes => attributes
                     .RestrictingForAuthorizedRequests())
@@ -503,7 +563,7 @@
                 .WithData(SecondDealaer)
                 .WithData(OneCar)
                 .WithUser(TestUser.Identifier)
-                 .Calling(c => c.DealerCar())
+                 .Calling(c => c.DealerCars())
               .ShouldHave()
                .ActionAttributes(attributes => attributes
                    .RestrictingForAuthorizedRequests())
@@ -563,7 +623,7 @@
                 .ContainingEntryWithKey(GlobalMessageKey))
             .AndAlso()
             .ShouldReturn()
-            .RedirectToAction("DealerCar");
+            .RedirectToAction("DealerCars");
 
         [Fact]
         public void PostEditCarForAuthorizedUsersWhenUserIsNotADealer()
@@ -642,7 +702,7 @@
                 .ContainingEntryWithKey(GlobalMessageKey))
             .AndAlso()
             .ShouldReturn()
-            .RedirectToAction("DealerCar");
+            .RedirectToAction("DealerCars");
 
         [Fact]
         public void ShouldReturnAdminAreaViewWhenUserIsAdmin()
@@ -851,7 +911,7 @@
          .ShouldReturn()
          .View(view => view
           .WithModelOfType<CarServiceListingViewModel>()
-          .Passing(x => x.Description == "The best car"));      
+          .Passing(x => x.Description == "The best car"));
 
     }
 }

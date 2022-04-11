@@ -31,6 +31,8 @@
 
         public static string ErrorMessagesCarAddInvalidLugage = "Invalid Lugage";
 
+        public static string ErrorMessagesBalance = "Cannot transfer negative or values less than 1 dollar!";
+
 
 
 
@@ -100,11 +102,29 @@
               UserId = UserOne.Id
           };
 
+        public static BuyCar SecondMyBuyCars
+         => new BuyCar
+         {
+             Car = new Car { Id = 50 },
+
+             UserId = "Bubala",
+         };
+
+        public static RentCar SecondMyRentCars
+        => new RentCar
+        {
+             Car = new Car { Id = 20 },
+            
+              UserId = "alabala",
+        };   
+       
         public static CarUser UserOne
           => new CarUser()
           {
               Id = "TestUser",
-              UserName = "TestUser"
+              UserName = "TestUser",
+             Balance = 500000
+              
           };
 
         public static CarUser UserSecond
@@ -119,7 +139,7 @@
             {
                 CarId = OneCar.Id,
                 RentCarId = OneCar.Id,
-                // Car = SecondCar                
+                               
             };
 
         public static BuyCarBindingModel BuyCarBindig
@@ -250,5 +270,13 @@
             {
                 Name = "Plovdiv"
             });
+
+        public static AddMyWalletBindingModel NegativeBalance
+         => new AddMyWalletBindingModel
+         {
+             Balance = -200,
+             UserId = UserOne.Id
+         };
     }
 }
+

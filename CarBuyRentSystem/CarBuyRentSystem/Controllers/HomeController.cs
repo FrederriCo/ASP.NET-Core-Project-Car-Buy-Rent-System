@@ -5,7 +5,8 @@
     using Microsoft.AspNetCore.Mvc;
 
     using CarBuyRentSystem.Core.Models;
-    using CarBuyRentSystem.Core.Services.Cars;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using CarBuyRentSystem.Core.Services.Cars;    
 
     public class HomeController : Controller
     {
@@ -17,9 +18,11 @@
         public async Task<IActionResult> Index()
         {
             var cars = await carService.GetLastThreeCar();
-            
+
+            ViewData["Cars"] = new SelectList(cars, "Id", "Model");
+
             return View(cars);
-        }
+        }        
 
         public IActionResult ApplicationError() => View();
 

@@ -16,7 +16,7 @@
     using CarBuyRentSystem.Core.Models.View.Cars.Enums;
 
     using static Infrastructure.Data.WebConstants;
-  //  using CarBuyRentSystem.Services.Cars;
+    using CarBuyRentSystem.Core.Models.Service.Cars;   
 
     public class CarService : DataService, ICarService
     {
@@ -31,6 +31,16 @@
         public async Task Add(Car car)
         {
             await this.db.Cars.AddAsync(car);
+            await this.db.SaveChangesAsync();
+        }
+
+        public async Task AddBalance(AddMyWalletServiceModel model, string username)
+        {
+            var user = await this.db.CarUsers.SingleOrDefaultAsync(u => u.UserName == username);
+
+            user.Balance += model.Balance;
+
+            this.db.Update(user);
             await this.db.SaveChangesAsync();
         }
 
@@ -106,7 +116,7 @@
             var car = await this.db
                 .Cars.SingleOrDefaultAsync(c => c.Id == buyCar.CarId);
 
-            if (user == null || car == null /*|| user.Balance < car.Price*/ )
+            if (user == null || car == null || user.Balance < car.Price )
             {
                 return false;
             }
@@ -115,7 +125,7 @@
             buyCar.BoughtOn = DateTime.Now;
             buyCar.Price = car.Price;
 
-            //user.Balance -= car.Price;
+            user.Balance -= car.Price;
 
             this.db.BuyCars.Add(buyCar);
 
@@ -136,6 +146,19 @@
             car.IsPublic = !car.IsPublic;
 
             await db.SaveChangesAsync();
+        }
+
+        public async Task<CompareCarsViewServiceModel> CompareCars(int firstCarId, int secondCarId)
+        {
+            var firstCar = await this.db.Cars.FirstOrDefaultAsync(c => c.Id == firstCarId);
+
+            var secondCar = await this.db.Cars.FirstOrDefaultAsync(c => c.Id == secondCarId);
+
+            return new CompareCarsViewServiceModel
+            {
+                FirstCar = firstCar,
+                SecondCar = secondCar
+            };
         }
 
         public async Task Delete(int id)
@@ -184,13 +207,12 @@
             await db.SaveChangesAsync();
         }
 
-        public async Task<Car> GetCarId(int id)
-        {
-            var car = await db
-                           .Cars
-                           .FirstOrDefaultAsync(x => x.Id == id);
-            return car;
-        }
+        public async Task<CarDetailsServiceModel> GetCarId(int id)
+            => await db
+                    .Cars
+                    .ProjectTo<CarDetailsServiceModel>(this.mapper)
+                    .FirstOrDefaultAsync(x => x.Id == id);
+       
 
         public async Task<IEnumerable<CarServiceListingViewModel>> GetCars(IQueryable<Car> carQuery)
           => await carQuery
@@ -199,12 +221,12 @@
 
         public async Task<IEnumerable<CarListingViewModel>> GetLastThreeCar()
             => await this.db
-                   .Cars
-                   .Where(c => c.IsPublic)
-                   .OrderByDescending(c => c.Id)
-                   .ProjectTo<CarListingViewModel>(this.mapper)
-                   .Take(3)
-                   .ToListAsync();       
+                     .Cars
+                     .Where(c => c.IsPublic)
+                     .OrderByDescending(c => c.Id)
+                     .ProjectTo<CarListingViewModel>(this.mapper)
+                     .Take(3)
+                     .ToListAsync();       
        
 
         public async Task<bool> IsByDealer(int carId, int dealerId)
@@ -236,12 +258,12 @@
 
             rentCar.TotalPrice = totalDays * car.RentPricePerDay;
 
-            //user.Balance -= rentCar.TotalPrice;
+            user.Balance -= rentCar.TotalPrice;
 
-            //if (user.Balance < rentCar.TotalPrice)
-            //{
-            //    return false;
-            //}
+            if (user.Balance < rentCar.TotalPrice)
+            {
+                return false;
+            }
 
             this.db.RentCars.Add(rentCar);
 
@@ -255,14 +277,16 @@
             var cars = db.Cars.Count();
             var dealer = db.Dealers.Count();
             var users = db.Users.Count();
-            //var rentCars = db.RentCars.Count();
-            //var buyCars = db.RentCars.Count();
+            var rentCars = db.RentCars.Count();
+            var buyCars = db.BuyCars.Count();
 
             var carsUser = new TotalUserCar
             {
                 TotalCar = cars,
                 TotalUser = users,
                 TotalDealer = dealer,
+                TotalRentCars = rentCars,
+                TotalSoldCars = buyCars
             };
 
             return carsUser;

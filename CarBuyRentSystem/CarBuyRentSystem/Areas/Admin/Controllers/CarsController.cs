@@ -7,18 +7,17 @@
 
     using CarBuyRentSystem.Core.Services.Cars;
     using CarBuyRentSystem.Core.Services.UserService;
-    using CarBuyRentSystem.Core.Models.View.RentCars;   
-  
+    using CarBuyRentSystem.Core.Models.View.RentCars; 
+
     public class CarsController : AdminController
     {
         private readonly ICarService carService;
         private readonly IUserService userService;
-        private readonly IMapper mapper;
+        private readonly IMapper mapper;      
 
-       
         public CarsController(ICarService carService
-                              ,IUserService userService
-                             ,IMapper mapper)                              
+                              , IUserService userService
+                             , IMapper mapper)
         {
             this.carService = carService;
             this.userService = userService;
@@ -29,17 +28,17 @@
         {
             var total = carService.Total();
 
-             return View(total);
+            return View(total);
         }
 
         public async Task<IActionResult> All()
         {
-             return View(await this.carService.AdminGetAllCar());            
+            return View(await this.carService.AdminGetAllCar());
         }
 
         public async Task<IActionResult> Edit()
-        { 
-             return View(await this.carService.AdminGetAllCar());       
+        {
+            return View(await this.carService.AdminGetAllCar());
         }
 
         public async Task<IActionResult> Delete()
@@ -54,7 +53,7 @@
 
         public async Task<IActionResult> ChangeVisability(int id)
         {
-           await carService.ChangeVisability(id);
+            await carService.ChangeVisability(id);
 
             return RedirectToAction(nameof(All));
         }
@@ -73,6 +72,6 @@
                 .Select(mapper.Map<SoldCarsViewModel>);
 
             return this.View(soldCars);
-        }
+        }     
     }
 }

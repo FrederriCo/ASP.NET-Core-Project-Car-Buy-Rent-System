@@ -41,7 +41,6 @@
         public string LocationName { get; set; }
 
         public bool IsPublic { get; set; }
-
-        public IEnumerable<CarLocationServiceModel> Locations { get; set; }
+      
     }
 }

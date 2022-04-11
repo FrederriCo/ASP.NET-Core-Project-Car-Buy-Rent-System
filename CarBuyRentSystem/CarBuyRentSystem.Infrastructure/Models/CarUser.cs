@@ -11,7 +11,6 @@
     public class CarUser : IdentityUser
     {
         public string CarUsername { get; set; }
-
         
         [MaxLength(FullNameMaxLength)]
         public string Name { get; set; }

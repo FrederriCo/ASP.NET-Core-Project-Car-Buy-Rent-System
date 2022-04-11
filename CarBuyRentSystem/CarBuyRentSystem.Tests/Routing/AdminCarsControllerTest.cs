@@ -60,6 +60,6 @@
          => MyRouting
              .Configuration()
              .ShouldMap("/Admin/Cars/SoldCars")
-             .To<CarsController>(c => c.SoldCars());
+             .To<CarsController>(c => c.SoldCars());       
     }
 }
