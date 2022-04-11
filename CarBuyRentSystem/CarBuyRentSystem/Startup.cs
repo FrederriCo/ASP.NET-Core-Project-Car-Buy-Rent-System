@@ -58,7 +58,6 @@ namespace CarBuyRentSystem
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IUserService, UserService>();
         }
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.PrepareDatabase();

@@ -1,6 +1,7 @@
 ﻿namespace CarBuyRentSystem.Tests.Controllers
 {
     using Xunit;
+    using FluentAssertions;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
 
@@ -10,7 +11,6 @@
 
     using static Infrastructure.Data.WebConstants;
     using static Data.Cars;
-    using FluentAssertions;
 
     public class RentCarsControllerTest
     {    

@@ -1,13 +1,15 @@
 ﻿namespace CarBuyRentSystem.Tests.Pipeline
 {
-    using CarBuyRentSystem.Controllers;
-    using CarBuyRentSystem.Core.Models.Cars;
-    using CarBuyRentSystem.Core.Models.View.Cars;
-    using CarBuyRentSystem.Core.Models.View.RentCars;
+    using Xunit;
     using FluentAssertions;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
-    using Xunit;
+    using CarBuyRentSystem.Controllers;
+
+    using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.View.RentCars;
+
     using static Data.Cars;
     public class BuyCarsControllerTest
     {

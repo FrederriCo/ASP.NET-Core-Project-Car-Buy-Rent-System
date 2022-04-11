@@ -2,13 +2,13 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using System.Threading.Tasks;
 
-    using CarBuyRentSystem.Infrastructure.Models;
+    using CarBuyRentSystem.Infrastructure.Models;   
 
     using static WebConstants;
 
@@ -18,11 +18,11 @@
         {
             using var scopedServices = app.ApplicationServices.CreateScope();
 
-            var services = scopedServices.ServiceProvider;         
+            var services = scopedServices.ServiceProvider;
 
             MigrateDatabase(services);
             SeedLocation(services);
-            SeedAdministrator(services);
+            SeedAdministrator(services);         
 
             return app;
         }
@@ -55,8 +55,9 @@
             });
 
             data.SaveChanges();
-        }
+        }            
 
+     
         private static void SeedAdministrator(IServiceProvider services)
         {
             var userManeger = services.GetRequiredService<UserManager<CarUser>>();
@@ -78,7 +79,6 @@
                 const string adminName = "admin@admin.com";
                 const string adminPassword = "bg123456";
                 const string adminAddress = "Sofia";
-                
 
                 var user = new CarUser
                 {
@@ -87,7 +87,7 @@
                     Email = adminEmil,
                     Address = adminAddress,
                     Balance = 9999999m
-                    
+
                 };
 
                 await userManeger.CreateAsync(user, adminPassword);

@@ -229,7 +229,6 @@
                      .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
                             .Passing(model => model.Should().HaveCount(0)));
 
-
         [Fact]
         public void EditCarForAuthorizedUsersWhenUserIsNotADealer()
             => MyMvc

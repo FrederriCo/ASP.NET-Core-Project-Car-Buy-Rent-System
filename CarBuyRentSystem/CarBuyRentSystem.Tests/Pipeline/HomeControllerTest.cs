@@ -24,7 +24,6 @@
                       .WithModelOfType<IEnumerable<CarListingViewModel>>()
                       .Passing(m => m.Should().HaveCount(3)));
 
-
         [Fact]
         public void IndexShouldReturnViewWithNoCarsInDataBase()
           => MyMvc
@@ -37,7 +36,6 @@
                       .WithModelOfType<IEnumerable<CarListingViewModel>>()
                       .Passing(m => m.Should().HaveCount(0)));
 
-
         [Fact]
         public void ErrorShuldReturnViewApplicationError()
             => MyMvc
@@ -47,7 +45,6 @@
                 .Which()
                 .ShouldReturn()
                 .View();
-
 
         [Fact]
         public void ErrorShuldReturnViewError()

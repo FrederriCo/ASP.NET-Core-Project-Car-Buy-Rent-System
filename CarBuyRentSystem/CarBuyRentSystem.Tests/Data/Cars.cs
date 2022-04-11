@@ -3,11 +3,10 @@
     using System.Linq;
     using System.Collections.Generic;
 
+    using CarBuyRentSystem.Core.Models.Cars;    
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
-    using CarBuyRentSystem.Core.Models.Cars;
-    using System;
     using CarBuyRentSystem.Infrastructure.Models.Enums;
 
     public static class Cars
@@ -15,7 +14,6 @@
         public static string ErrorMessagesCarAddBrandModel = "The length mst be between 2 and 30";
 
         public static string ErrorMessagesCarAddModel = "The Model field is required.";
-
 
         public static string ErrorMessagesCarAddDescription = "Enter a description, please!";
 
@@ -32,10 +30,6 @@
         public static string ErrorMessagesCarAddInvalidLugage = "Invalid Lugage";
 
         public static string ErrorMessagesBalance = "Cannot transfer negative or values less than 1 dollar!";
-
-
-
-
 
         public static IEnumerable<Car> PublicCars
          => Enumerable.Range(0, 15).Select(i => new Car

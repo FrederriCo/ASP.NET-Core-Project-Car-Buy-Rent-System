@@ -500,8 +500,6 @@
                .ShouldReturn()
                .View();
 
-
-
         [Fact]
         public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealrWhenLocationDoeseNotExists()
             => MyController<CarsController>
@@ -516,7 +514,6 @@
             .AndAlso()
             .ShouldReturn()
            .View();
-
 
         [Fact]
         public void PostAddCarForAuthorizedUserWhenUserIsBecomeDealer()

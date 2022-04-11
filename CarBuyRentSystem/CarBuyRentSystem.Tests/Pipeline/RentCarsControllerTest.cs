@@ -1,15 +1,15 @@
 ﻿namespace CarBuyRentSystem.Tests.Pipeline
 {
     using Xunit;
+    using FluentAssertions;
     using MyTested.AspNetCore.Mvc;
+    using System.Collections.Generic;
+
     using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
-
-    using static Data.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
-    using static Infrastructure.Data.WebConstants;
-    using System.Collections.Generic;
-    using FluentAssertions;
+
+    using static Data.Cars;    
 
     public class RentCarsControllerTest
     {
@@ -49,31 +49,7 @@
                     .RestrictingForAuthorizedRequests())
             .AndAlso()
                 .ShouldReturn()
-                .RedirectToAction("ApplicationError", "Home");
-
-        //[Fact]
-        //public void PostCreateShuldBeAuthorizedUsersAndReturnView()
-        //  => MyMvc
-        //      .Pipeline()
-        //      .ShouldMap(request => request
-        //       .WithPath("/RentCars/Rent")
-        //      .WithMethod(HttpMethod.Post)
-        //      .WithFormFields(RentCarBindig)
-        //       .WithUser()
-        //       .WithAntiForgeryToken())
-        //      .To<RentCarsController>(c => c.Rent(RentCarBindig))
-        //      .Which(controller => controller
-        //        .WithData(UserSecond)
-        //        .WithData(SecondCar))
-        //       .ShouldHave()
-        //      .ActionAttributes(attribute => attribute
-        //          .RestrictingForHttpMethod(HttpMethod.Post)
-        //           .RestrictingForAuthorizedRequests())
-        //        .TempData(tempData => tempData
-        //            .ContainingEntryWithValue(SuccessRentCar))
-        //        .AndAlso()
-        //        .ShouldReturn()
-        //        .RedirectToAction("MyRentCars", "RentCars");
+                .RedirectToAction("ApplicationError", "Home");        
 
         [Fact]
         public void MyAllRentedCars()

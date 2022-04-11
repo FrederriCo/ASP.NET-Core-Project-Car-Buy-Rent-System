@@ -11,14 +11,13 @@
 
 @if (!Model.Any())
 {
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" style="border-radius:10px">
         <div class="container">
             <h1 class="display-4">Rent and Buy Car Sysytem</h1>
             <p class="lead">Search the best car rent and buy</p>
         </div>
     </div>
 }
-
 <div class="text-center" style="padding-bottom: 30px;">
     <h1 class="display-4">Welcome to, Car System Portal</h1>
 </div>
@@ -81,7 +80,7 @@
                 <button type="submit" class="btn btn-outline-warning text-light" style="background-color: darkorange">Compare</button>
             </div>
         </form>
-     }
+    }
 </div>
 <br />
 <h1 class="display-4 text-center"><i class="fas fa-star" style="color: darkorange"></i> Top Cars</h1>
@@ -89,7 +88,7 @@
 <div class="row" style="display: flex;">
 
     @foreach (var car in Model)
-    {   
+    {
         <div class="col-sm-4" style="padding-top: 10px;">
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="@car.ImageUrl" alt="Card image cap">

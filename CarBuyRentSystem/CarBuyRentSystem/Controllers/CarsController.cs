@@ -11,9 +11,9 @@
     using CarBuyRentSystem.Core.Services.Dealrs;
     using CarBuyRentSystem.Infrastructure.Models;
     using CarBuyRentSystem.Core.Models.View.Cars;
+    using CarBuyRentSystem.Core.Models.Service.Cars;
 
     using static Infrastructure.Data.WebConstants;
-    using CarBuyRentSystem.Core.Models.Service.Cars;
 
     public class CarsController : Controller
     {

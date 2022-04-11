@@ -28,8 +28,6 @@
             public const int ImageUrlMaxLength = 2083;
 
             public const string DecimalDefaultValue = "decimal(18,2)";
-
-
         }
 
         public class Location
@@ -44,7 +42,6 @@
             public const int AddressMinLength = 3;
             public const int AddressMaxLength = 30;
             public const string DecimalDefaultValue = "decimal(18,2)";
-
         }
 
         public class Dealer

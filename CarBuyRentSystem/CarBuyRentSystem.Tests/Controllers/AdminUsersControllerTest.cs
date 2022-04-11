@@ -36,7 +36,7 @@
 
         [Fact]
         public void AdminAreaIndexShouldReturnViewWithDataForAllUsersCountIsZero()
-         => MyController<UsersController>
+           => MyController<UsersController>
              .Instance()             
              .Calling(x => x.AllUsers())
              .ShouldReturn()

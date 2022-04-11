@@ -9,8 +9,8 @@
     using CarBuyRentSystem.Core.Models.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
 
-    using static Data.Delars;
     using static Data.Cars;
+    using static Data.Delars;
     using static Infrastructure.Data.WebConstants;
     public class AdminCarsControllerTest
     {
@@ -40,7 +40,7 @@
              .WithAntiForgeryToken())
             .To<CarsController>(x => x.Index())
            .Which(controller => controller
-             .WithData(PublicCars))              
+             .WithData(PublicCars))
            .ShouldReturn()
              .View(view => view
                     .WithModelOfType<TotalUserCar>()
@@ -96,52 +96,52 @@
 
         [Fact]
         public void AdminAreaIndexShouldReturnViewWithNoDealers()
-    => MyMvc
-       .Pipeline()
-       .ShouldMap(request => request
-        .WithPath("/Admin/Cars/Index")
-        .WithUser(x => x.InRole(AdministratorRoleName))
-        .WithAntiForgeryToken())
-       .To<CarsController>(x => x.Index())
-      .Which(controller => controller
-        .WithData(UserOne))
-      .ShouldReturn()
-        .View(view => view
-               .WithModelOfType<TotalUserCar>()
-         .Passing(model => model.TotalDealer == 0));
+          => MyMvc
+              .Pipeline()
+              .ShouldMap(request => request
+               .WithPath("/Admin/Cars/Index")
+               .WithUser(x => x.InRole(AdministratorRoleName))
+               .WithAntiForgeryToken())
+              .To<CarsController>(x => x.Index())
+             .Which(controller => controller
+               .WithData(UserOne))
+             .ShouldReturn()
+               .View(view => view
+                      .WithModelOfType<TotalUserCar>()
+                .Passing(model => model.TotalDealer == 0));
 
         [Fact]
         public void AdminAreaIndexShouldReturnViewWithTotalDealers()
-      => MyMvc
-         .Pipeline()
-         .ShouldMap(request => request
-          .WithPath("/Admin/Cars/Index")
-          .WithUser(x => x.InRole(AdministratorRoleName))
-          .WithAntiForgeryToken())
-         .To<CarsController>(x => x.Index())
-        .Which(controller => controller
-          .WithData(OneDealaer))
-        .ShouldReturn()
-          .View(view => view
-                 .WithModelOfType<TotalUserCar>()
-           .Passing(model => model.TotalDealer == 1));
+          => MyMvc
+            .Pipeline()
+            .ShouldMap(request => request
+             .WithPath("/Admin/Cars/Index")
+             .WithUser(x => x.InRole(AdministratorRoleName))
+             .WithAntiForgeryToken())
+            .To<CarsController>(x => x.Index())
+           .Which(controller => controller
+             .WithData(OneDealaer))
+           .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<TotalUserCar>()
+            .Passing(model => model.TotalDealer == 1));
 
         [Fact]
         public void AdminAreaIndexShouldReturnViewWhenTotalCarsUsersDealrsIsZero()
             => MyMvc
-           .Pipeline()
-           .ShouldMap(request => request
-            .WithPath("/Admin/Cars/Index")
-            .WithUser(x => x.InRole(AdministratorRoleName))
-            .WithAntiForgeryToken())
-           .To<CarsController>(x => x.Index())
-          .Which(controller => controller
-            .WithData())          
-          .ShouldReturn()
-            .View(view => view
-                   .WithModelOfType<TotalUserCar>()
-            .Passing(model => model.TotalUser == 0 &&
-                                model.TotalDealer == 0 &&
+               .Pipeline()
+               .ShouldMap(request => request
+                .WithPath("/Admin/Cars/Index")
+                .WithUser(x => x.InRole(AdministratorRoleName))
+                .WithAntiForgeryToken())
+               .To<CarsController>(x => x.Index())
+              .Which(controller => controller
+                .WithData())
+              .ShouldReturn()
+                .View(view => view
+                       .WithModelOfType<TotalUserCar>()
+                .Passing(model => model.TotalUser == 0 &&
+                                    model.TotalDealer == 0 &&
                               model.TotalCar == 0));
 
         [Fact]
@@ -173,15 +173,15 @@
               .WithUser(x => x.InRole(AdministratorRoleName))
               .WithAntiForgeryToken())
              .To<CarsController>(x => x.All())
-            .Which(controller => controller
-              .WithData(PublicCars)
-         .ShouldReturn()
-         .View(view => view
-                .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
+               .Which(controller => controller
+                 .WithData(PublicCars)
+            .ShouldReturn()
+            .View(view => view
+                   .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
 
         [Fact]
         public void AdminAreadReturnViewForCars()
-         => MyMvc
+          => MyMvc
              .Pipeline()
              .ShouldMap(request => request
               .WithPath("/Admin/Cars/All")
@@ -197,7 +197,7 @@
 
         [Fact]
         public void AdminAreadReturnViewWhenCarsIsZeroCount()
-         => MyMvc
+          => MyMvc
              .Pipeline()
              .ShouldMap(request => request
               .WithPath("/Admin/Cars/All")
@@ -228,7 +228,7 @@
 
         [Fact]
         public void AdminAreaReturnViewWithValidEditCars()
-         => MyMvc
+          => MyMvc
              .Pipeline()
              .ShouldMap(request => request
               .WithPath("/Admin/Cars/Edit")
@@ -244,7 +244,7 @@
 
         [Fact]
         public void AdminAreaReturnViewWithEditCarsWhenCountIsZero()
-        => MyMvc
+          => MyMvc
             .Pipeline()
             .ShouldMap(request => request
              .WithPath("/Admin/Cars/Edit")
@@ -260,7 +260,7 @@
 
         [Fact]
         public void AdminAreaReturnViewForDeleteCarsInformation()
-       => MyMvc
+           => MyMvc
              .Pipeline()
              .ShouldMap(request => request
               .WithPath("/Admin/Cars/Delete")
@@ -268,10 +268,10 @@
               .WithAntiForgeryToken())
              .To<CarsController>(x => x.Delete())
              .Which(controller => controller
-              .WithData(PublicCars)
-           .ShouldReturn()
-           .View(view => view
-                  .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
+                .WithData(PublicCars)
+             .ShouldReturn()
+             .View(view => view
+                    .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
 
         [Fact]
         public void AdminAreaReturnViewWithValidDeleteCarsInDataBase()
@@ -291,7 +291,7 @@
 
         [Fact]
         public void AdminAreaReturnViewWithDataForAllCars()
-      => MyMvc
+           => MyMvc
              .Pipeline()
              .ShouldMap(request => request
               .WithPath("/Admin/Cars/AllCars")
@@ -299,27 +299,27 @@
               .WithAntiForgeryToken())
              .To<CarsController>(x => x.AllCars())
              .Which(controller => controller
-              .WithData(PublicCars)
-          .ShouldReturn()
-          .View(view => view
-                 .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
-                  .Passing(m => m.Should().HaveCount(15))));
+                .WithData(PublicCars)
+            .ShouldReturn()
+            .View(view => view
+                   .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                    .Passing(m => m.Should().HaveCount(15))));
 
         [Fact]
         public void AdminAreaReturnViewWithDataForAllCarsWhenCountIsZero()
-     => MyMvc
+           => MyMvc
             .Pipeline()
             .ShouldMap(request => request
              .WithPath("/Admin/Cars/AllCars")
              .WithUser(x => x.InRole(AdministratorRoleName))
              .WithAntiForgeryToken())
-            .To<CarsController>(x => x.AllCars())
-            .Which(controller => controller
-             .WithData(UserOne)
-         .ShouldReturn()
-         .View(view => view
-                .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
-                 .Passing(m => m.Should().HaveCount(0))));
+              .To<CarsController>(x => x.AllCars())
+              .Which(controller => controller
+               .WithData(UserOne)
+           .ShouldReturn()
+           .View(view => view
+                  .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()
+                   .Passing(m => m.Should().HaveCount(0))));
 
         [Fact]
         public void AdminAreaReturnViewWithDataForAllCarsInDataBase()
@@ -331,11 +331,11 @@
               .WithAntiForgeryToken())
              .To<CarsController>(x => x.AllCars())
              .Which(controller => controller
-              .WithData(PublicCars)
-          .ShouldReturn()
-          .View(view => view
-                 .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
-
+               .WithData(PublicCars)
+           .ShouldReturn()
+           .View(view => view
+                  .WithModelOfType<IEnumerable<CarServiceListingViewModel>>()));
+         
         [Fact]
         public void AdminAreaChangeVisabilityAndRediret()
            => MyMvc
@@ -352,7 +352,7 @@
 
         [Fact]
         public void AdminAreaReturnViewWithRentedCars()
-      => MyMvc
+           => MyMvc
              .Pipeline()
              .ShouldMap(request => request
               .WithPath("/Admin/Cars/RentedCars")
@@ -360,10 +360,10 @@
               .WithAntiForgeryToken())
              .To<CarsController>(x => x.RentedCars())
              .Which(controller => controller
-              .WithData(MyRentCars)
-          .ShouldReturn()
-          .View(view => view
-                 .WithModelOfType<IEnumerable<RentedCarsViewModel>>()));
+               .WithData(MyRentCars)
+           .ShouldReturn()
+           .View(view => view
+                  .WithModelOfType<IEnumerable<RentedCarsViewModel>>()));
 
         [Fact]
         public void AdminAreaReturnViewWithValidRentedCarsCount()
@@ -390,13 +390,13 @@
             .WithUser(x => x.InRole(AdministratorRoleName))
             .WithAntiForgeryToken())
            .To<CarsController>(x => x.RentedCars())
-           .Which(controller => controller
-            .WithData(UserOne)
-      .ShouldReturn()
-      .View(view => view
-             .WithModelOfType<IEnumerable<RentedCarsViewModel>>()
-                  .Passing(m => m.Should().HaveCount(0))));
-
+              .Which(controller => controller
+               .WithData(UserOne)
+         .ShouldReturn()
+         .View(view => view
+                .WithModelOfType<IEnumerable<RentedCarsViewModel>>()
+                     .Passing(m => m.Should().HaveCount(0))));
+      
         [Fact]
         public void AdminAreaReturnViewWithSoldCars()
            => MyMvc
@@ -422,10 +422,10 @@
               .WithAntiForgeryToken())
              .To<CarsController>(x => x.SoldCars())
              .Which(controller => controller
-              .WithData(MyBuyCars)
-       .ShouldReturn()
-       .View(view => view
-              .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
+                 .WithData(MyBuyCars)
+          .ShouldReturn()
+          .View(view => view
+                 .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
                .Passing(m => m.Should().HaveCount(1))));
 
         [Fact]
@@ -439,8 +439,8 @@
             .To<CarsController>(x => x.SoldCars())
             .Which(controller => controller
              .WithData(UserOne)
-      .ShouldReturn()
-      .View(view => view
+            .ShouldReturn()
+            .View(view => view
              .WithModelOfType<IEnumerable<SoldCarsViewModel>>()
               .Passing(m => m.Should().HaveCount(0))));
     }

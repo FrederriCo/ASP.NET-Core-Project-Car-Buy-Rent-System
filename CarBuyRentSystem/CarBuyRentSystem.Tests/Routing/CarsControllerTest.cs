@@ -5,9 +5,9 @@
 
     using CarBuyRentSystem.Controllers;
     using CarBuyRentSystem.Core.Models.Cars;
+    using CarBuyRentSystem.Core.Models.View.Cars;
 
     using static Data.Cars;
-    using CarBuyRentSystem.Core.Models.View.Cars;
 
     public class CarsControllerTest
     {

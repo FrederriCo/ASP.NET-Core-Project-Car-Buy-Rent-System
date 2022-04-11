@@ -4,10 +4,9 @@
     using MyTested.AspNetCore.Mvc;
 
     using CarBuyRentSystem.Controllers;
-
-    using static Data.Cars;
     using CarBuyRentSystem.Core.Models.View.RentCars;
 
+    
     public class RentCarsControllerTest
     {
         [Fact]

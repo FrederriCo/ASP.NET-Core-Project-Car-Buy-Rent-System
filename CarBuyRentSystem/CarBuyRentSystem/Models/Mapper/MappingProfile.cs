@@ -34,7 +34,7 @@
             CreateMap<Car, CarDetailsServiceModel>()
             .ForPath(c => c.LocationName, cfg => cfg.MapFrom(c => c.Location.Name))
             .ForPath(c => c.DealerName, cfg => cfg.MapFrom(c => c.Dealer.Name))
-            .ForPath(c => c.UserId, cfg => cfg.MapFrom(c => c.Dealer.UserId));
+            .ForMember(c => c.UserId, cfg => cfg.MapFrom(c => c.Dealer.UserId));
         }
     }
 }
