@@ -13,12 +13,12 @@
  update-database
 
 - **Admin account**: </br>
- *username*: admin@admin.com <br>  *password*: 123456
+ *username*: admin@admin.com <br>  *password*: bg123456
 
 ## Used technologies
 - C#
 - JavaScript
-- .Asp NET Core
+- .ASP NET Core
 - Microsoft Sql server
 - Entity Framework Core
 - Bootstrap 5.0
