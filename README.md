@@ -26,7 +26,7 @@
 - CSS
 - Microsoft AspNetCore Mvc Testing
 - FluentAssertions
-- ASP.NET Identity System
+- ASP.NET Core Identity System
 - MVC Areas with Multiple Layouts
 - Razor Pages, Sections, Partial Views
 - View Components
