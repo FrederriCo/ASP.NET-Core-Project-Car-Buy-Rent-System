@@ -75,6 +75,7 @@
             }
 
             var carAdd = mapper.Map<Car>(car);
+            carAdd.IsPublic = true;
             carAdd.DealerId = dealerId;
 
             await this.carsService.Add(carAdd);

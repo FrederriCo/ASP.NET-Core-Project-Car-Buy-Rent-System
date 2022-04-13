@@ -12,7 +12,6 @@ namespace CarBuyRentSystem
             => Host
                 .CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder
-                    .UseStartup<Startup>());
-
+                    .UseStartup<Startup>());               
     }
 }

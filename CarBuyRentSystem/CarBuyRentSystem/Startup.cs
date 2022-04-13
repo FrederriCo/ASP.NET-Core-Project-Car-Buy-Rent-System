@@ -31,8 +31,7 @@ namespace CarBuyRentSystem
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<CarUser>(options =>
-            {
-                // options.SignIn.RequireConfirmedAccount = true;
+            {                
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
