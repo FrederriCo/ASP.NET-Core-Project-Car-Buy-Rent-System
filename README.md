@@ -7,7 +7,7 @@
 
 # Getting Started
 ###### To run the application you need:
-- ASP.NET 5.0 
+- ASP.NET CORE 5.0 
 - Microsoft Sql Server
 - In your *package manger console* type:
  update-database
@@ -18,7 +18,7 @@
 ## Used technologies
 - C#
 - JavaScript
-- .ASP NET Core
+- .ASP NET Core 5.0
 - Microsoft Sql server
 - Entity Framework Core
 - Bootstrap 5.0
