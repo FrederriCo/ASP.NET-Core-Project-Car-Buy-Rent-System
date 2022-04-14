@@ -14,7 +14,8 @@
     <div class="jumbotron jumbotron-fluid" style="border-radius:10px">
         <div class="container">
             <h1 class="display-4">Rent and Buy Car Sysytem</h1>
-            <p class="lead">Search the best car rent and buy</p>
+            <p class="lead">Search the best car rent or buy</p>
+            <p class="lead">No cars found. Please Add Cars</p>
         </div>
     </div>
 }
@@ -59,46 +60,51 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<div class="mb-5" style="background:white; padding:20px; margin:50px; border-radius:10px;">
-    <h1 class="display-4 text-center"><i class="fas fa-greater-than-equal" style="color: darkorange"></i> Compare Cars</h1>
-    @if (ViewBag == null)
-    {
-        <h1 class="display-4 text-center">There are no cars to compare.<a asp-action="Add" asp-controller="Car">Add</a> cars.</h1> }
-    else
-    {
-        <form asp-controller="Cars" asp-action="CompareCars" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="text-center">
-                <div class="col-sm-4 mx-auto form-group">
-                    <select class="form-control" name="firstCarId" asp-items="ViewBag.Cars">
-                    </select>
-                </div>
-                <div class="col-sm-4 mx-auto form-group">
-                    <select class="form-control" name="secondCarId" asp-items="ViewBag.Cars">
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-outline-warning text-light" style="background-color: darkorange">Compare</button>
-            </div>
-        </form>
-    }
-</div>
-<br />
-<h1 class="display-4 text-center"><i class="fas fa-star" style="color: darkorange"></i> Top Cars</h1>
+@if (Model.Any())
+{
 
-<div class="row" style="display: flex;">
 
-    @foreach (var car in Model)
-    {
-        <div class="col-sm-4" style="padding-top: 10px;">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@car.ImageUrl" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@car.Brand @car.Model</h5>
-                    <p><i class="fas fa-dollar-sign" style="color: darkorange"></i> @car.RentPricePerDay / Rent / Location: @car.LocationName</p>
-                    <p class="card-text">The @car.Fuel @car.Model is one of the most popular cars according to our users.</p>
-                    <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="card-link" style="color: darkorange">View more</a>
+    <div class="mb-5" style="background:white; padding:20px; margin:50px; border-radius:10px;">
+        <h1 class="display-4 text-center"><i class="fas fa-greater-than-equal" style="color: darkorange"></i> Compare Cars</h1>
+        @if (ViewBag == null)
+        {
+            <h1 class="display-4 text-center">There are no cars to compare.<a asp-action="Add" asp-controller="Car">Add</a> cars.</h1> }
+        else
+        {
+            <form asp-controller="Cars" asp-action="CompareCars" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="text-center">
+                    <div class="col-sm-4 mx-auto form-group">
+                        <select class="form-control" name="firstCarId" asp-items="ViewBag.Cars">
+                        </select>
+                    </div>
+                    <div class="col-sm-4 mx-auto form-group">
+                        <select class="form-control" name="secondCarId" asp-items="ViewBag.Cars">
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-warning text-light" style="background-color: darkorange">Compare</button>
+                </div>
+            </form>
+        }
+    </div>
+    <br />
+    <h1 class="display-4 text-center"><i class="fas fa-star" style="color: darkorange"></i> Top Cars</h1>
+
+    <div class="row" style="display: flex;">
+
+        @foreach (var car in Model)
+        {
+            <div class="col-sm-4" style="padding-top: 10px;">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="@car.ImageUrl" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand @car.Model</h5>
+                        <p><i class="fas fa-dollar-sign" style="color: darkorange"></i> @car.RentPricePerDay / Rent / Location: @car.LocationName</p>
+                        <p class="card-text">The @car.Fuel @car.Model is one of the most popular cars according to our users.</p>
+                        <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.Id" class="card-link" style="color: darkorange">View more</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
