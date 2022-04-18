@@ -16,9 +16,9 @@
  *username*: admin@admin.com <br>  *password*: bg123456
 
 ## Used technologies
+- .ASP NET Core 5.0
 - C#
 - JavaScript
-- .ASP NET Core 5.0
 - Microsoft Sql server
 - Entity Framework Core
 - Bootstrap 5.0
