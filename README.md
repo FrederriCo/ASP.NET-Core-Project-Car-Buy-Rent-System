@@ -13,7 +13,7 @@
  update-database
 
 - **Admin account**: </br>
- *username*: admin@admin.com <br>  *password*: bg123456
+ *username*: adm****@***** <br>  *password*: ******
 
 ## Used technologies
 - .ASP NET Core 5.0
