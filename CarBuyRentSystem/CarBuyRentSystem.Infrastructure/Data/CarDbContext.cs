@@ -9,7 +9,7 @@
     {
         public CarDbContext(DbContextOptions<CarDbContext> options)
             : base(options)
-        {
+        {            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
